@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="CSS/bootstrap.min.css" rel="stylesheet">
+
+   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="JS/webaudio-controls.js"></script>
+    <script src="JS/long-press-event.min.js"></script>
+    <link href="CSS/custom.css" rel="stylesheet">
+    <style>
+   body {
+
+        }
+
+        .allCont {
+            position: relative;
+          
+       
+            background-color: lightslategray;
+                    
+      
+        height:100vh;
+        
+
+        }
+         
+        .allCont:before {
+            background-image: url('ASSETS/Kemper_transp.png') ;
+            background-size: cover;
+            background-position: center;
+            position:absolute;
+            background-repeat: no-repeat ;
+            background-size: 35vw 90vh;
+        
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            content: "";
+            opacity: 0.65;
+        }
+
+    </style>
+        
+    <!-- grey, light gray, lightslategray -->
+    <title>Kemper</title>
+  </head>
+  <body >
+
+<!-- notwending ??? -->    
+<div class="allCont"> 
+   
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand "  href="#">
+                <img src="ASSETS/Kemper_transp.png" height="45rem" width="35rem" alt="CoolBrand">
+              </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse h3" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-1 mb-md-0">
+              <li class="nav-item px-3">
+                <a class="nav-link active " aria-current="page" href="#"> BROWSE </a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link active " aria-current="page" href="#"> PERFORM </a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link" href="#"> SETTINGS </a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> LOAD & SAVE </a>
+              </li>
+            </ul>
+           
+          </div>
+        </div>
+      </nav>
+  <!-- </div> -->
+
+  <!--
+  <div id="intro" class="bg-image shadow-2-strong">
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.8);">
+      <div class="container d-flex align-items-center justify-content-center text-center h-100">
+       
+      </div>
+    </div>
+  </div>
+    -->
+
+   <!-- <div class="b-example-divider"></div> --> 
+   <!-- <section class=" align-items-stretch bg-light my-5 pt-5"> -->  
+   <!-- <div class="container-fluid pt-2 border" style="background-image: url('ASSETS/BG_1.jpg'); background-size: cover; " > -->
+   
+    <div class="container-fluid pt-2" style="opacity: 0.9; " >  
+    <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
+    <section class="row gy-3 pb-3"  id="keko-row-id-1" > 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testeststefesfes <webaudio-knob id="input1" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testeststesesesesefdsfd <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12" type="button">testestste fe <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste fesfes <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testeststeffffff <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>        
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div>     
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 " >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div>     
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 " >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+       
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+     
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+          <button class="btn btn-primary col-12 px-0" type="button">testestste <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+   
+        </div>     
+      </section> 
+
+  
+        <!--somekind of hack to use a meter -->
+       <!-- <webaudio-knob id="input9" sprites="63"   direction="vert" src="ASSETS/meters/Level_Meter_HRivera_1708_32x64_64.png" > </webaudio-knob>     -->
+        
+
+     
+   
+    <!--  <div class="divider py-1"></div> -->  
+
+    <!-- <div class="divider py-1"></div>  --> 
+    
+    <section class="row "> 
+        <div class="col-6 ">
+          
+            <input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input>  
+      
+     <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
+    
+            </div>
+        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
+        <div class="col-6 d-flex justify-content-end">
+            <nav aria-label="Page navigation" >
+                          
+            <ul class="pagination pagination-lg">
+                <li class="page-item">
+                    <a class="page-link" href="#" arial-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+
+                </li>
+                <li class="page-item"> <a class="page-link" href="#"> 1 - 24 </a> </li>
+                <li class="page-item"> <a class="page-link" href="#"> 25 - 48 </a> </li>
+                <li class="page-item"> <a class="page-link" href="#"> 49 - 72 </a> </li>
+                <li class="page-item"> <a class="page-link" href="#"> 73 - 96 </a> </li>
+                <li class="page-item"> <a class="page-link" href="#"> 97 - 120 </a> </li>
+                <li class="page-item"> <a class="page-link" href="#"> 121 - 128</a> </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" arial-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+
+                </li>
+            </ul>
+
+            </nav>
+        </div>    
+
+    </section>           
+    
+    <section class="row "  id="demo" data-long-press-delay="500">    
+        <hr>
+   
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 " >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">A</span>
+            </button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">B</span>
+            </button>
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">C</span>
+            </button>
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">D</span>
+            </button>
+        </div>  
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body small">
+              ...
+            </div>
+        </div>
+    
+    </section>  
+    <section class="row "  id="demo" data-long-press-delay="500">    
+        <hr>
+   
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STACK</button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Amplifier</button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Equalizer</button>
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Cabinet</button>
+        </div>  
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body small">
+              ...
+            </div>
+        </div>
+    
+    </section>  
+    
+    <section class="row "   id="demo" data-long-press-delay="500">    
+       <hr>
+   
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">X</span>
+            </button>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">MOD</span>
+            </button>
+        </div>  
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">DLY</span>
+            </button>
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <span class="badge bg-secondary">REV</span>
+            </button>
+        </div>  
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body small">
+              ...
+            </div>
+        </div>
+    
+    </section>   
+
+
+    
+    <section class="row " id="demo" data-long-press-delay="500">   
+       <hr>
+        <div class="badge col-1 ">
+            <span class="position-middle start-10 translate-end align-middle ">8fdsfe </span>
+        </div>
+        <div class="badge col-1 ">
+            <span class="align-middle ">8fds </span>
+        </div>
+        <div class="badge col-1 ">
+            <span class="align-middle ">8fdsfe </span>
+        </div>
+        <div class="col-6 d-flex justify-content-center ">
+                
+            
+        </div>
+        <div class="badge col-1 ">
+         
+        </div> 
+        <div class="badge col-1 ">
+         
+        </div>   
+        <div class="badge  col-1 ">
+         
+           
+         </div>   
+         
+         
+          
+    </section>
+
+ 
+    <section class="row  pb-1" id="demo" data-long-press-delay="500">
+        <div class="col-1 d-flex justify-content-center" >
+           
+            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbnoiseGate" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Noise Gate</webaudio-knob>
+
+        </div>
+        <div class="col-1 d-flex justify-content-center" >
+           <!-- <span class="badge position-top top-0 start-50 translate-start align-middle ">0 </span> -->
+            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbCleanSense" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Clean Sense</webaudio-knob>
+
+        </div>  
+        <div class="col-1 d-flex justify-content-center" >
+            <!-- <span class="badge position-top top-0 start-50 translate-start align-middle ">0 </span> -->
+             <webaudio-knob class="fw-bold fs-6 font-monospace" id="knDistortionSense" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Distort. Sense</webaudio-knob>
+ 
+         </div>  
+        
+        <div class="col-1 d-flex align-items-start" >
+        
+            <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_1224_128x128_2.png" ></webaudio-switch>
+          
+        </div>
+        <div class="col-1 d-flex align-items-start " >
+            <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_1224_128x128_2.png" ></webaudio-switch>
+            
+            
+        </div>
+        <!-- <div class="col-1 d-flex justify-content-center" >
+              
+    
+        </div>   
+        -->                 
+    
+    </section>  
+
+    <section class="row pt-4 " id="demo" data-long-press-delay="500">   
+       
+        <div class="badge col-1 ">
+            <span class="align-middle ">8fdsfe </span>
+        </div>
+        <div class="badge col-1">
+            <span class="align-middle ">8fds </span>
+        </div>
+
+        <div class="badge col-1 ">
+           <span class="align-middle ">ccccc </span>
+        </div>   
+        <div class="badge  col-1 ">
+            <span class="align-middle ">ccccclet </span>
+         </div>    
+
+         <div class="col-6">
+
+         </div>
+         <div class="badge  col-1 ">
+         </div>    
+         <div class="badge  col-1 ">
+            <span class="align-middle ">ccccclet </span>
+         </div>    
+    </section>
+      
+  
+       
+    <section class="row " id="demo" data-long-press-delay="500">   
+        <div class="col-1 d-flex justify-content-center" >
+            
+            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Gain</webaudio-knob>
+            
+            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
+         
+        </div>  
+        <div class="col-1 d-flex justify-content-center" >
+            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Bass</webaudio-knob>
+            
+            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
+         
+        </div> 
+        <div class="col-1 d-flex justify-content-center" >
+            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Middle</webaudio-knob>
+            
+            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
+         
+        </div> 
+        <div class="col-1 d-flex justify-content-center" >
+            <webaudio-knob  class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Trebble</webaudio-knob>
+            
+            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
+         
+        </div> 
+        <div class="col-6 d-flex justify-content-center" >
+              
+    
+        </div>   
+        <div class="col-1 d-flex justify-content-center" >
+
+        </div>
+        <div class="col-1 d-flex justify-content-center" >
+            <webaudio-knob  class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Rig Volume</webaudio-knob>
+            
+            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
+         
+        </div> 
+        
+
+     
+    
+    </section> 
+    
+    
+      
+             
+    </div>
+
+</div>     
+     
+  <!-- </div> -->   
+  <!-- </section> -->     
+
+  <!-- <input type="range" class="input-knob" data-diameter="100" data-src="ASSETS/Sonatom_bipo.png" data-sprites="100"/> -->
+  <script src="JS/bootstrap.bundle.min.js" ></script>
+  <script src="JS/webmidi.iife.min.js"></script>
+
+  <script src="JS/app.js" ></script>
+
+  </body>
+</html>
