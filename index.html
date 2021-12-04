@@ -16,12 +16,13 @@
     <style>
    body {
             max-height: 100vh;
-        
+            width: 100%;
+            
         }
 
         .allCont {
             position: relative;
-          
+            overflow-x: hidden;
        
             background-color: lightslategray;
                     
@@ -31,43 +32,65 @@
 
         }
 
-        .btn-primary {
-            background-color: rgb(42, 63, 20);
-            border-color:rgb(21, 32, 10); 
+        .btn-primary, .open,  .btn-primary:hover,  .btn-primary:focus,  .btn-primary:active ,  .btn-primary.active {
+            background-color: rgb(52, 77, 26) !important;
+            border-color:rgb(26, 32, 19) !important; 
+            box-shadow: rgb(194, 47, 47) !important;
+            color:black;
+            outline: black;
+            border-radius:0.3rem solid black;
             
         }
 
-        .btn-primary:hover  {
-            background-color: rgb(42, 63, 20);
-            border-color:rgb(21, 32, 10);    
-            
-        }
-
-
-
-
-        .btn-primary:focus  {
-            background-color: rgb(42, 63, 20);
-            border-color:rgb(21, 32, 10);    
-            
-        }
-         
         .allCont:before {
             background-image: url('ASSETS/Kemper_transp.png') ;
-            background-size: cover;
-            background-position: center;
-            position:absolute;
-            background-repeat: no-repeat ;
-            background-size: 35vw 95vh;
-        
+            background-size:auto;
+            background-position:center;
+            position:fixed;
+            background-repeat:no-repeat ;
+            background-size: 80vw 80vh;
             top: 0px;
             right: 0px;
             bottom: 0px;
             left: 0px;
             content: "";
+    
+            opacity: 0.55;
+        }            
+
+        @media (min-width: 576px) {
             
-            opacity: 0.65;
+            .allCont:before {
+
+                background-size: 60vw 80vh;
+  
+
+            }
+
         }
+        @media (min-width: 992px) {
+            
+            .allCont:before {
+
+                background-size: 45vw 80vh;
+  
+              
+            }
+
+        }
+
+        @media (min-width: 1200px) {
+            
+            .allCont:before {
+
+                background-size: 35vw 80vh;
+
+            }
+
+        }
+
+          
+
 
     </style>
         
@@ -77,12 +100,12 @@
   <body >
 
 <!-- notwending ??? -->    
-<div class="allCont "> 
+<div class="allCont " > 
    
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand "  href="#">
-                <img src="ASSETS/Kemper_transp.png" height="45rem" width="35rem" alt="CoolBrand">
+                <img src="ASSETS/Kemper_transp.png" height="45rem" width="40rem" alt="CoolBrand" >
               </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -244,19 +267,19 @@
                           
             <ul class="pagination fs-3 justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" href="#" arial-label="Previous">
+                    <a class="page-link text-dark" href="#" arial-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
 
                 </li>
-                <li class="page-item"> <a class="page-link" href="#">.24</a> </li>
-                <li class="page-item"> <a class="page-link" href="#">.48</a> </li>
-                <li class="page-item"> <a class="page-link" href="#">.72</a> </li>
-                <li class="page-item"> <a class="page-link" href="#">.96</a> </li>
-                <li class="page-item"> <a class="page-link" href="#">.120</a> </li>
-                <li class="page-item"> <a class="page-link" href="#">.128</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.24</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.48</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.72</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.96</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.120</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.128</a> </li>
                 <li class="page-item">
-                    <a class="page-link" href="#" arial-label="Next">
+                    <a class="page-link text-dark" href="#" arial-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
 
@@ -269,8 +292,8 @@
     </section>           
     
     
-    <section class="row d-flex"  id="demo" data-long-press-delay="500">    
-        <hr class="p-0 mb-2">
+    <section class="row d-flex pb-1"  id="demo" data-long-press-delay="500">    
+        <hr class="p-0 mb-2 border border-dark">
    
         <div class=" pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 d-flex flex-fill align-items-stretch" >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
@@ -278,7 +301,7 @@
         <!-- style="white-space: break-spaces;" -->
         <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch">
             <button class="btn btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                    <span class="badge bg-secondary">A</span>
+                    <span class="badge bg-secondary ">A</span>
             </button>
         </div>
         <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
@@ -308,8 +331,8 @@
 
 
     </section>  
-    <section class="row d-flex"  id="demo" data-long-press-delay="500">    
-        <hr class="p-0 mb-2"> 
+    <section class="row d-flex pb-1"  id="demo" data-long-press-delay="500">    
+        <hr class="p-0 mb-2 border border-dark"> 
    
         <div class="pb-1 col-sm-6 col-md-3 d-flex flex-fill align-items-stretch " >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STACK</button>
@@ -335,8 +358,8 @@
     
     </section>  
     
-    <section class="row d-flex"   id="demo" data-long-press-delay="500">    
-       <hr class="p-0 mb-2">
+    <section class="row d-flex pb-1"   id="demo" data-long-press-delay="500">    
+       <hr class="p-0 mb-2 border border-dark">
    
         <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 d-flex flex-fill align-items-stretch" >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
@@ -406,58 +429,58 @@
       
   -->
        
-    <section class="row pb-2 " id="demo" data-long-press-delay="500">   
-        <hr class="p-0 m-1">
+    <section class="row pb-1 " id="demo" data-long-press-delay="500">   
+        <hr class="p-0 mb-2 border border-dark">
         
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
             
               
-            <webaudio-knob class="fw-bold fs-6 font-monospace " id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="10">Gain</webaudio-knob>
+            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="10">Gain</webaudio-knob>
            
             
          
         </div>  
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1 " >
-            <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Bass</webaudio-knob>
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
+            <div class="d-flex justify-content-center" >testes</div>
+            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center " id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1"  >Bass</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1" >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1" >
             <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Middle</webaudio-knob>
+            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Middle</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Trebble</webaudio-knob>
+            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Trebble</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Presence</webaudio-knob>
+            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Presence</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="pb-4 col-sm-4 col-md-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace" id="knbGain" diameter=100 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Rig Volume</webaudio-knob>
+            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Rig Volume</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="col-sm-4 col-md-3 col-lg-2 " >
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 " >
             <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_1224_128x128_2.png" ></webaudio-switch>
         </div>    
       
-        <div class="col-sm-4 col-md-3 col-lg-2 " >
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 " >
             <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_1224_128x128_2.png" ></webaudio-switch>
         </div>   
 
