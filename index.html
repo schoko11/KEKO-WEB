@@ -42,6 +42,11 @@
             
         }
 
+        .webaudio-knob-body {
+            pointer-events:initial !important;
+            color: red !important;
+        }
+
         .allCont:before {
             background-image: url('ASSETS/Kemper_transp.png') ;
             background-size:auto;
@@ -100,7 +105,7 @@
   <body >
 
 <!-- notwending ??? -->    
-<div class="allCont " > 
+<div class="allCont" > 
    
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
@@ -145,9 +150,9 @@
    <!-- <section class=" align-items-stretch bg-light my-5 pt-5"> -->  
    <!-- <div class="container-fluid pt-2 border" style="background-image: url('ASSETS/BG_1.jpg'); background-size: cover; " > -->
    
-    <div class="container-fluid pt-2" style="opacity: 0.9; " >  
+    <div class="container-fluid pt-2 " style="opacity: 0.9; " >  
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
-    <section class="row gy-3 pb-1"  id="keko-row-id-1" > 
+    <section class="row gy-3 pb-1 border border-dark"  id="keko-row-id-1" > 
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
             <button class="btn btn-primary col-12 px-0" type="button">testeststefesfes <webaudio-knob id="input1" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div> 
@@ -252,7 +257,7 @@
 
     <!-- <div class="divider py-1"></div>  --> 
     
-    <section class="row "> 
+    <section class="row border border-dark"> 
         <div class="col-sm-12 col-lg-6 pt-2 ">
           
             <input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input>  
@@ -292,29 +297,35 @@
     </section>           
     
     
-    <section class="row d-flex pb-1"  id="demo" data-long-press-delay="500">    
-        <hr class="p-0 mb-2 border border-dark">
+    <section class="row d-flex pt-2 pb-1 border border-dark"  id="demo" data-long-press-delay="500">  
+    <!--    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    -->
+        <div class="row d-flex">
+
+        
+       <!-- <hr class="p-0 mb-2 border border-dark"> -->
    
-        <div class=" pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 d-flex flex-fill align-items-stretch" >
+        <div class=" pb-2 m-0 col-auto d-flex flex-fill align-items-stretch" >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
         </div>
+       
+        
         <!-- style="white-space: break-spaces;" -->
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch">
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch">
             <button class="btn btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary ">A</span>
             </button>
         </div>
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">B</span>
             </button>
         </div>  
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">C</span>
             </button>
         </div> 
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">D</span>
             </button>
@@ -328,22 +339,23 @@
               ...
             </div>
         </div>
-
-
+    </div>
+    <!--    
     </section>  
-    <section class="row d-flex pb-1"  id="demo" data-long-press-delay="500">    
-        <hr class="p-0 mb-2 border border-dark"> 
-   
-        <div class="pb-1 col-sm-6 col-md-3 d-flex flex-fill align-items-stretch " >
+    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    
+        -->
+         <hr class="p-0 mb-1 border border-dark">  
+        <div class="row d-flex">
+        <div class="pb-1 col-auto d-flex flex-fill align-items-stretch " >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STACK</button>
         </div>
-        <div class="pb-1 col-sm-6 col-md-3 d-flex flex-fill align-items-stretch " >
+        <div class="pb-1 col-auto d-flex flex-fill align-items-stretch " >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Amplifier</button>
         </div>
-        <div class="pb-1 col-sm-6 col-md-3 d-flex flex-fill align-items-stretch" >
+        <div class="pb-1 col-auto d-flex flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Equalizer</button>
         </div>  
-        <div class="pb-1 col-sm-6 col-md-3 d-flex flex-fill align-items-stretch" >
+        <div class="pb-1 col-auto d-flex flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Cabinet</button>
         </div>  
         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
@@ -355,33 +367,35 @@
               ...
             </div>
         </div>
+        </div>
     
-    </section>  
+   <!-- </section>  
     
-    <section class="row d-flex pb-1"   id="demo" data-long-press-delay="500">    
-       <hr class="p-0 mb-2 border border-dark">
-   
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 d-flex flex-fill align-items-stretch" >
+    <section class="row d-flex pb-1 border border-dark"   id="demo" data-long-press-delay="500">    
+       -->
+         <hr class="p-0 mb-2 border border-dark"> 
+        <div class="row d-flex">
+        <div class=" pb-1 m-0 col-auto d-flex flex-fill align-items-stretch" >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
         </div>
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">X</span>
             </button>
         </div>
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch " >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">MOD</span>
+                <span class="badge bg-secondary">M</span>
             </button>
         </div>  
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">DLY</span>
+                <span class="badge bg-secondary">Y</span>
             </button>
         </div> 
-        <div class="pb-1 col-sm-12 col-md-6 col-lg-3 col-xl-2 flex-fill align-items-stretch" >
+        <div class="pb-1 p-0 m-0 col-2 flex-fill align-items-stretch" >
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">REV</span>
+                <span class="badge bg-secondary">R</span>
             </button>
         </div>  
         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
@@ -393,7 +407,7 @@
               ...
             </div>
         </div>
-    
+        </div>
     </section>   
 
     
@@ -429,14 +443,14 @@
       
   -->
        
-    <section class="row pb-1 " id="demo" data-long-press-delay="500">   
-        <hr class="p-0 mb-2 border border-dark">
+    <section class="row pb-1 border border-dark" id="demo" data-long-press-delay="500">   
+        <!-- <hr class="p-0 mb-2 border border-dark"> -->
         
-        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-6 col-sm-4 col-md-3 col-lg-1" >
             <div class="d-flex justify-content-center">testes</div>
             
               
-            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="10">Gain</webaudio-knob>
+            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="10" >Gain</webaudio-knob>
            
             
          
@@ -489,8 +503,8 @@
     </section> 
     
     
-    <section class="row d-flex"   id="demo" data-long-press-delay="500">  
-        <hr class="p-0 m-1">
+    <section class="row d-flex border border-dark"   id="demo" data-long-press-delay="500">  
+       <!--  <hr class="p-0 m-1"> -->
         <!-- just show wenn medium or smaller -->
         <div class="d-md-none " >
            
