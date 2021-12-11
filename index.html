@@ -118,7 +118,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse h3" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-1 mb-md-0">
+            <ul class="navbar-nav me-auto mb-0 mt-2 mb-md-0">
               <li class="nav-item px-3">
                 <a class="nav-link active " aria-current="page" href="#"> BROWSE </a>
               </li>
@@ -152,9 +152,9 @@
    <!-- <section class=" align-items-stretch bg-light my-5 pt-5"> -->  
    <!-- <div class="container-fluid pt-2 border" style="background-image: url('ASSETS/BG_1.jpg'); background-size: cover; " > -->
    
-    <div class="container-fluid pt-2 " style="opacity: 0.9; " >  
+    <div class="container-fluid " style="opacity: 0.9; " >  
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
-    <section class="row gy-3 pb-2 border border-dark"  id="keko-row-id-1" > 
+    <section class="row gy-3 pt-2 pb-3 border border-dark d-none d-sm-flex"  id="keko-row-id-1" > 
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
             <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances <webaudio-knob id="input1" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div> 
@@ -259,10 +259,10 @@
 
     <!-- <div class="divider py-1"></div>  --> 
     
-    <section class="row border border-dark"> 
-        <div class="col-sm-12 col-lg-6 pt-3">
+    <section class="row pt-2 pb-2 border d-sm-none  border-dark"> 
+        <div class="col-sm-12 col-lg-6 pt-sm-3 pt-md-0 justify-content-center ">
             <div class="input-group  "> 
-                <span class="input-group-text fs-4 justify-content-center " id="basic-addon1">RIG</span>
+                <span class="input-group-text fs-4 " id="basic-addon1">RIG</span>
                 <!--<input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> --> 
                 <input type="text" class="form-control fs-5 justify-content-center " placeholder="Your loaded Rig or Performance" aria-label="rigname" disabled readonly aria-describedby="basic-addon1">
             </div>
@@ -272,10 +272,53 @@
         </div>
         <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
         <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
-        <div class="col-sm-12 col-lg-6 pt-3">
+        <div class="col-sm-12 col-lg-6 pt-sm-2 pt-md-2 d-none d-sm-flex justify-content-center">
             <nav aria-label="Page navigation" >
                           
-            <ul class="pagination fs-4 justify-content-center">
+            <ul class="pagination fs-4 ">
+                <li class="page-item">
+                    <a class="page-link text-dark" href="#" arial-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+
+                </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.24</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.48</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.72</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.96</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.120</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.128</a> </li>
+                <li class="page-item">
+                    <a class="page-link text-dark" href="#" arial-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+
+                </li>
+            </ul>
+
+            </nav>
+        </div>    
+
+    </section>           
+
+
+    <section class="row border d-none d-sm-flex border-dark"> 
+        <div class="col-sm-12 col-lg-6 pt-3 pb-2 justify-content-center ">
+            <div class="input-group  "> 
+                <span class="input-group-text fs-4 " id="basic-addon1">Rig</span>
+                <!--<input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> --> 
+                <input type="text" class="form-control fs-5 justify-content-center " placeholder="Your loaded Rig or Performance" aria-label="rigname" disabled readonly aria-describedby="basic-addon1">
+            </div>
+          
+     <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
+    
+        </div>
+        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
+        <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
+        <div class="col-sm-12 col-lg-6 pt-3 pb-0 d-flex justify-content-center">
+            <nav aria-label="Page navigation" >
+                          
+            <ul class="pagination fs-4 ">
                 <li class="page-item">
                     <a class="page-link text-dark" href="#" arial-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -301,23 +344,40 @@
 
     </section>           
     
-    <section class="row d-flex pt-2 pb-2 border border-dark "  id="sectPerf" data-long-press-delay="500">  
-     
+    <section class="row pt-2 pb-3 d-flex justify-content-center  border border-dark "  id="sectPerf" data-long-press-delay="500">  
        
-         <div class="input-group col-12 pb-2 pt-2 p-0 ps-2 pe-3 m-1 col-12 d-flex "  role="group" > 
-            <span class="input-group-text col-auto flex-fill align-items-center">Perform</span>
+       
+         
+            <!-- <span class="input-group-text">Perform</span> -->
        <!--     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>-->
-            <button class="btn btn-primary col-2 flex-fill align-items-stretch" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 11111111
+       
+            <label for="basic-url" class="form-label pt-0 fw-bold">Performance</label>
+       
+            <div class="input-group row d-none d-sm-flex "  role="group" > 
+           
+            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 11111111
             </button>
-            <button class="btn btn-primary col-2 flex-fill align-items-stretch" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 222222222
+            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 222222222
             </button>
-            <button class="btn btn-primary col-2 flex-fill align-items-stretch" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 333333333
+            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 333333333
             </button>
-            <button class="btn btn-primary col-2 flex-fill align-items-stretch" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 444444444
+            <button class="btn btn-primary col " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 444444444
             </button>
-            <button class="btn btn-primary col-2 flex-fill align-items-stretch" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 5555555
+            <button class="btn btn-primary col " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 5555555
             </button>
         </div>
+        <div class="input-group row  d-sm-none d-md-none d-md-flex">
+            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 11111111
+            </button>
+            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 222222222
+            </button>
+            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 333333333
+            </button>
+            <button class="btn btn-primary  " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 444444444
+            </button>
+            <button class="btn btn-primary  " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 5555555
+            </button>
+        </div>    
         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
@@ -330,9 +390,10 @@
               fesfes
             </div>
         </div>
+    
 
     </section>
-    <section class="row d-flex pt-2 pb-2 border border-dark"  id="sectStomps" data-long-press-delay="500">  
+    <section class="row d-flex pt-2 pb-2 border border-dark d-none d-sm-flex "  id="sectStomps" data-long-press-delay="500">  
     <!--    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    -->
         <div class="row d-flex p-0">
 
@@ -527,11 +588,13 @@
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 " >
-            <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_rigl.png" ></webaudio-switch>
+        <!-- <div class="col-6 col-sm-4 col-md-3 col-lg-2 " > -->
+        <div class="col-6 col-sm-3 col flex-column" >
+
+            <webaudio-switch id="sw1" class="d-flex justify-content-center" height="100" type="kick"  src="ASSETS/buttons/big_button_rigl.png" ></webaudio-switch>
         </div>   
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 " >
-            <webaudio-switch id="sw1" height="100" type="kick"  src="ASSETS/buttons/big_button_rigr_1.png" ></webaudio-switch>
+        <div class="col-6 col-sm-3 col-auto" >
+            <webaudio-switch id="sw1" class="d-flex justify-content-center align-self-stretch" height="100" type="kick"  src="ASSETS/buttons/big_button_rigr_1.png" ></webaudio-switch>
         </div>    
       
 
@@ -541,7 +604,7 @@
     </section> 
     
     
-    <section class="row pt-2 pb-1 d-flex border border-dark"   id="sectDivs" data-long-press-delay="500">  
+    <section class="row pt-2 pb-1 d-flex border border-dark d-none d-sm-flex"   id="sectDivs" data-long-press-delay="500">  
        <!--  <hr class="p-0 m-1"> -->
         <!-- just show wenn medium or smaller -->
         <div class="d-md-none " >
