@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="CSS/bootstrap.min.css" rel="stylesheet">
+    <link href="CSS/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="JS/webaudio-controls.js"></script>
     <script src="JS/long-press-event.min.js"></script>
     <link href="CSS/custom.css" rel="stylesheet">
+    <link href="SCSS/custom.scss" rel="stylesheet">
+
+
     <style>
    body {
             height: 100vh;
@@ -25,27 +28,34 @@
             overflow-x: hidden;
        
             background-color: lightslategray;
-                    
-           
-          
-       
-
+            height: 100%
         }
 
-        .btn-primary, .open,  .btn-primary:hover,  .btn-primary:focus,  .btn-primary:active ,  .btn-primary.active {
-            background-color: rgb(52, 77, 26) !important;
-            border-color:rgb(26, 32, 19) !important; 
-            box-shadow: rgb(194, 47, 47) !important;
+
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-check:focus + .btn-primary, 
+        .btn-primary:focus {
+            background-color: rgb(52, 77, 26) ;
+            border-color:rgb(26, 32, 19);  
             color:black;
-            outline: black;
-            border-radius:0.3rem solid black;
+            border-radius:1.9rem solid black;
             
+        }
+
+  
+        .btn-primary.active:focus, 
+         .btn-primary:active:focus, 
+         .btn-primary:checked,
+         .btn-primary:focus, 
+        .show > .btn-primary.dropdown-toggle:focus {
+            box-shadow: 0 0 0 .25rem rgba(34, 146, 51, 0.584);
         }
 
         .webaudio-knob-body {
             pointer-events:initial !important;
             color: red !important;
-        }
+        } 
 
         .allCont:before {
             background-image: url('ASSETS/Kemper_transp.png') ;
@@ -60,21 +70,38 @@
             left: 0px;
             content: "";
     
-            opacity: 0.55;
-            max-height: 100vh;
+            opacity: 0.50;
+            height: 100%;
         }            
 
 
-        @media (min-width: 576px) {
+        @media (max-width: 576px) {
             
             .allCont:before {
 
-                background-size: 60vw 80vh;
+    
+                background-size:unset;
+                background-size: 45vw 50vh;
   
+                height: 65%;
+            }
+            .allCont {
 
+              
+            }    
+        }
+
+        @media (min-width: 777px) {
+            
+            .allCont:before {
+
+                background-size: 50vw 80vh;
+  
+              
             }
 
         }
+
         @media (min-width: 992px) {
             
             .allCont:before {
@@ -119,11 +146,13 @@
           </button>
           <div class="collapse navbar-collapse h3" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-0 mt-2 mb-md-0">
+               <!-- 
               <li class="nav-item px-3">
                 <a class="nav-link active " aria-current="page" href="#"> BROWSE </a>
               </li>
+              -->
               <li class="nav-item px-3">
-                <a class="nav-link active " aria-current="page" href="#"> PERFORM </a>
+                <a class="nav-link active " data-bs-toggle="collapse" data-bs-target=".multi-collapse"  href="#sectPerf" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2" > BROWSE/PERFORM </a>
               </li>
               <li class="nav-item px-3">
                 <a class="nav-link" href="#"> SETTINGS </a>
@@ -152,7 +181,7 @@
    <!-- <section class=" align-items-stretch bg-light my-5 pt-5"> -->  
    <!-- <div class="container-fluid pt-2 border" style="background-image: url('ASSETS/BG_1.jpg'); background-size: cover; " > -->
    
-    <div class="container-fluid " style="opacity: 0.9; " >  
+    <div class="container-fluid belowNav" style="opacity: 0.9; " >  
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
     <section class="row gy-3 pt-2 pb-3 border border-dark d-none d-sm-flex"  id="keko-row-id-1" > 
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
@@ -303,16 +332,17 @@
 
 
     <section class="row border d-none d-sm-flex border-dark"> 
-        <div class="col-sm-12 col-lg-6 pt-3 pb-2 justify-content-center ">
-            <div class="input-group  "> 
-                <span class="input-group-text fs-4 " id="basic-addon1">Rig</span>
+        <div class="col-sm-12 col-lg-6 pt-3 pb-2 justify-content-center  " >
+            <div class="input-group " > 
+                    <span class="input-group-text fs-4 " >Rig</span>
+                <!-- <span class="input-group-text fs-4 " id="basic-addon1">Rig</span> -->
                 <!--<input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> --> 
                 <input type="text" class="form-control fs-5 justify-content-center " placeholder="Your loaded Rig or Performance" aria-label="rigname" disabled readonly aria-describedby="basic-addon1">
             </div>
-          
-     <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
-    
+   
         </div>
+
+       
         <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
         <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
         <div class="col-sm-12 col-lg-6 pt-3 pb-0 d-flex justify-content-center">
@@ -344,7 +374,8 @@
 
     </section>           
     
-    <section class="row pt-2 pb-3 d-flex justify-content-center  border border-dark "  id="sectPerf" data-long-press-delay="500">  
+    <div class="collapse multi-collapse" id="sectPerf">
+    <section class="row pt-2 pb-3 d-flex justify-content-center  border border-dark "  data-long-press-delay="500">  
        
        
          
@@ -393,6 +424,7 @@
     
 
     </section>
+    </div>
     <section class="row d-flex pt-2 pb-2 border border-dark d-none d-sm-flex "  id="sectStomps" data-long-press-delay="500">  
     <!--    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    -->
         <div class="row d-flex p-0">
@@ -401,32 +433,32 @@
        <!-- <hr class="p-0 mb-2 border border-dark"> -->
    
         <div class=" pb-2 px-4 pt-2 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="fw-bold font-monospace btn btn-primary border-3" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
+            <button class="fw-bold font-monospace btn btn-primary border-3" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">STOMPS</button>
         </div>
        
         
         <!-- style="white-space: break-spaces;" -->
         <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch">
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Wah wah 1
+            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 1
                     <span class="badge bg-secondary ">A</span>
             </button>
         </div>
         <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Wah wah 2
+            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 2
                 <span class="badge bg-secondary">B</span>
             </button>
         </div>  
         <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Wah wah 3
+            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 3
                 <span class="badge bg-secondary">C</span>
             </button>
         </div> 
         <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Wah wah 4
+            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 4
                 <span class="badge bg-secondary">D</span>
             </button>
         </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasStomps" aria-labelledby="offcanvasBottomLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -445,18 +477,18 @@
         
 
         <div class="pb-1 pt-1 m-1 px-4 col-auto d-flex flex-fill align-items-stretch " >
-            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STACK</button>
+            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStack" aria-controls="offcanvasBottom">STACK</button>
         </div>
         <div class="pb-1 pt-1 m-1 col-auto d-flex flex-fill align-items-stretch " >
-            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Amplifier</button>
+            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Amplifier</button>
         </div>
         <div class="pb-1 pt-1 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="btn btn-primary"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Equalizer</button>
+            <button class="btn btn-primary"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Equalizer</button>
         </div>  
         <div class="pb-1 pt-1 px-0 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Cabinet</button>
+            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Cabinet</button>
         </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasStack" aria-labelledby="offcanvasBottomLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -474,29 +506,29 @@
          <hr class="p-0 mb-2 border border-dark"> 
         <div class="row d-flex p-0">
         <div class=" pb-1 m-1 px-4 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
+            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">EFFECTS</button>
         </div>
         <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">X</span>
             </button>
         </div>
         <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch " >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">M</span>
             </button>
         </div>  
         <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">Y</span>
             </button>
         </div> 
         <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                 <span class="badge bg-secondary">R</span>
             </button>
         </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasEffects" aria-labelledby="offcanvasBottomLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -544,7 +576,7 @@
     <section class="row pb-1 border border-dark" id="sectMainKnobs" data-long-press-delay="500">   
         <!-- <hr class="p-0 mb-2 border border-dark"> -->
         
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1" >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1" >
             <div class="d-flex justify-content-center">testes</div>
             
               
@@ -553,35 +585,35 @@
             
          
         </div>  
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
             <div class="d-flex justify-content-center" >testes</div>
             <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center " id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1"  >Bass</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1" >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1" >
             <div class="d-flex justify-content-center">testes</div>
             <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Middle</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
             <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Trebble</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
             <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Presence</webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
         </div> 
-        <div class="p-0 pb-4 col-6 col-sm-3 col-lg-1 " >
+        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
             <div class="d-flex justify-content-center">testes</div>
             <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Rig Vol</webaudio-knob>
             
@@ -589,17 +621,24 @@
          
         </div> 
         <!-- <div class="col-6 col-sm-4 col-md-3 col-lg-2 " > -->
-        <div class="col-6 col-sm-3 col flex-column" >
+        
 
-            <webaudio-switch id="sw1" class="d-flex justify-content-center" height="100" type="kick"  src="ASSETS/buttons/big_button_rigl.png" ></webaudio-switch>
+         
+        <div class="col d-flex pb-2 pt-2 m-0 justify-content-center" >
+            <!--
+            <webaudio-switch id="sw1" class="d-flex coloumn justify-content-center" width="150" height="100" type="kick"  src="ASSETS/buttons/button_rect_rigl.png" ></webaudio-switch>
+            -->
+            <button class="btn btn-primary " type="radio" >Rigname 11111111
+            </button>
         </div>   
-        <div class="col-6 col-sm-3 col-auto" >
-            <webaudio-switch id="sw1" class="d-flex justify-content-center align-self-stretch" height="100" type="kick"  src="ASSETS/buttons/big_button_rigr_1.png" ></webaudio-switch>
+        <div class="col d-flex pb-2 pt-2 justify-content-center " >
+            <button class="btn btn-primary " type="radio" >Rigname 11111111
+            </button>
+            <!--
+            <webaudio-switch id="sw1" class="d-flex justify-content-center align-self-stretch" width="100" height="100" type="kick"  src="ASSETS/buttons/button_quadr_rigr.png" ></webaudio-switch>
+            -->    
         </div>    
-      
-
-
-     
+       
     
     </section> 
     
