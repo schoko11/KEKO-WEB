@@ -6,125 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="CSS/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="CSS/bootstrap.min.css" rel="stylesheet">
 
    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
+     <!-- .btn-primary.open,  .btn-primary:hover,  .btn-primary:focus,   ,  .btn-primary.active { -->
     <script src="JS/webaudio-controls.js"></script>
     <script src="JS/long-press-event.min.js"></script>
     <link href="CSS/custom.css" rel="stylesheet">
-
-
     <style>
-   body {
-            height: 100vh;
-            width: 100%;
-            
+        body {
+            background-color: lightslategray;
         }
 
         .allCont {
-            position: relative;
-            overflow-x: hidden;
-       
-            background-color: lightslategray;
-            height: 100%;
+            background-image: url('ASSETS/Kemper02_65trans.png')  ;
+            background-position: center;
+            background-size: contain;
+            background-repeat:no-repeat ;
         }
 
 
-        .btn-primary,
-        .btn-primary:hover,
-        .btn-check:focus + .btn-primary, 
-        .btn-primary:focus {
+        
+        .btn-primary {
             background-color: rgb(52, 77, 26) ;
-            border-color:rgb(26, 32, 19);  
+            border-color:rgb(26, 32, 19) !important; 
+            box-shadow: rgb(194, 47, 47) !important;
             color:black;
-            border-radius:1.9rem solid black;
+            outline: black;
+            border-radius:0.3rem solid black;
             
         }
-
-  
-        .btn-primary.active:focus, 
-         .btn-primary:active:focus, 
-         .btn-primary:checked,
-         .btn-primary:focus, 
-        .show > .btn-primary.dropdown-toggle:focus {
-            box-shadow: 0 0 0 .25rem rgba(34, 146, 51, 0.584);
+       
+        .btn-primary.open, .btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover  {
+            
+            background-color: rgb(65, 117, 37) ;
         }
+    
+
+        input[type="radio"]:checked {
+            background-color: crimson !important;
+         }
+
 
         .webaudio-knob-body {
             pointer-events:initial !important;
             color: red !important;
-        } 
-
-        .allCont:before {
-            background-image: url('ASSETS/Kemper_transp.png') ;
-            background-size:auto;
-            background-position:center;
-            position:fixed;
-            background-repeat:no-repeat ;
-            background-size: 80vw 80vh;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            content: "";
-    
-            opacity: 0.50;
-            height: 100%;
-        }            
-
-
-        @media (max-width: 576px) {
-            
-            .allCont:before {
-
-    
-                background-size:unset;
-                background-size: 45vw 50vh;
-  
-                height: 65%;
-            }
-            .allCont {
-
-              
-            }    
         }
 
-        @media (min-width: 777px) {
-            
-            .allCont:before {
 
-                background-size: 50vw 80vh;
-  
-              
-            }
+        @media (min-width: 576px) {      
 
         }
-
         @media (min-width: 992px) {
-            
-            .allCont:before {
-
-                background-size: 40vw 80vh;
-  
-              
-            }
 
         }
 
         @media (min-width: 1200px) {
-            
-            .allCont:before {
-
-                background-size: 35vw 80vh;
-
-            }
 
         }
-
           
-
-
     </style>
         
     <!-- grey, light gray, lightslategray -->
@@ -133,10 +74,10 @@
   <body >
 
 <!-- notwending ??? -->    
-<div class="allCont" > 
+<!--  <div class=" pt-4" > -->
    
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <div class="container-fluid">
+    <nav class="autohide navbar navbar-collapse navbar-expand-md navbar-dark bg-dark mb-0">
+        <div class="container-fluid pt-0 mb-0">
             <a class="navbar-brand "  href="#">
                 <img src="ASSETS/Kemper_transp.png" height="45rem" width="40rem" alt="CoolBrand" >
               </a>
@@ -144,14 +85,14 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse h3" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-0 mt-2 mb-md-0">
-               <!-- 
+            <ul class="navbar-nav me-auto mb-1 mb-md-0">
+               <!--  
               <li class="nav-item px-3">
-                <a class="nav-link active " aria-current="page" href="#"> BROWSE </a>
-              </li>
-              -->
+                <a class="nav-link disabled " aria-current="page" href="#"  aria-disabled="true"> BROWSE </a>
+              </li>-->
               <li class="nav-item px-3">
-                <a class="nav-link active " data-bs-toggle="collapse" data-bs-target=".multi-collapse"  href="#sectPerf" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2" > BROWSE/PERFORM </a>
+                <!-- <a class="nav-link active " aria-current="page" href="#"> PERFORM </a> -->
+                <a class="nav-link active" id="togglePerfRigs" aria-current="page" href="#perform" data-bs-toggle="collapse" data-bs-target="#perform" > BROWSE/PERFORM </a>
               </li>
               <li class="nav-item px-3">
                 <a class="nav-link" href="#"> SETTINGS </a>
@@ -163,339 +104,412 @@
            
           </div>
         </div>
-      </nav>
-  <!-- </div> -->
-
-  <!--
-  <div id="intro" class="bg-image shadow-2-strong">
-    <div class="mask" style="background-color: rgba(0, 0, 0, 0.8);">
-      <div class="container d-flex align-items-center justify-content-center text-center h-100">
-       
-      </div>
-    </div>
-  </div>
-    -->
-
-   <!-- <div class="b-example-divider"></div> --> 
-   <!-- <section class=" align-items-stretch bg-light my-5 pt-5"> -->  
-   <!-- <div class="container-fluid pt-2 border" style="background-image: url('ASSETS/BG_1.jpg'); background-size: cover; " > -->
+    </nav>
    
-    <div class="container-fluid belowNav" style="opacity: 0.9; " >  
+
+    <!-- this is the main container -->
+    <div class="allCont container-fluid" >  
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
-    <section class="row gy-3 pt-2 pb-3 border border-dark d-none d-sm-flex"  id="keko-row-id-1" > 
+    <!-- only visible on xs -->
+    <section class="row gy-3 pt-2 pb-2 border border-dark"  id="keko-row-id-1" > 
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances <webaudio-knob id="input1" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+            <button class="btn btn-primary col-12 px-0" type="button">sm1 testeststefesfes <webaudio-knob class="rigMode" id="rigGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div> 
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+            <button class="btn btn-primary col-12 px-0" type="button">sm2 testeststesesesesef <webaudio-knob class="rigMode" id="rigGain2"  min=0 max=10 sprites="127" enable=0   src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+            <button class="btn btn-primary col-12" type="button">sm3 testestste fe <webaudio-knob class="rigMode" id="rigGain3" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button"> Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+            <button class="btn btn-primary col-12 px-0" type="button">sm4 testestste fesfes <webaudio-knob class="rigMode" id="rigGain4" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>        
+            <button class="btn btn-primary col-12 px-0" type="button">sm5 testeststeffffff <webaudio-knob class="rigMode" id="rigGain5" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>        
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+            <button class="btn btn-primary col-12 px-0" type="button">sm6 testestste <webaudio-knob class="rigMode" id="rigGain6" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div>    
+        <!-- on md view 3 additional --> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
+            <button class="btn btn-primary col-12 px-0" type="button">md1 testestste <webaudio-knob class="rigMode" id="rigGain7" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
          
         </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 " >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
+            <button class="btn btn-primary col-12 px-0" type="button">md2 testestste <webaudio-knob class="rigMode" id="rigGain8" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
+            <button class="btn btn-primary col-12 px-0" type="button">md3 testestste <webaudio-knob class="rigMode" id="rigGain9" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+ 
+        <!-- on lg view 3 additional -->
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">lg1 testestste <webaudio-knob class="rigMode" id="rigGain10" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
          
         </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">lg2 testestste <webaudio-knob class="rigMode" id="rigGain11" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
          
         </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">lg3 testestste <webaudio-knob class="rigMode" id="rigGain12" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
          
         </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 " >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+
+        <!-- on xl view 3 additional -->
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl1 testestste <webaudio-knob class="rigMode" id="rigGain13" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
          
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-       
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-     
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
-        </div>  
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-          <button class="btn btn-primary col-12 px-0" type="button">Rigs or performances  <webaudio-knob id="input2" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-   
         </div>     
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl2 testestste <webaudio-knob class="rigMode" id="rigGain14" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl3 testestste <webaudio-knob class="rigMode" id="rigGain15" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl4 testestste <webaudio-knob class="rigMode" id="rigGain16" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div>     
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl5 testestste <webaudio-knob class="rigMode" id="rigGain17" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
+            <button class="btn btn-primary col-12 px-0" type="button">xl6 testestste <webaudio-knob class="rigMode" id="rigGain18" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
+         
+        </div> 
+    
       </section> 
 
   
         <!--somekind of hack to use a meter -->
        <!-- <webaudio-knob id="input9" sprites="63"   direction="vert" src="ASSETS/meters/Level_Meter_HRivera_1708_32x64_64.png" > </webaudio-knob>     -->
         
+ 
 
-     
-   
-    <!--  <div class="divider py-1"></div> -->  
-
-    <!-- <div class="divider py-1"></div>  --> 
+    <!-- rig or performance name --> 
+    <!-- section only on sm or smaller screens -->
+    <section class="row d-md-none border border-dark pb-3 "> 
     
-    <section class="row pt-2 pb-2 border d-sm-none  border-dark"> 
-        <div class="col-sm-12 col-lg-6 pt-sm-3 pt-md-0 justify-content-center ">
-            <div class="input-group  "> 
-                <span class="input-group-text fs-4 " id="basic-addon1">RIG</span>
-                <!--<input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> --> 
-                <input type="text" class="form-control fs-5 justify-content-center " placeholder="Your loaded Rig or Performance" aria-label="rigname" disabled readonly aria-describedby="basic-addon1">
-            </div>
+        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
+        <div class="pt-2 pb-2 ">
+            <div class="d-flex align-items-stretch ">
           
+                <input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input>  
+          
+         <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
+        
+            </div>
+        </div>
+
+       
+        <!--  <div class="d-flex flex-row  justify-content-around align-items-center align-self-center "> -->
+        <div class="d-flex flex-row justify-content-center align-items-stretch align-self-center pt-1">
+          
+            <nav class="" aria-label="Page navigation" >
+                          
+                <ul class="pagination fs-5 ">
+                    <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
+
+                    </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">xxx</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a>
+                    <!--    <a class="page-link text-dark" href="#" arial-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                -->
+                    </li>
+                </ul>
+            </nav>        
+        
+         </div> 
+  
+        <!-- - <div class="row "> -->
+         <div class=" d-flex flex-row  justify-content-between align-items-center align-self-center ">  
+         
+           <!--   <div class="d-grid      "> -->
+              
+                <button class="btn  btn-primary col-5 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <span class="badge bg-secondary "><  RIG LEFT  </span>
+                </button>
+                  
+        
+                <button class="btn  btn-primary col-5  "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                  <span class="badge bg-secondary ">RIG RIGHT ></span>
+         
+
+        </div >
+
+        <!-- performance names -->
+         <div class="column btn-group-vertical pt-3" id="perform" role="group" >  
+           <!-- <div class="col center text-wrap" id="perform" > -->
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-primary" for="btnradio1">longrignames 1 <webaudio-knob class="perfMode" id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>   </label>
+
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob class="perfMode" id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>   </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob class="perfMode" id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob class="perfMode" id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob class="perfMode" id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+           
+        </div> 
+
+    </section>  
+
+    
+    
+    <!-- collapse section only on md screens -->
+    <section class="row d-none d-md-block d-lg-none border border-dark"> 
+    
+        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
+        <div class="col-sm-12 col-lg-6 pt-2 ">
+          
+            <input class="form-control fs-3 fw-bold font-monospace text-center " type="text" value="testestse" disabled readonly></input>  
+      
      <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
     
         </div>
-        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
-        <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
-        <div class="col-sm-12 col-lg-6 pt-sm-2 pt-md-2 d-none d-sm-flex justify-content-center">
+        <div class="d-flex flex-row pt-2">
             <nav aria-label="Page navigation" >
                           
-            <ul class="pagination fs-4 ">
-                <li class="page-item">
-                    <a class="page-link text-dark" href="#" arial-label="Previous">
+                <ul class="pagination fs-3 ">
+                    <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
+                    <!--   <a class="page-link text-dark" href="#" arial-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
-
-                </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.24</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.48</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.72</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.96</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.120</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.128</a> </li>
-                <li class="page-item">
-                    <a class="page-link text-dark" href="#" arial-label="Next">
+                        -->
+                    </li>
+          
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">. </a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">yyy</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
+                    <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a> </li>
+                    <!--    <a class="page-link text-dark" href="#" arial-label="Next">
                         <span aria-hidden="true">&raquo;</span>
-                    </a>
-
-                </li>
-            </ul>
+                    </a>                  -->
+               
+                </ul>
 
             </nav>
-        </div>    
-
-    </section>           
-
-
-    <section class="row border d-none d-sm-flex border-dark"> 
-        <div class="col-sm-12 col-lg-6 pt-3 pb-2 justify-content-center  " >
-            <div class="input-group " > 
-                    <span class="input-group-text fs-4 " >Rig</span>
-                <!-- <span class="input-group-text fs-4 " id="basic-addon1">Rig</span> -->
-                <!--<input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> --> 
-                <input type="text" class="form-control fs-5 justify-content-center " placeholder="Your loaded Rig or Performance" aria-label="rigname" disabled readonly aria-describedby="basic-addon1">
+       
+             
+            <!-- <div class="d-flex justify-content-stretch  align-items-stretch align-self-stretch   "> --> 
+            <div class="d-flex d-flex-row justify-content-between align-items-center align-self-center  "> 
+                <div class=" ps-2 pb-3 ">
+                   <button class="btn btn-lg btn-primary "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                       <span class="badge bg-secondary "><  RIG LEFT  </span>
+                   </button>
+                
+                
+                  <button class="btn btn-lg btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                     <span class="badge bg-secondary ">RIG RIGHT ></span>
+                 </button>
+                </div>
             </div>
-   
-        </div>
+        </div> 
+                    <!-- performance names -->
+         <div class="column btn-group-vertical pb-3 perfMode" id="perform" role="group" >  
+            <!-- <div class="col center text-wrap" id="perform" > -->
+             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
+             <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label> 
+             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
+             <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label> 
+             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
+             <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
+             <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
+             <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            
+         </div> 
 
-       
-        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
-        <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
-        <div class="col-sm-12 col-lg-6 pt-3 pb-0 d-flex justify-content-center">
-            <nav aria-label="Page navigation" >
-                          
-            <ul class="pagination fs-4 ">
-                <li class="page-item">
-                    <a class="page-link text-dark" href="#" arial-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
+    </section> 
 
-                </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.24</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.48</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.72</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.96</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.120</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.128</a> </li>
-                <li class="page-item">
-                    <a class="page-link text-dark" href="#" arial-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-
-                </li>
-            </ul>
-
-            </nav>
-        </div>    
-
-    </section>           
-    
-    <div class="collapse multi-collapse" id="sectPerf">
-    <section class="row pt-2 pb-3 d-flex justify-content-center  border border-dark "  data-long-press-delay="500">  
-       
-       
+    <!-- hide on screens smaller than lg -->
+    <section class="row border border-dark d-none d-lg-block ">
+    <!--  <section class="row d-none d-lg-block border border-dark"> --> 
          
-            <!-- <span class="input-group-text">Perform</span> -->
-       <!--     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>-->
-       
-            <label for="basic-url" class="form-label pt-0 fw-bold">Performance</label>
-       
-            <div class="input-group row d-none d-sm-flex "  role="group" > 
-           
-            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 11111111
-            </button>
-            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 222222222
-            </button>
-            <button class="btn btn-primary col" type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 333333333
-            </button>
-            <button class="btn btn-primary col " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 444444444
-            </button>
-            <button class="btn btn-primary col " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 5555555
-            </button>
-        </div>
-        <div class="input-group row  d-sm-none d-md-none d-md-flex">
-            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 11111111
-            </button>
-            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 222222222
-            </button>
-            <button class="btn btn-primary " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 333333333
-            </button>
-            <button class="btn btn-primary  " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 444444444
-            </button>
-            <button class="btn btn-primary  " type="radio" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rigname 5555555
-            </button>
-        </div>    
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              ...
-              fesfes
-              fesfesfes
-              fesfes
-            </div>
-        </div>
+        <div class="d-flex d-flex-column justify-content-start align-items-center align-self-center">
+        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
+            <div class="d-flex d-flex-column justify-content-center align-items-center align-self-center">
+          
+                <input class="form-control fs-3 fw-bold font-monospace text-center " type="text" value="testestse" disabled readonly></input>  
     
+            </div>
+        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
+        <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
+        <div class="d-flex d-flex-column justify-content-center align-items-center align-self-center pt-3 ps-2">
+            <nav aria-label="Page navigation" >
+                          
+            <ul class="pagination fs-3 ">
+                <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
+                 <!--   <a class="page-link text-dark" href="#" arial-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                -->
+                </li>
+          
+                <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">. </a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">zzz</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
+                <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a>
+                <!--    <a class="page-link text-dark" href="#" arial-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                -->
+                </li>
+            </ul>
+
+            </nav>
+        </div>
+        
+        <div class="d-flex d-flex-column justify-content-stretch align-items-stretch align-self-center  ps-2  "> 
+                <div class="   ">
+                   <button class="btn btn-lg btn-primary "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                       <span class="badge bg-secondary "><  RIG LEFT  </span>
+                   </button>
+                </div>
+                <div class="ps-2 ">
+                  <button class="btn btn-lg btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                     <span class="badge bg-secondary ">RIG RIGHT ></span>
+                 </button>
+             </div>
+        </div>
+        </div>
+
+                      <!-- performance names -->
+        <div class="column btn-group-horizontal pb-3" id="perform" role="group" >  
+                       <!-- <div class="col center text-wrap" id="perform" > -->
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
+            <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+                        
+        </div> 
+
+    </section> 
+    
+    <!-- collapse section only on sm or smaller screens -->
+    <section class="d-md-none">
+    <div class="row  p-2  border border-dark " >
+        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" href="#collapseStomp">STOMPS</button>
+        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseStack">STACK</button>
+        <button class="col-3  fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseEffects">EFFECTS</button>
+        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseVolumes">Volume</button>
+    </div>
+
 
     </section>
+
+    <div class="collapse " id="collapseStack">
+        stack
     </div>
-    <section class="row d-flex pt-2 pb-2 border border-dark d-none d-sm-flex "  id="sectStomps" data-long-press-delay="500">  
+    <div class="collapse border border-dark " id="collapseEffects">
+        effects
+    </div>
+    <div class="collapse " id="collapseVolumes">
+        volumns
+    </div>
+    <!--  </div> -->
+    <!-- hide on sm or xs screens -->
+    <section class="d-none d-md-block row d-flex pt-2 pb-2 border border-dark" >  
     <!--    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    -->
-        <div class="row d-flex p-0">
+      <!--   <div class="row d-flex"> -->
 
         
        <!-- <hr class="p-0 mb-2 border border-dark"> -->
-   
-        <div class=" pb-2 px-4 pt-2 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="fw-bold font-monospace btn btn-primary border-3" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">STOMPS</button>
-        </div>
+       <div class="d-flex flex-row justify-content-between align-items-center align-self-center" id="collapseStomp" data-long-press-delay="500"  >
+            <!-- <div class=" pb-2 m-0 col-auto d-flex flex-fill align-items-stretch" > -->
+             <div class=" p-2" >
+                <button class="fw-bold font-monospace btn btn-primary longPress" id="Stomp"    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
+            </div>
        
         
+        
         <!-- style="white-space: break-spaces;" -->
-        <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch">
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 1
+            <div class="p-2">
+                <button class="btn btn-primary longPress" id="lpFxA" type="button"   data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom" >Toggle bottom medium
                     <span class="badge bg-secondary ">A</span>
-            </button>
-        </div>
-        <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 2
-                <span class="badge bg-secondary">B</span>
-            </button>
-        </div>  
-        <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 3
-                <span class="badge bg-secondary">C</span>
-            </button>
-        </div> 
-        <div class="pb-2 pt-2 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStomps" aria-controls="offcanvasBottom">Wah wah 4
-                <span class="badge bg-secondary">D</span>
-            </button>
-        </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasStomps" aria-labelledby="offcanvasBottomLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </button>
             </div>
-            <div class="offcanvas-body small">
-              ...
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id="lpFxB" type="button"   data-bs-toggle="modal"  data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">B</span>
+                </button>
+            </div>  
+            <div class="p-2" >
+                <!-- onTouchStart="gTouchStart(this.id)" -->
+                <button class="btn btn-primary longPress" id="lpFxC" type="button"  data-bs-toggle="modal"    data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">C</span>
+                </button>
+            </div> 
+            <div class="p-2" >
+                <button class="btn btn-primary" type="button" id="lpFxD"   data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">D</span>
+                </button>
+            </div>  
+            
+            <!-- this is the offcanvas for longpress actions filled with javascript -->
+            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offCanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title" id="offCanvasBottomLabel"></h4>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body small">
+                    ...
+                </div>
             </div>
+            
+
         </div>
-    </div>
     <!--    
     </section>  
     <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    
         -->
-         <hr class="p-0 mb-1 border border-dark d-none d-md-flex">  
-        <div class="row d-none d-md-flex p-0">
-        
+        <hr class="p-0 mb-1 border border-dark">  
+      <!--   <div class="row d-flex"> -->
+        <div class="d-flex flex-row justify-content-between align-items-center align-self-center" data-long-press-delay="500"  >
+        <!-- <div class="pb-1 col-auto d-flex flex-fill align-items-stretch " > -->
+            <div class="p-2" >
+                <button class="fw-bold font-monospace btn btn-primary" id="Stack" type="button" data-bs-toggle="offcanvas" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">STACK</button>
+            </div>
+            <div class="p-2 " >
+                <button class=" btn btn-primary longPress" id="lpAmplifier" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">            Amplifier</button>
+            </div>
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id="lpEqualizer" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Equalizer</button>
+            </div>  
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id="lpCabinet" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Cabinet</button>
+            </div>  
 
-        <div class="pb-1 pt-1 m-1 px-4 col-auto d-flex flex-fill align-items-stretch " >
-            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStack" aria-controls="offcanvasBottom">STACK</button>
-        </div>
-        <div class="pb-1 pt-1 m-1 col-auto d-flex flex-fill align-items-stretch " >
-            <button class="btn btn-primary " style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Amplifier</button>
-        </div>
-        <div class="pb-1 pt-1 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="btn btn-primary"  style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Equalizer</button>
-        </div>  
-        <div class="pb-1 pt-1 px-0 m-1 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="btn btn-primary" style="width:100%;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasStack">Cabinet</button>
-        </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasStack" aria-labelledby="offcanvasBottomLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body small">
-              ...
-            </div>
-        </div>
         </div>
     
    <!-- </section>  
@@ -503,154 +517,85 @@
     <section class="row d-flex pb-1 border border-dark"   id="demo" data-long-press-delay="500">    
        -->
          <hr class="p-0 mb-2 border border-dark"> 
-        <div class="row d-flex p-0">
-        <div class=" pb-1 m-1 px-4 col-auto d-flex flex-fill align-items-stretch" >
-            <button class="fw-bold font-monospace btn btn-primary border-3"  style="width:100%;"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">EFFECTS</button>
-        </div>
-        <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">X</span>
-            </button>
-        </div>
-        <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch " >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">M</span>
-            </button>
-        </div>  
-        <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">Y</span>
-            </button>
-        </div> 
-        <div class="pb-1 pt-1 p-0 m-1 col-2 flex-fill align-items-stretch" >
-            <button class="btn btn-primary" type="button"  style="width:100%;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasEffects" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                <span class="badge bg-secondary">R</span>
-            </button>
-        </div>  
-        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasEffects" aria-labelledby="offcanvasBottomLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom 1</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    
+    <!-- <div class="row d-flex"> -->
+        <div class="d-flex flex-row justify-content-between align-items-center align-self-center" data-long-press-delay="500">
+        <!-- <div class=" pb-1 m-0 col-auto d-flex flex-fill align-items-stretch" > -->
+            <div class=" p-2 justify-content-stretch" >
+                <button class="fw-bold font-monospace btn btn-primary" id="Effects" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
             </div>
-            <div class="offcanvas-body small">
-              ...
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id="lpFxX" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">X</span>
+                </button>
             </div>
-        </div>
+            <div class="p-2 " >
+                <button class="btn btn-primary longPress" id="lpFxM" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">M</span>
+                </button>
+            </div>  
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id=lpFxY type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">Y</span>
+                </button>
+            </div> 
+            <div class="p-2" >
+                <button class="btn btn-primary longPress" id="lpFxR" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">R</span>
+                </button>
+            </div>  
         </div>
     </section>   
 
-    
-   
 
-    <!--
-    <section class="row " id="demo" data-long-press-delay="500">   
-        <hr class="p-0 m-1">
-        <div class="badge col-sm-4 col-md-3 col-lg-1 ">
-            <span class="align-middle ">8fdsfe </span>
-        </div>
-        <div class="badge col-sm-4 col-md-3 col-lg-1">
-            <span class="align-middle ">8fds </span>
-        </div>
-
-        <div class="badge col-sm-4 col-md-3 col-lg-1 ">
-           <span class="align-middle ">ccccc </span>
-        </div>   
-        <div class="badge  col-sm-4 col-md-3 col-lg-1 ">
-            <span class="align-middle ">ccccclet </span>
-         </div>  
-         <div class="badge  col-sm-4 col-md-3 col-lg-1 ">
-            <span class="align-middle ">ccccclet </span>
-         </div>    
-
-         <div class="badge  col-sm-4 col-md-3 col-lg-1">
-            <span class="align-middle ">ccccclet </span>
-         </div>  
-  
-         
-         
-    </section>
-      
-  -->
+    <section class="d-none d-md-block " id="demo" data-long-press-delay="500">   
        
-    <section class="row pb-1 border border-dark" id="sectMainKnobs" data-long-press-delay="500">   
-        <!-- <hr class="p-0 mb-2 border border-dark"> -->
-        
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1" >
-            <div class="d-flex justify-content-center">testes</div>
+        <div class=" row d-flex pb-4 border border-dark "> 
+            <div class="col-2 " >
+                <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
             
-              
-            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="10" >Gain</webaudio-knob>
-           
-            
-         
-        </div>  
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
-            <div class="d-flex justify-content-center" >testes</div>
-            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center " id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1"  >Bass</webaudio-knob>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                   
+            </div>  
+          <!--  <div class="col-2 col-lg-1 " >-->
+            <div class="col-2 " >
+                 <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" >bass</div>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobBass" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10  ></webaudio-knob>
             
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
          
-        </div> 
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1" >
-            <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Middle</webaudio-knob>
-            
+            </div> 
+            <!-- <div class="p-0 pb-4 col-md-3 col-lg-1" > -->
+            <div class="col-2 " >
+                <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">mids</div>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobMids" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+            </div>    
+            <div class="col-2 " >
+                <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">trebble</div>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobTrebble" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10></webaudio-knob>
+            </div>    
+            <div class="col-2 " >
+                <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">presence</div>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobPresence" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10></webaudio-knob>
+            </div>    
+            <div class="col-2 " >
+                <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">rigvol</div>
+                <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10></webaudio-knob>
+            </div>    
             <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
-         
         </div> 
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
-            <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Trebble</webaudio-knob>
-            
-            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
-         
-        </div> 
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
-            <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Presence</webaudio-knob>
-            
-            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
-         
-        </div> 
-        <div class="p-0 pb-4 col-4 col-sm-3 col-lg-1 " >
-            <div class="d-flex justify-content-center">testes</div>
-            <webaudio-knob  class="fw-bold fs-6 font-monospace d-flex justify-content-center" id="knbGain" diameter=80 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step="1">Rig Vol</webaudio-knob>
-            
-            <!-- <webaudio-param link="knbTreble"> </webaudio-param> -->
-         
-        </div> 
-        <!-- <div class="col-6 col-sm-4 col-md-3 col-lg-2 " > -->
-        
-
-         
-        <div class="col d-flex pb-2 pt-2 m-0 justify-content-center" >
-            <!--
-            <webaudio-switch id="sw1" class="d-flex coloumn justify-content-center" width="150" height="100" type="kick"  src="ASSETS/buttons/button_rect_rigl.png" ></webaudio-switch>
-            -->
-            <button class="btn btn-primary " type="radio" >Rigname 11111111
-            </button>
-        </div>   
-        <div class="col d-flex pb-2 pt-2 justify-content-center " >
-            <button class="btn btn-primary " type="radio" >Rigname 11111111
-            </button>
-            <!--
-            <webaudio-switch id="sw1" class="d-flex justify-content-center align-self-stretch" width="100" height="100" type="kick"  src="ASSETS/buttons/button_quadr_rigr.png" ></webaudio-switch>
-            -->    
-        </div>    
-       
-    
     </section> 
     
     
-    <section class="row pt-2 pb-1 d-flex border border-dark d-none d-sm-flex"   id="sectDivs" data-long-press-delay="500">  
+    <section class="row d-flex border border-dark pt-2"   id="demo" data-long-press-delay="500">  
        <!--  <hr class="p-0 m-1"> -->
         <!-- just show wenn medium or smaller -->
-        <div class="d-md-none " >
+        <div class="d-md-none pb-2 " >
            
             <button class="fw-bold font-monospace align-items-stretch btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">IN: 
-                <span class="badge bg-secondary">Noise: 6.6</span>
-                <span class="badge bg-secondary">Clean: 6.6</span>
-                <span class="badge bg-secondary">Dist: 6.6</span>
+                <span class="badge bg-secondary">Noise: 5.6</span>
+                <span class="badge bg-secondary">Clean: 5.6</span>
+                <span class="badge bg-secondary">Dist: 5.6</span>
             </button>
            
             <button class="justify-content-end btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rig Det.
@@ -658,7 +603,7 @@
             
         </div>
         <!-- just show wenn larger than medium -->
-        <div class="d-none d-md-block pb-1 col-sm-6 col-md-6 col-lg-3 col-xl-2 d-flex flex-fill align-items-stretch" >
+        <div class="container d-none d-md-block pb-2  d-flex  align-items-stretch" >
             <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">INPUT:
                 <span class="badge bg-secondary">Noise Gate: 6.6</span>
                 <span class="badge bg-secondary">Clean Sense: 6.6</span>
@@ -668,15 +613,201 @@
                 <span class="badge bg-secondary">Author: Hugo Hu</span>
             </button>
 
-
         </div>
 
     </section>
       
+    <div class="modal fade modalControlParams" >
+        <div class="modal-dialog modal-fullscreen">
+            <div class=" modal-content container-fluid">
+                <div class="modal-header pb-0">
+                    <h3 id="modalParamsHeader"> </h3>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> 
+              <!--  <div class="modal-body" id="modalParamsBody"> Body </div>-->
+                <div class="row d-flex border border-dark pt-0 mt-0 "> 
+
+                    <div class="col border pb-3 pt-0" >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gaineeeeeeeeeeee </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 >fds</webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div>  
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+                    <div class="col border pb-3 pt-0 " >
+                        <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center" > gain </div>
+                    
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobGain" diameter=75 src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" step=0.5 min=0 max=10 ></webaudio-knob>
+                           
+                    </div> 
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+              
+
+
+            </div>
+
+        </div>
+
+    </div>
+
              
     </div>
 
-</div>     
+
      
   <!-- </div> -->   
   <!-- </section> -->     
