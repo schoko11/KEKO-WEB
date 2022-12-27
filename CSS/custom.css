@@ -11,6 +11,12 @@
 
 
 }
+.center {
+  display: flex;
+  flex-flow: row nowrap;
+  
+
+}
 
 
 
