@@ -7,20 +7,31 @@
 
     <!-- Bootstrap CSS -->
     <link href="CSS/bootstrap.min.css" rel="stylesheet">
-
+    <!-- <link href="CSS/dataTables.bootstrap5.min.css" rel="stylesheet"> -->
    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
      <!-- .btn-primary.open,  .btn-primary:hover,  .btn-primary:focus,   ,  .btn-primary.active { -->
     <script src="JS/webaudio-controls.js"></script>
+    <!--  <script src="JS/jquery-3.6.3.min.js"></script>  -->
     <script src="JS/long-press-event.min.js"></script>
-    <link href="CSS/custom.css" rel="stylesheet">
+    <!--  <script src="JS/dataTables.bootstrap5.min.js"></script> --> 
+     <!--  <script src="JS/jquery.dataTables.min.js"></script> -->
+    <script type="text/javascript" src="JS/tabulator.min.js" ></script>
+    
+    <script src="JS/bootstrap.bundle.min.js" ></script>
+    <script src="JS/webmidi.iife.min.js"></script>
+  
+    <script src="JS/app.js" defer></script>
+    <link href="CSS/tabulator_bootstrap5.min.css" >
+    <link href="CSS/tabulator.min.css" >
+   <!--  <link href="CSS/custom.css" rel="stylesheet"> -->
     <style>
         body {
             background-color: lightslategray;
         }
 
         .allCont {
-            background-image: url('ASSETS/Kemper02_65trans.png')  ;
+            background-image: url('ASSETS/Kemper\ 02_trans55.png')  ;
             background-position: center;
             background-size: contain;
             background-repeat:no-repeat ;
@@ -44,10 +55,6 @@
         }
     
 
-        input[type="radio"]:checked {
-            background-color: crimson !important;
-         }
-
 
         .webaudio-knob-body {
             pointer-events:initial !important;
@@ -55,16 +62,6 @@
         }
 
 
-        @media (min-width: 576px) {      
-
-        }
-        @media (min-width: 992px) {
-
-        }
-
-        @media (min-width: 1200px) {
-
-        }
           
     </style>
         
@@ -73,13 +70,21 @@
   </head>
   <body >
 
+    <!--
+    <table id="example-table">
+
+        
+    </table>
+     -->
+
+
 <!-- notwending ??? -->    
 <!--  <div class=" pt-4" > -->
    
     <nav class="autohide navbar navbar-collapse navbar-expand-md navbar-dark bg-dark mb-0">
         <div class="container-fluid pt-0 mb-0">
             <a class="navbar-brand "  href="#">
-                <img src="ASSETS/Kemper_transp.png" height="45rem" width="40rem" alt="CoolBrand" >
+                <img src="ASSETS/Kemper 02_trans55.png" height="45rem" width="40rem" alt="CoolBrand" >
               </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -107,8 +112,16 @@
     </nav>
    
 
+
+ 
+
     <!-- this is the main container -->
     <div class="allCont container-fluid" >  
+
+   
+
+
+
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
     <!-- only visible on xs -->
     <section class="row gy-3 pt-2 pb-2 border border-dark"  id="keko-row-id-1" > 
@@ -807,16 +820,19 @@
              
     </div>
 
+    <section class="border border-dark">
+        <div class="row d-flex">
+            <div class="Table-primary" id="example-table"></div>
+        </div>
+    </section> 
 
      
   <!-- </div> -->   
   <!-- </section> -->     
 
   <!-- <input type="range" class="input-knob" data-diameter="100" data-src="ASSETS/Sonatom_bipo.png" data-sprites="100"/> -->
-  <script src="JS/bootstrap.bundle.min.js" ></script>
-  <script src="JS/webmidi.iife.min.js"></script>
 
-  <script src="JS/app.js" ></script>
 
   </body>
+
 </html>
