@@ -87,6 +87,79 @@ function triggerLongPress() {
 //set gain value of rig
 //rigGain1.value = 10;
 
+//document.getElementById("example").attributes.DataTable();
+//let doc = document.getElementById('example');
+//console.log(Object.keys($('#example')) + "#" + Object.keys(document.getElementById('example').attributes ));
+//console.log($('#example') + "#"  + $('#example')[0] + "##" +  document.getElementById('example') + "##"  );
+
+document.addEventListener('DOMContentLoaded',function () {
+   table.on("rowClick", function(e, row) {
+     alert("row" + row.getIndex() );
+    });
+//    let table = new DataTable('#example');
+//    console.log(Object.keys(table));
+
+//let rigOrPerfData = [
+//    {id: 1, name:"rig 1", gain: 12},
+//    {id: 2, name:"rig 2", gain: 6},
+//    {id: 3, name:"rig 3", gain: 3}
+//];
+
+    //let table = new Tabulator('#example-table', {
+       
+        //autoColumns:true,
+     //   layout: "fitColumns",
+        //resizableColumnFit: true,
+    //    columns: [
+    //        {title:"Name", field:"name" },
+    //        {title:"Gain", field:"gain"}
+    //    ],
+    //    reactiveData: true,
+    //    data: [
+    //        {id: 1, name:"rig 1", gain: 12},
+    //        {id: 2, name:"rig 2", gain: 6}
+    //    ]  
+    //} );
+
+} );
+
+
+let table = new Tabulator('#example-table', {
+       
+    //autoColumns:true,
+    layout: "fitColumns", //alternative: fitData
+    //resizableColumnFit: true,
+    columns: [
+        {title:"Name", field:"name" },
+        {title:"Gain", field:"gain"}
+    ],
+    reactiveData: true,
+    pagination:"local",
+    paginationSize: 10,
+    minHeight: 300,
+    maxHeight: "40%",
+    data: [
+        {id: 1, name:"rig 1", gain: 12},
+        {id: 2, name:"rig 2", gain: 6},
+        {id: 3, name:"rig 3", gain: 12},
+        {id: 4, name:"rig 4", gain: 6},
+        {id: 5, name:"rig 5", gain: 12},
+        {id: 6, name:"rig 6", gain: 6},
+        {id: 7, name:"rig 7", gain: 12},
+        {id: 8, name:"rig 8", gain: 6},
+        {id: 9, name:"rig 9", gain: 12},
+        {id: 10, name:"rig 10", gain: 6},
+        {id: 11, name:"rig 11", gain: 12},
+        {id: 12, name:"rig 12", gain: 6},
+    ]
+
+    
+
+} );
+
+
+
+
 let perfModeMeters = document.getElementsByClassName("perfMode");
 let rigModeMeters = document.getElementsByClassName("rigMode");
 for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
