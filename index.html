@@ -11,19 +11,19 @@
    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
      <!-- .btn-primary.open,  .btn-primary:hover,  .btn-primary:focus,   ,  .btn-primary.active { -->
-    <script src="JS/webaudio-controls.js"></script>
+    <script  type="text/javascript" src="JS/webaudio-controls.js"></script>
     <!--  <script src="JS/jquery-3.6.3.min.js"></script>  -->
-    <script src="JS/long-press-event.min.js"></script>
+    <script  type="text/javascript" src="JS/long-press-event.min.js"></script>
     <!--  <script src="JS/dataTables.bootstrap5.min.js"></script> --> 
      <!--  <script src="JS/jquery.dataTables.min.js"></script> -->
     <script type="text/javascript" src="JS/tabulator.min.js" ></script>
     
-    <script src="JS/bootstrap.bundle.min.js" ></script>
+    <script type="text/javascript" src="JS/bootstrap.bundle.min.js" ></script>
     <script src="JS/webmidi.iife.min.js"></script>
   
-    <script src="JS/app.js" defer></script>
-    <link href="CSS/tabulator_bootstrap5.min.css" >
-    <link href="CSS/tabulator.min.css" >
+    <script type="text/javascript" src="JS/app.js" defer></script>
+    <link href="CSS/tabulator_bootstrap5.min.css" rel="stylesheet">
+    <link href="CSS/tabulator.min.css" rel="stylesheet">
    <!--  <link href="CSS/custom.css" rel="stylesheet"> -->
     <style>
         body {
@@ -60,7 +60,14 @@
             pointer-events:initial !important;
             color: red !important;
         }
-
+        .tabulator {
+            background-color: lightslategray;
+        }
+        .tabulator-page {
+            min-width:5rem;
+            max-width:10rem;
+        }
+        
 
           
     </style>
@@ -118,91 +125,63 @@
     <!-- this is the main container -->
     <div class="allCont container-fluid" >  
 
+       <!--  <section class="border border-dark px-3 pb-4 pt-3 m-0 "> -->
+       
+            <div class="row d-flex border border-dark p-0 px-3 pt-2 pb-2 ">
+                <div class="table-primary col-10 p-0 " id="example-table"></div>
+                <div class="col-2 d-flex d-flex-column " >
+                  <!--   <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">rigvol</div> -->
+                  <!-- 
+                    <div class="pb-4 pt-4 m-0 d-md-none">
+                    <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=60 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
+                    </div>
+
+                    <div class="pb-4 pt-4 m-0 d-md-none">
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=60 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
+                     </div>
+
+                     <div class="pb-4 pt-4 m-0 d-none d-md-block d-lg-none">
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
+                     </div>
+    
+                    <div class="pb-4 pt-4 m-0 d-none d-md-block d-lg-none">
+                            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
+                    </div>
+
+                        
+                    <div class="pb-4 pt-4 m-0 d-none d-lg-block">
+                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=100 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
+                        <webaudio-knob class="fw-bold pt-4 fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=100 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
+                        </div>
+                    </div>
+
+                  -->  
+
+                  <!-- try 2 -->
+                  <div class="btn-group-vertical  d-flex justify-content-stretch align-items-stretch align-self-stretch"  role="group" > 
+                    <button class="btn  btn-primary mb-2 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                        <span class="badge bg-secondary "> LEFT  </span>
+                    </button>
+                      
+            
+                    <button class="btn  btn-primary   "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                      <span class="badge bg-secondary "> RIGHT </span>
+                    </button> 
+                  </div> 
+
+                  <!--   <div class="pb-4 pt-2 m-0 d-none d-lg-block">
+                        <webaudio-knob class="fw-bold fs-6 font-monospace inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
+                        </div>
+                    </div>
+                    -->    
+                </div>
+
+            </div>
    
-
-
-
+        <!--  </section> -->
     <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
     <!-- only visible on xs -->
-    <section class="row gy-3 pt-2 pb-2 border border-dark"  id="keko-row-id-1" > 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">sm1 testeststefesfes <webaudio-knob class="rigMode" id="rigGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">sm2 testeststesesesesef <webaudio-knob class="rigMode" id="rigGain2"  min=0 max=10 sprites="127" enable=0   src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12" type="button">sm3 testestste fe <webaudio-knob class="rigMode" id="rigGain3" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">sm4 testestste fesfes <webaudio-knob class="rigMode" id="rigGain4" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">sm5 testeststeffffff <webaudio-knob class="rigMode" id="rigGain5" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>        
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" >
-            <button class="btn btn-primary col-12 px-0" type="button">sm6 testestste <webaudio-knob class="rigMode" id="rigGain6" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>    
-        <!-- on md view 3 additional --> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
-            <button class="btn btn-primary col-12 px-0" type="button">md1 testestste <webaudio-knob class="rigMode" id="rigGain7" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
-            <button class="btn btn-primary col-12 px-0" type="button">md2 testestste <webaudio-knob class="rigMode" id="rigGain8" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-md-block " >
-            <button class="btn btn-primary col-12 px-0" type="button">md3 testestste <webaudio-knob class="rigMode" id="rigGain9" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
- 
-        <!-- on lg view 3 additional -->
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">lg1 testestste <webaudio-knob class="rigMode" id="rigGain10" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">lg2 testestste <webaudio-knob class="rigMode" id="rigGain11" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-lg-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">lg3 testestste <webaudio-knob class="rigMode" id="rigGain12" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-
-        <!-- on xl view 3 additional -->
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl1 testestste <webaudio-knob class="rigMode" id="rigGain13" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl2 testestste <webaudio-knob class="rigMode" id="rigGain14" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl3 testestste <webaudio-knob class="rigMode" id="rigGain15" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl4 testestste <webaudio-knob class="rigMode" id="rigGain16" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div>     
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl5 testestste <webaudio-knob class="rigMode" id="rigGain17" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-none d-xl-block" >
-            <button class="btn btn-primary col-12 px-0" type="button">xl6 testestste <webaudio-knob class="rigMode" id="rigGain18" sprites="127"  src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </button>
-         
-        </div> 
-    
-      </section> 
+  
 
   
         <!--somekind of hack to use a meter -->
@@ -214,58 +193,6 @@
     <!-- section only on sm or smaller screens -->
     <section class="row d-md-none border border-dark pb-3 "> 
     
-        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
-        <div class="pt-2 pb-2 ">
-            <div class="d-flex align-items-stretch ">
-          
-                <input class="form-control fs-3 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input>  
-          
-         <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
-        
-            </div>
-        </div>
-
-       
-        <!--  <div class="d-flex flex-row  justify-content-around align-items-center align-self-center "> -->
-        <div class="d-flex flex-row justify-content-center align-items-stretch align-self-center pt-1">
-          
-            <nav class="" aria-label="Page navigation" >
-                          
-                <ul class="pagination fs-5 ">
-                    <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
-
-                    </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">xxx</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a>
-                    <!--    <a class="page-link text-dark" href="#" arial-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                -->
-                    </li>
-                </ul>
-            </nav>        
-        
-         </div> 
-  
-        <!-- - <div class="row "> -->
-         <div class=" d-flex flex-row  justify-content-between align-items-center align-self-center ">  
-         
-           <!--   <div class="d-grid      "> -->
-              
-                <button class="btn  btn-primary col-5 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                    <span class="badge bg-secondary "><  RIG LEFT  </span>
-                </button>
-                  
-        
-                <button class="btn  btn-primary col-5  "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                  <span class="badge bg-secondary ">RIG RIGHT ></span>
-         
-
-        </div >
 
         <!-- performance names -->
          <div class="column btn-group-vertical pt-3" id="perform" role="group" >  
@@ -291,56 +218,9 @@
     <!-- collapse section only on md screens -->
     <section class="row d-none d-md-block d-lg-none border border-dark"> 
     
-        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
-        <div class="col-sm-12 col-lg-6 pt-2 ">
-          
-            <input class="form-control fs-3 fw-bold font-monospace text-center " type="text" value="testestse" disabled readonly></input>  
-      
-     <!--  <input class="form-control fs-1 fw-bold font-monospace text-center " id="txtRigName" type="text" value="testestse" disabled readonly></input> -->
-    
-        </div>
-        <div class="d-flex flex-row pt-2">
-            <nav aria-label="Page navigation" >
-                          
-                <ul class="pagination fs-3 ">
-                    <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
-                    <!--   <a class="page-link text-dark" href="#" arial-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                        -->
-                    </li>
-          
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">. </a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">yyy</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
-                    <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a> </li>
-                    <!--    <a class="page-link text-dark" href="#" arial-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>                  -->
-               
-                </ul>
 
-            </nav>
-       
-             
-            <!-- <div class="d-flex justify-content-stretch  align-items-stretch align-self-stretch   "> --> 
-            <div class="d-flex d-flex-row justify-content-between align-items-center align-self-center  "> 
-                <div class=" ps-2 pb-3 ">
-                   <button class="btn btn-lg btn-primary "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                       <span class="badge bg-secondary "><  RIG LEFT  </span>
-                   </button>
-                
-                
-                  <button class="btn btn-lg btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                     <span class="badge bg-secondary ">RIG RIGHT ></span>
-                 </button>
-                </div>
-            </div>
-        </div> 
                     <!-- performance names -->
-         <div class="column btn-group-vertical pb-3 perfMode" id="perform" role="group" >  
+         <div class="column btn-group-vertical pb-3 pt-3 perfMode" id="perform" role="group" >  
             <!-- <div class="col center text-wrap" id="perform" > -->
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
              <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label> 
@@ -361,58 +241,8 @@
     <section class="row border border-dark d-none d-lg-block ">
     <!--  <section class="row d-none d-lg-block border border-dark"> --> 
          
-        <div class="d-flex d-flex-column justify-content-start align-items-center align-self-center">
-        <!-- d-flex flex-row justify-content-around align-items-center align-self-center -->   
-            <div class="d-flex d-flex-column justify-content-center align-items-center align-self-center">
-          
-                <input class="form-control fs-3 fw-bold font-monospace text-center " type="text" value="testestse" disabled readonly></input>  
-    
-            </div>
-        <!-- <nav aria-label="Page navigation" class="col-6 d-flex justify-content-end"> -->
-        <!-- <div class="col-sm-12 col-md-6 d-flex justify-content-end"> -->
-        <div class="d-flex d-flex-column justify-content-center align-items-center align-self-center pt-3 ps-2">
-            <nav aria-label="Page navigation" >
-                          
-            <ul class="pagination fs-3 ">
-                <li class="page-item "> <a class="page-link text-dark" href="#"> << </a>
-                 <!--   <a class="page-link text-dark" href="#" arial-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                -->
-                </li>
-          
-                <li class="page-item"> <a class="page-link text-dark" href="#">.1</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">. </a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">zzz</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">.122</a> </li>
-                <li class="page-item"> <a class="page-link text-dark" href="#">  >>  </a>
-                <!--    <a class="page-link text-dark" href="#" arial-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                -->
-                </li>
-            </ul>
-
-            </nav>
-        </div>
-        
-        <div class="d-flex d-flex-column justify-content-stretch align-items-stretch align-self-center  ps-2  "> 
-                <div class="   ">
-                   <button class="btn btn-lg btn-primary "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                       <span class="badge bg-secondary "><  RIG LEFT  </span>
-                   </button>
-                </div>
-                <div class="ps-2 ">
-                  <button class="btn btn-lg btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                     <span class="badge bg-secondary ">RIG RIGHT ></span>
-                 </button>
-             </div>
-        </div>
-        </div>
-
                       <!-- performance names -->
-        <div class="column btn-group-horizontal pb-3" id="perform" role="group" >  
+        <div class="column btn-group-horizontal pb-3 pt-3" id="perform" role="group" >  
                        <!-- <div class="col center text-wrap" id="perform" > -->
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
             <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
@@ -820,11 +650,7 @@
              
     </div>
 
-    <section class="border border-dark">
-        <div class="row d-flex">
-            <div class="Table-primary" id="example-table"></div>
-        </div>
-    </section> 
+
 
      
   <!-- </div> -->   
