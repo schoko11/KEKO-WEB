@@ -64,9 +64,10 @@
             background-color: lightslategray;
         }
         .tabulator-page {
-            min-width:5rem;
+            min-width:4.5rem;
             max-width:10rem;
         }
+
         
 
           
@@ -77,16 +78,6 @@
   </head>
   <body >
 
-    <!--
-    <table id="example-table">
-
-        
-    </table>
-     -->
-
-
-<!-- notwending ??? -->    
-<!--  <div class=" pt-4" > -->
    
     <nav class="autohide navbar navbar-collapse navbar-expand-md navbar-dark bg-dark mb-0">
         <div class="container-fluid pt-0 mb-0">
@@ -104,7 +95,7 @@
               </li>-->
               <li class="nav-item px-3">
                 <!-- <a class="nav-link active " aria-current="page" href="#"> PERFORM </a> -->
-                <a class="nav-link active" id="togglePerfRigs" aria-current="page" href="#perform" data-bs-toggle="collapse" data-bs-target="#perform" > BROWSE/PERFORM </a>
+                <a class="nav-link active" id="togglePerfRigs" aria-current="page" href="#perfRigsTable" data-bs-toggle="collapse" data-bs-target="#perfRigsTable" > BROWSE/PERFORM </a>
               </li>
               <li class="nav-item px-3">
                 <a class="nav-link" href="#"> SETTINGS </a>
@@ -123,271 +114,139 @@
  
 
     <!-- this is the main container -->
-    <div class="allCont container-fluid" >  
+    <div class="allCont container-fluid " >  
 
-       <!--  <section class="border border-dark px-3 pb-4 pt-3 m-0 "> -->
-       
-            <div class="row d-flex border border-dark p-0 px-3 pt-2 pb-2 ">
-                <div class="table-primary col-10 p-0 " id="example-table"></div>
-                <div class="col-2 d-flex d-flex-column " >
-                  <!--   <div class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">rigvol</div> -->
-                  <!-- 
-                    <div class="pb-4 pt-4 m-0 d-md-none">
-                    <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=60 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
-                    </div>
+        <section class="d-flex  pb-2 pt-2 "> 
 
-                    <div class="pb-4 pt-4 m-0 d-md-none">
-                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=60 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
-                     </div>
+            <div class="table-primary w-100 p-0 m-0 collapse " id="rigTable"></div>
+            <div class="table-primary w-100 p-0 m-0" id="perfRigsTable"></div> 
+            <div class="d-flex " >
 
-                     <div class="pb-4 pt-4 m-0 d-none d-md-block d-lg-none">
-                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
-                     </div>
-    
-                    <div class="pb-4 pt-4 m-0 d-none d-md-block d-lg-none">
-                            <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
-                    </div>
-
-                        
-                    <div class="pb-4 pt-4 m-0 d-none d-lg-block">
-                        <webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=100 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>LEFT</webaudio-knob>
-                        <webaudio-knob class="fw-bold pt-4 fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="knobRigvol" diameter=100 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
-                        </div>
-                    </div>
-
-                  -->  
-
-                  <!-- try 2 -->
-                  <div class="btn-group-vertical  d-flex justify-content-stretch align-items-stretch align-self-stretch"  role="group" > 
-                    <button class="btn  btn-primary mb-2 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                <div class="btn-group-vertical  d-flex px-2 py-0 mx-0 pe-0 "  role="group" > 
+                    <button class="btn  btn-primary mb-2 flex-fill"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                         <span class="badge bg-secondary "> LEFT  </span>
                     </button>
                       
             
-                    <button class="btn  btn-primary   "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <button class="btn  btn-primary flex-fill  "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                       <span class="badge bg-secondary "> RIGHT </span>
                     </button> 
-                  </div> 
+                </div> 
 
                   <!--   <div class="pb-4 pt-2 m-0 d-none d-lg-block">
                         <webaudio-knob class="fw-bold fs-6 font-monospace inputKnobFix" id="knobRigvol" diameter=90 src="ASSETS/buttons/big_button_quadr_gr.png" step=0.5 min=0 max=10>RIGHT</webaudio-knob>
                         </div>
                     </div>
                     -->    
-                </div>
-
             </div>
-   
-        <!--  </section> -->
-    <!-- <div class="col-12" style="max-height:50vh; min-height:30vh;"> --> 
-    <!-- only visible on xs -->
-  
+          </section> 
 
-  
-        <!--somekind of hack to use a meter -->
-       <!-- <webaudio-knob id="input9" sprites="63"   direction="vert" src="ASSETS/meters/Level_Meter_HRivera_1708_32x64_64.png" > </webaudio-knob>     -->
-        
- 
-
-    <!-- rig or performance name --> 
-    <!-- section only on sm or smaller screens -->
-    <section class="row d-md-none border border-dark pb-3 "> 
     
-
-        <!-- performance names -->
-         <div class="column btn-group-vertical pt-3" id="perform" role="group" >  
-           <!-- <div class="col center text-wrap" id="perform" > -->
+    <!-- on sm and xs size an smaller no padding left and right to win more space -->
+    <section class=" row d-md-none border  border-dark "> 
+        <div class="column btn-group btn-group-sm pb-2 pt-2  ps-0 pe-0" id="perfRigsTable" role="group" >  
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-primary" for="btnradio1">longrignames 1 <webaudio-knob class="perfMode" id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>   </label>
-
+            <label class="btn btn-primary" for="btnradio1">longrignames 1 kl.md xxxxxxx</label>
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob class="perfMode" id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>   </label> 
+            <label class="btn btn-primary" for="btnradio2">longrignames 2</label> 
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob class="perfMode" id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <label class="btn btn-primary" for="btnradio3">longrignames 3 </label> 
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob class="perfMode" id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+            <label class="btn btn-primary" for="btnradio4">longrignames 4</label> 
             <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob class="perfMode" id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-           
+            <label class="btn btn-primary" for="btnradio5">longrignames 5 </label> 
         </div> 
 
     </section>  
-
     
-    
-    <!-- collapse section only on md screens -->
-    <section class="row d-none d-md-block d-lg-none border border-dark"> 
-    
-
-                    <!-- performance names -->
-         <div class="column btn-group-vertical pb-3 pt-3 perfMode" id="perform" role="group" >  
-            <!-- <div class="col center text-wrap" id="perform" > -->
+    <!-- shown on medium and larger with padding left and right -->
+    <section class="row d-none d-md-block  border border-dark"> 
+         <div class="column btn-group perfMode pb-2 pt-2 ps-2 pe-2" id="perfRigsTable" role="group" >  
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
-             <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label> 
+             <label class="btn btn-primary" for="btnradio1">longrignames 1 gr md...xxxxxx</label> 
+             <!-- <label class="btn btn-primary" for="btnradio1">longrignames 1 gr md...<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label>--> 
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
-             <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>  </label> 
+             <label class="btn btn-primary" for="btnradio2">longrignames 2  dsadsadsa</label> 
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
-             <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+             <label class="btn btn-primary" for="btnradio3">longrignames 3 dsadsa</label> 
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
-             <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
+             <label class="btn btn-primary" for="btnradio4">longrignames 4 dsds</label> 
              <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
-             <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-            
+             <label class="btn btn-primary" for="btnradio5">longrignames 5 </label> 
          </div> 
-
-    </section> 
-
-    <!-- hide on screens smaller than lg -->
-    <section class="row border border-dark d-none d-lg-block ">
-    <!--  <section class="row d-none d-lg-block border border-dark"> --> 
-         
-                      <!-- performance names -->
-        <div class="column btn-group-horizontal pb-3 pt-3" id="perform" role="group" >  
-                       <!-- <div class="col center text-wrap" id="perform" > -->
-            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-primary" for="btnradio1">longrignames 1<webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio2" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio2">longrignames 2<webaudio-knob id="rigPerfmodeGain2" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio3" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio3">longrignames 3<webaudio-knob id="rigPerfmodeGain3" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio4" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio4">longrignames 4<webaudio-knob id="rigPerfmodeGain4" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-            <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio5" autocomplete="off" >
-            <label class="btn btn-primary" for="btnradio5">longrignames 5<webaudio-knob id="rigPerfmodeGain5" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob> </label> 
-                        
-        </div> 
-
     </section> 
     
-    <!-- collapse section only on sm or smaller screens -->
-    <section class="d-md-none">
-    <div class="row  p-2  border border-dark " >
-        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" href="#collapseStomp">STOMPS</button>
-        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseStack">STACK</button>
-        <button class="col-3  fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseEffects">EFFECTS</button>
-        <button class="col-3   fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseStomp" data-bs-target="#collapseVolumes">Volume</button>
+        <!-- this is the offcanvas section -->
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offCanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title" id="offCanvasBottomLabel"></h4>
+               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body small">
+                ...small
+        </div>
     </div>
 
 
-    </section>
-
-    <div class="collapse " id="collapseStack">
-        stack
-    </div>
-    <div class="collapse border border-dark " id="collapseEffects">
-        effects
-    </div>
-    <div class="collapse " id="collapseVolumes">
-        volumns
-    </div>
-    <!--  </div> -->
-    <!-- hide on sm or xs screens -->
-    <section class="d-none d-md-block row d-flex pt-2 pb-2 border border-dark" >  
-    <!--    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    -->
-      <!--   <div class="row d-flex"> -->
-
-        
-       <!-- <hr class="p-0 mb-2 border border-dark"> -->
-       <div class="d-flex flex-row justify-content-between align-items-center align-self-center" id="collapseStomp" data-long-press-delay="500"  >
-            <!-- <div class=" pb-2 m-0 col-auto d-flex flex-fill align-items-stretch" > -->
-             <div class=" p-2" >
-                <button class="fw-bold font-monospace btn btn-primary longPress" id="Stomp"    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">STOMPS</button>
-            </div>
-       
-        
-        
-        <!-- style="white-space: break-spaces;" -->
-            <div class="p-2">
-                <button class="btn btn-primary longPress" id="lpFxA" type="button"   data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom" >Toggle bottom medium
-                    <span class="badge bg-secondary ">A</span>
+    <section class=" row d-flex pt-2 pb-2 border border-dark" >  
+        <div class="d-flex flex-row row  btn-toolbar pb-1 pt-1 pe-0" id="perfRigsTable" role="toolbar" >  
+            <div class="column btn-group justify-content-stretch align-items-stretch justify-content-stretch " role="group">
+                <div>
+                    <webaudio-switch class="btn p-0 py-2 me-2 mx-1 m-0 fw-bold font-monospace  inputKnobFix"  colors="#197854;rgb(119, 136,153);#3c4" id="Effects" diameter=60  step=2 min=0 max=1></webaudio-switch> 
+                </div>
+                <button class="btn btn-primary longPress" id="lpFxA" type="switch" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                    <span class="badge bg-secondary">A</span>
                 </button>
-            </div>
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id="lpFxB" type="button"   data-bs-toggle="modal"  data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <button class="btn btn-primary longPress" id="lpFxB" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">B</span>
                 </button>
-            </div>  
-            <div class="p-2" >
-                <!-- onTouchStart="gTouchStart(this.id)" -->
-                <button class="btn btn-primary longPress" id="lpFxC" type="button"  data-bs-toggle="modal"    data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <button class="btn btn-primary longPress" id="lpFxC" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">C</span>
                 </button>
-            </div> 
-            <div class="p-2" >
-                <button class="btn btn-primary" type="button" id="lpFxD"   data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <button class="btn btn-primary longPress" id="lpFxD" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">D</span>
                 </button>
-            </div>  
-            
-            <!-- this is the offcanvas for longpress actions filled with javascript -->
-            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offCanvasBottom" aria-labelledby="offcanvasBottomLabel">
-                <div class="offcanvas-header">
-                    <h4 class="offcanvas-title" id="offCanvasBottomLabel"></h4>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body small">
-                    ...
-                </div>
             </div>
-            
+        </div>        
+        
+       <!-- <hr class="p-0 mb-2 border border-dark"> -->
 
-        </div>
-    <!--    
-    </section>  
-    <section class="row d-flex pb-1 border border-dark"  id="demo" data-long-press-delay="500">    
-        -->
         <hr class="p-0 mb-1 border border-dark">  
-      <!--   <div class="row d-flex"> -->
-        <div class="d-flex flex-row justify-content-between align-items-center align-self-center" data-long-press-delay="500"  >
-        <!-- <div class="pb-1 col-auto d-flex flex-fill align-items-stretch " > -->
-            <div class="p-2" >
-                <button class="fw-bold font-monospace btn btn-primary" id="Stack" type="button" data-bs-toggle="offcanvas" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">STACK</button>
-            </div>
-            <div class="p-2 " >
-                <button class=" btn btn-primary longPress" id="lpAmplifier" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">            Amplifier</button>
-            </div>
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id="lpEqualizer" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Equalizer</button>
-            </div>  
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id="lpCabinet" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Cabinet</button>
-            </div>  
 
-        </div>
-    
-   <!-- </section>  
-    
-    <section class="row d-flex pb-1 border border-dark"   id="demo" data-long-press-delay="500">    
-       -->
-         <hr class="p-0 mb-2 border border-dark"> 
-    
-    <!-- <div class="row d-flex"> -->
-        <div class="d-flex flex-row justify-content-between align-items-center align-self-center" data-long-press-delay="500">
-        <!-- <div class=" pb-1 m-0 col-auto d-flex flex-fill align-items-stretch" > -->
-            <div class=" p-2 justify-content-stretch" >
-                <button class="fw-bold font-monospace btn btn-primary" id="Effects" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">EFFECTS</button>
+        <div class="d-flex flex-row row  btn-toolbar pb-1 pt-1 pe-0" id="perfRigsTable" role="toolbar" >  
+            <div class="column btn-group justify-content-stretch align-items-stretch justify-content-stretch " role="group">
+                <div >
+                <webaudio-switch class=" btn p-0 py-2 me-2 mx-1 m-0 fw-bold font-monospace  inputKnobFix"  colors="#197854;rgb(119, 136,153);#3c4" id="Effects" diameter=60  step=2 min=0 max=1></webaudio-switch> 
+                </div>
+                <button class=" btn btn-primary longPress" id="lpAmplifier" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">            Amplifier</button>
+                <button class="btn btn-primary longPress" id="lpEqualizer" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Equalizer</button>
+                <button class="btn btn-primary longPress" id="lpCabinet" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Cabinet</button>
             </div>
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id="lpFxX" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+        </div>
+
+        <hr class="p-0 mb-1 border border-dark"> 
+    
+
+        <div class="d-flex flex-row  row btn-toolbar pb-1 pt-1 pe-0" id="perfRigsTable" role="toolbar" >  
+            <div class="btn-group justify-content-stretch align-items-stretch justify-content-stretch " role="group">
+                <div>
+                    <webaudio-switch class="btn p-0 py-2 me-2 mx-1 m-0 fw-bold font-monospace  inputKnobFix"  colors="#197854;rgb(119, 136,153);#3c4" id="Effects" diameter=60  step=2 min=0 max=1></webaudio-switch> 
+                </div>
+                <button class="btn btn-primary longPress" id="lpFxX" type="switch" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">X</span>
                 </button>
-            </div>
-            <div class="p-2 " >
                 <button class="btn btn-primary longPress" id="lpFxM" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">M</span>
                 </button>
-            </div>  
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id=lpFxY type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                <button class="btn btn-primary longPress" id="lpFxY" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
                     <span class="badge bg-secondary">Y</span>
                 </button>
-            </div> 
-            <div class="p-2" >
-                <button class="btn btn-primary longPress" id="lpFxR" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
-                    <span class="badge bg-secondary">R</span>
+                    <button class="btn btn-primary longPress" id="lpFxR" type="button" data-bs-toggle="modal" data-bs-target=".modalControlParams" aria-controls="offcanvasBottom">Toggle bottom offcanvas
+                        <span class="badge bg-secondary">R</span>
                 </button>
-            </div>  
+            </div>
         </div>
+
     </section>   
 
 
@@ -646,18 +505,8 @@
         </div>
 
     </div>
-
              
-    </div>
-
-
-
-     
-  <!-- </div> -->   
-  <!-- </section> -->     
-
-  <!-- <input type="range" class="input-knob" data-diameter="100" data-src="ASSETS/Sonatom_bipo.png" data-sprites="100"/> -->
-
+    </div>  <!-- allCont container-fluid -->
 
   </body>
 
