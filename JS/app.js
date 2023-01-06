@@ -51,7 +51,6 @@ const event = new Event('change')
 element.dispatchEvent(event)
 */
 
-
 let modalNameMapping = {
     lpFxAHeader: "Fx Stomp A",
     lpFxBHeader: "Fx Stomp B",
@@ -68,6 +67,7 @@ let modalNameMapping = {
 
 let myOffcanvas = document.getElementById("offCanvasBottom");
 let bsOffCanvas = new bootstrap.Offcanvas(myOffcanvas);
+
 
 //this is trigger from relevant longpress buttons
 function triggerLongPress() {
@@ -93,9 +93,10 @@ function triggerLongPress() {
 //console.log($('#example') + "#"  + $('#example')[0] + "##" +  document.getElementById('example') + "##"  );
 
 document.addEventListener('DOMContentLoaded',function () {
-   table.on("rowClick", function(e, row) {
+   rigTable.on("rowClick", function(e, row) {
      alert("row" + row.getIndex() );
     });
+
 //    let table = new DataTable('#example');
 //    console.log(Object.keys(table));
 
@@ -124,25 +125,25 @@ document.addEventListener('DOMContentLoaded',function () {
 } );
 
 
-let table = new Tabulator('#example-table', {
+let rigTable = new Tabulator('#rigTable', {
        
     //autoColumns:true,
     layout: "fitColumns", //alternative: fitData
     //resizableColumnFit: true,
     columns: [
-        {title:"Name", field:"name" },
-        {title:"Gain", field:"gain"}
+        {title:"Name", field:"name", headerFilter:"input" },
+        {title:"Gain", field:"gain", headerFilter:"input"}
     ],
     reactiveData: true,
     pagination:"local",
-    paginationSize: 10,
-    minHeight: 300,
+    paginationSize: 8,
+    minHeight: "20%",
     maxHeight: "40%",
     data: [
-        {id: 1, name:"rig 1", gain: 12},
-        {id: 2, name:"rig 2", gain: 6},
-        {id: 3, name:"rig 3", gain: 12},
-        {id: 4, name:"rig 4", gain: 6},
+        {id: 1, name:"rigxxxxxxxxxx 1", gain: 12},
+        {id: 2, name:"rigfffffffff 2", gain: 6},
+        {id: 3, name:"rigeeeeeeeee 3", gain: 12},
+        {id: 4, name:"rigf 4", gain: 6},
         {id: 5, name:"rig 5", gain: 12},
         {id: 6, name:"rig 6", gain: 6},
         {id: 7, name:"rig 7", gain: 12},
@@ -151,14 +152,105 @@ let table = new Tabulator('#example-table', {
         {id: 10, name:"rig 10", gain: 6},
         {id: 11, name:"rig 11", gain: 12},
         {id: 12, name:"rig 12", gain: 6},
+        {id: 13, name:"rig 13", gain: 6}
     ]
-
-    
-
 } );
 
+let perfRigsTable = new Tabulator('#perfRigsTable', {
+       
+    //autoColumns:true,
+    layout: "fitColumns", //alternative: fitData
+    //resizableColumnFit: true,
+    columns: [
+        {title:"Name", field:"name", headerFilter:"input" },
+        {title:"Author", field:"author", headerFilter:"input"}
+    ],
+    reactiveData: true,
+    pagination:"local",
+    paginationSize: 8,
+    minHeight: "20%",
+    maxHeight: "40%",
+    data: [
+        {id: 1, name:"perfxxxxxxxxx 1", author: 12},
+        {id: 2, name:"perffffffffff 2", author: 6},
+        {id: 3, name:"perfeeeeeeeee 3", author: 12},
+        {id: 4, name:"perff 4", author: 6},
+        {id: 5, name:"perf 5", author: 12},
+        {id: 6, name:"perf 6", author: 6},
+        {id: 7, name:"perf 7", author: 12},
+        {id: 8, name:"perf 8", author: 6},
+        {id: 9, name:"perf 9", author: 12},
+        {id: 10, name:"perf 10", author: 6},
+        {id: 11, name:"perf 11", author: 12},
+        {id: 12, name:"perf 12", author: 6},
+        {id: 13, name:"perf 13", author: 6}
+    ]
+} );
+
+/*
+let perfRigsTable = new Tabulator('#perfRigsTable', {
+    headerVisible: false, 
+    rowHeight: 40,
+    //layout: "fitDataTable",
+    //layout: "fitDataFill",
+    //layout: "fitData",
+    layout: "fitColumns",
+    //responsiveLayout: "collapse",
+    columns: [
+        {title:"Rig1", field:"rig1",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())}, formatter:"textarea" },
+        //{title:"G.1", field:"gain1",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
+        {title:"Rig2", field:"rig2",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())}, formatter:"textarea"  },
+        //{title:"G.2", field:"gain2",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
+        {title:"Rig3", field:"rig3",cellClick:function(e, cell) {
+                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
+                let value = cell.getValue();
+                cell.getElement().style.color = "#3FB449";
+                return value;
+            }, formatter:"textarea"
+            //formatter: function(cell, formatterParams) {
+            //    let value = cell.getValue();
+            //    return "<span style='color:#3FB449;'>" + value + "</span>";
+            //    } 
+        },
+        //{title:"G.3", field:"gain3",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
+        {title:"Rig4", field:"rig4",cellClick:function(e, cell) {
+            alert("cell clicked " + cell.getValue());
+            let value = cell.getValue();
+            cell.getElement().style.color = "#3FB449";
+            return value;
+            }, 
+            formatter:"textarea"
+        },
+        //{title:"G.4", field:"gain4",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
+        {title:"Rig5", field:"rig5",cellClick:function(e, cell) {
+            alert("cell clicked " + cell.getValue());
+            let value = cell.getValue();
+            cell.getElement().style.color = "#3FB449";
+            return value;
+        }, formatter:"textarea" },
+        //{title:"G.5", field:"gain5",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} }
+    ],
+    data:[
+        {id: 1, rig1:"Rigyyyyyyyy 1",
+         //gain1:"10",
+         rig2:"Rigwwwwwwwww 2",
+         // gain2:"10",
+         rig3:"Rigweeeeeeee 3",
+         // gain3:"3",
+         rig4:"Rigwadwdwad 4",
+         // gain4:"7",
+         rig5:"Rig ddsad    5"}
+         // gain5:"1"}
+    ]
+});
+*/
 
 
+function paramLookup(cell) {
+    console.log(cell);
+    //return {tickElement: "<i class='fa fa-check'> </i>"};
+    //return {param1:"green"}
+}
 
 let perfModeMeters = document.getElementsByClassName("perfMode");
 let rigModeMeters = document.getElementsByClassName("rigMode");
@@ -176,14 +268,52 @@ for(i = 0; i < longClickElements.length; i++) {    //add longpress event listene
 }
 
 //show gain meter in rigmode aka "browser"
-document.getElementById('perform').addEventListener('hide.bs.collapse', function () {
+/*
+document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', function () {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
- 
+    console.log('hide.bs.collapse ' + perfRigsTable.style + "#" + rigTable.style);
+    perfRigsTable.style.visibility = 'hidden';
+    rigTable.style.visibility = 'visible';
+});
+*/
+
+let rigTableElement = document.getElementById('rigTable');
+document.getElementById('rigTable').addEventListener('hide.bs.collapse', function () {
+    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
+    console.log('hide.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
+    //perfRigsTable.style.visibility = 'hidden';
+    //rigTable.style.visibility = 'visible';
+    document.getElementById('perfRigsTable').toggleClass('show');
+});
+
+document.getElementById('rigTable').addEventListener('show.bs.collapse', function () {
+    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
+    console.log('show.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
+    //perfRigsTable.style.visibility = 'hidden';
+    //rigTable.style.visibility = 'visible';
+    document.getElementById('rigTable').toggleClass('show');
 });
 
 //hide gain meter when in perfmode aka "perform"
-document.getElementById('perform').addEventListener('show.bs.collapse', function () {
+document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', function () {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
+    console.log('show.bs.collapse perfrigstable' + "#" + this.Tabulator);
+    rigTableElement.classList.remove("show");
+    //this.toggleClass('show');
+    //document.getElementById('perfRigsTable').toggleClass;
+    //perfRigsTable.style.visibility = 'visible';
+    //rigTable.style.visibility = 'hidden';
+});
+
+document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e => {
+    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
+    console.log('hide.bs.collapse perfrigstable' + "#" + Object.values(rigTableElement)  );
+    rigTableElement.classList.add("show");
+    //this.toggleClass('show');
+    //$('#rigTable').toggleClass('show');
+    //document.getElementById('rigTable').toggleClass('show');
+    //perfRigsTable.style.visibility = 'visible';
+    //rigTable.style.visibility = 'hidden';
 });
 
 
