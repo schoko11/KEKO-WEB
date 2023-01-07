@@ -131,12 +131,20 @@ let rigTable = new Tabulator('#rigTable', {
     layout: "fitColumns", //alternative: fitData
     //resizableColumnFit: true,
     columns: [
-        {title:"Name", field:"name", headerFilter:"input" },
+        {title:"Name", field:"name", headerFilter:"input",
+            cellClick:function(e, cell) {
+                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
+                let value = cell.getValue();
+                cell.getElement().style.color = "#3FB449";
+                return value;
+            }
+        },
         {title:"Gain", field:"gain", headerFilter:"input"}
     ],
     reactiveData: true,
+    responsiveLayout: true,
     pagination:"local",
-    paginationSize: 8,
+    paginationSize: 7,
     minHeight: "20%",
     maxHeight: "40%",
     data: [
@@ -162,12 +170,19 @@ let perfRigsTable = new Tabulator('#perfRigsTable', {
     layout: "fitColumns", //alternative: fitData
     //resizableColumnFit: true,
     columns: [
-        {title:"Name", field:"name", headerFilter:"input" },
+        {title:"Name", field:"name", headerFilter:"input",
+            cellClick:function(e, cell) {
+                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
+                let value = cell.getValue();
+                cell.getElement().style.color = "#3FB449";
+                return value;
+            }
+        },
         {title:"Author", field:"author", headerFilter:"input"}
     ],
     reactiveData: true,
     pagination:"local",
-    paginationSize: 8,
+    paginationSize: 7,
     minHeight: "20%",
     maxHeight: "40%",
     data: [
@@ -184,6 +199,45 @@ let perfRigsTable = new Tabulator('#perfRigsTable', {
         {id: 11, name:"perf 11", author: 12},
         {id: 12, name:"perf 12", author: 6},
         {id: 13, name:"perf 13", author: 6}
+    ]
+} );
+
+
+let fxTable = new Tabulator('#fxTable', {
+       
+    //autoColumns:true,
+    layout: "fitColumns", //alternative: fitData
+    //resizableColumnFit: true,
+    columns: [
+        {title:"Name", field:"name", headerFilter:"input",
+            cellClick:function(e, cell) {
+                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
+                let value = cell.getValue();
+                cell.getElement().style.color = "#3FB449";
+            return value;
+            }
+        },
+        {title:"Category", field:"category", headerFilter:"input" }
+    ],
+    reactiveData: true,
+    pagination:"local",
+    paginationSize: 12,
+   // minHeight: "20%",
+   // maxHeight: "40%",
+    data: [
+        {id: 1, name:"Wah Wah", category: "Wah" },
+        {id: 2, name:"Wah low pass", category: "Wah"},
+        {id: 3, name:"Wah high pass", category: "Wah"},
+        {id: 4, name:"Wah Vowel filter", category: "Wah"},
+        {id: 5, name:"Wah Phaser", category: "Wah"},
+        {id: 6, name:"Wah Flanger", category: "Wah"},
+        {id: 7, name:"Wah Rate Reducer", category: "Wah"},
+        {id: 8, name:"Wah Ring Modulator", category: "Wah"},
+        {id: 9, name:"Wah Formant Modulator", category: "Wah"},
+        {id: 10, name:"Kemper Drive", category: "Distortion"},
+        {id: 11, name:"Green Scream", category: "Distortion"},
+        {id: 12, name:"Plus DS", category: "Distortion"},
+        {id: 13, name:"One DS", category: "Distortion"}
     ]
 } );
 
@@ -252,8 +306,10 @@ function paramLookup(cell) {
     //return {param1:"green"}
 }
 
-let perfModeMeters = document.getElementsByClassName("perfMode");
+let perfModes = document.getElementsByClassName("perfMode");
 let rigModeMeters = document.getElementsByClassName("rigMode");
+let elementsToHide = document.getElementsByClassName("toHide");
+
 for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
 
 let longClickElements = document.getElementsByClassName('longPress');
@@ -294,11 +350,16 @@ document.getElementById('rigTable').addEventListener('show.bs.collapse', functio
     document.getElementById('rigTable').toggleClass('show');
 });
 
+
 //hide gain meter when in perfmode aka "perform"
 document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', function () {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
     console.log('show.bs.collapse perfrigstable' + "#" + this.Tabulator);
     rigTableElement.classList.remove("show");
+    for (elementToHide of elementsToHide) { 
+        "####" + console.log(Object.keys(elementToHide) + elementsToHide.length); 
+        elementToHide.style.display = 'inherit';
+    }
     //this.toggleClass('show');
     //document.getElementById('perfRigsTable').toggleClass;
     //perfRigsTable.style.visibility = 'visible';
@@ -307,13 +368,14 @@ document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', fu
 
 document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e => {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
-    console.log('hide.bs.collapse perfrigstable' + "#" + Object.values(rigTableElement)  );
+    for (elementToHide of elementsToHide) { 
+        "####" + console.log(Object.keys(elementToHide) + elementsToHide.length); 
+        elementToHide.style.display = 'none';
+    }
+    console.log('hide.bs.collapse perfrigstable' + "#"  );
     rigTableElement.classList.add("show");
-    //this.toggleClass('show');
-    //$('#rigTable').toggleClass('show');
-    //document.getElementById('rigTable').toggleClass('show');
-    //perfRigsTable.style.visibility = 'visible';
-    //rigTable.style.visibility = 'hidden';
+    //for (perfMode of perfModes) { perfMode.style.visibility = 'hidden';  }
+    //elementsToHide[0].style.display = 'none';
 });
 
 
