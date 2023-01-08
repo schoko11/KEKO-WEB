@@ -300,6 +300,33 @@ let perfRigsTable = new Tabulator('#perfRigsTable', {
 */
 
 
+let rigTestObj = {
+    "fxA" : {
+        "name": "wah wah",
+        "params": ["delay","gain" ], 
+        "gain": 3,
+        "bass" : 3,
+        "middle": 5,
+        "trebble": 2,
+        "presence": 7,
+        "rigvol": 4
+    }
+}
+
+
+//write obj to disk
+const myJSON = JSON.stringify(rigTestObj);
+localStorage.setItem("test1",myJSON);
+let text = localStorage.getItem("test1");
+
+//read obj
+let newObj = JSON.parse(text);
+console.log("newobj" + newObj.fxA.name);
+
+
+
+
+
 function paramLookup(cell) {
     console.log(cell);
     //return {tickElement: "<i class='fa fa-check'> </i>"};
@@ -309,6 +336,16 @@ function paramLookup(cell) {
 let perfModes = document.getElementsByClassName("perfMode");
 let rigModeMeters = document.getElementsByClassName("rigMode");
 let elementsToHide = document.getElementsByClassName("toHide");
+//let fxContainers = document.getElementsByClassName("fxContainers");
+
+//console.log("fxcontainer" + document.getElementById("fxContainer1").nextSibling.nodeName );
+
+//let fxtemps = document.getElementById("fxContainer1").children;
+//console.log(fxtemps[1].innerHTML);
+// console.log(document.getElementById("fxContainer1").children[0].innerHTML + "## " + document.getElementById("fxContainer1").children[1].innerHTML);
+
+// document.getElementById("fxContainer1").children[0].innerHTML = 'yyy'; //set fx name 
+//document.getElementById("fxContainer1").children[1].innerHTML = 'xxxx';  //set value
 
 for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
 
@@ -333,20 +370,21 @@ document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', fu
 });
 */
 
+//document.getElementById('fxContainer1').style.display = 'none';  //remove the container with one fx control
+//document.getElementById('fxContainer1').style.display = 'inherit'; //show the container with one fx control
+
+
+
 let rigTableElement = document.getElementById('rigTable');
 document.getElementById('rigTable').addEventListener('hide.bs.collapse', function () {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
     console.log('hide.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
-    //perfRigsTable.style.visibility = 'hidden';
-    //rigTable.style.visibility = 'visible';
     document.getElementById('perfRigsTable').toggleClass('show');
 });
 
 document.getElementById('rigTable').addEventListener('show.bs.collapse', function () {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
     console.log('show.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
-    //perfRigsTable.style.visibility = 'hidden';
-    //rigTable.style.visibility = 'visible';
     document.getElementById('rigTable').toggleClass('show');
 });
 
@@ -366,6 +404,10 @@ document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', fu
     //rigTable.style.visibility = 'hidden';
 });
 
+//document.getElementsByClassName('fxContainers').addEventListener('fxContainers', e=> {
+//    console.log("###fxcont " + this + "#" + e);
+//}) ;
+
 document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e => {
     for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
     for (elementToHide of elementsToHide) { 
@@ -374,8 +416,7 @@ document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e 
     }
     console.log('hide.bs.collapse perfrigstable' + "#"  );
     rigTableElement.classList.add("show");
-    //for (perfMode of perfModes) { perfMode.style.visibility = 'hidden';  }
-    //elementsToHide[0].style.display = 'none';
+
 });
 
 
@@ -384,23 +425,77 @@ function triggerShortPress() {
    modalParamsHeader.innerText = modalNameMapping[this.id + "Header"];  //set text of modal header to id "modalParamsHeader"
 }
 
-function handleKnobFixElements() {
-    console.log("handleknobfixelements " + this.id + "#" + this.value);
+function handleKnobFixElements(event) {
+    event.preventDefault();
+    console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.parentElement.id + "#" + event.touchend );
+    let targetTouch = event.targetTouches;
+  
     let temp = this.id;
-    document.getElementById(this.id).innerText = this.value;
-    console.log(document.getElementById("perform").className);
-    //console.log( document.getElementById("perform").offsetHeight + "#" + document.getElementById("perform").className.match(/collapse show/g) + "##" + document.getElementById("perform").visibility);
-    //this.id.innerText = this.value;
+    if (this.parentElement.id === "") {     //fixed knob elements no need to dynamically assign 
+    }
+    if (this.parentElement.id !== "") {     // variable fx knobs elements 
+    }
+
+    //assign value
+    this.innerText = this.value;
+
 }
 
 
 console.log("start" + window.screen.availHeight + "#" + window.screen.availWidth);
 
 
-//catch the fixed elements by class
+
+//catch the fixed elements by classname on all fix knobs and attach event handler just trigger on touchleave
 let inputKnobFixElements = document.getElementsByClassName("inputKnobFix");
-for (inputKnobFixElement of inputKnobFixElements) {
-    inputKnobFixElement.addEventListener("input", handleKnobFixElements, true );
+for (inputKnobFixElement of inputKnobFixElements) {  
+    //inputKnobFixElement.addEventListener("input", handleKnobFixElements, true ); 
+    inputKnobFixElement.addEventListener("touchend", handleKnobFixElements, true );
+    //inputKnobFixElement.addEventListener("mouseup", handleKnobFixElements, true );  //support mouse unclick
 }
 
 
+//catch the variable input fx elements and attach event handler
+let inputKnobVarFxElements = document.getElementsByClassName("fxContainers");
+for (inputKnobVarFxElement of inputKnobVarFxElements) {  
+    //inputKnobVarFxElement.children[1].addEventListener("input", handleKnobFixElements, true ); 
+    inputKnobVarFxElement.children[1].addEventListener("touchend", handleKnobFixElements, true ); 
+    //inputKnobVarFxElement.children[1].addEventListener("touseup", handleKnobFixElements, true ); //support mouse unclick 
+}
+
+
+//show or hide all fxContainers
+//for(fxContainer of fxContainers) {
+    //fxContainer.style.display = 'none';
+    //fxContainer.style.display = 'inline';
+//}
+
+
+//this downloads a js object to local disk
+//let fileBlob = new Blob([JSON.stringify(rigTestObj)], {type: 'text/plain'})
+//function download(data, filename, type) {
+    //fileBlob = new Blob([data], {type: type});
+    //if(window.navigator.)
+//    let a = document.createElement("a");
+//    let url = URL.createObjectURL(file);
+//    a.href = url;
+//    a.download = filename;
+//    document.body.appendChild(a);
+//    a.click();
+//    setTimeout(function() {
+//        document.body.removeChild(a);
+//        window.URL.revokeObjectURL(url);
+//    }, 0);
+//}
+//download rigs or performance objects
+//download(JSON.stringify(rigTestObj),'testfile','txt');
+
+//read blob to object
+//let reader = new FileReader();
+//reading in blob
+//reader.readAsText(fileBlob);
+//reader.onload = function() {
+//    link.href = reader.result;
+//    console.log("reader result" + reader.result);
+//    link.click();
+//};
