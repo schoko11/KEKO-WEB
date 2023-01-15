@@ -22,12 +22,14 @@
     <script src="JS/webmidi.iife.min.js"></script>
   
     <script type="text/javascript" src="JS/app.js" defer></script>
+    <script type="text/javascript" src="JS/classes.js" defer></script>
     <link href="CSS/tabulator_bootstrap5.min.css" rel="stylesheet">
     <link href="CSS/tabulator.min.css" rel="stylesheet">
    <!--  <link href="CSS/custom.css" rel="stylesheet"> -->
     <style>
         body {
             background-color: lightslategray;
+            height: 100%
         }
 
         .allCont {
@@ -62,6 +64,7 @@
         }
         .tabulator {
             background-color: lightslategray;
+            
         }
         .tabulator-page {
             min-width:4.5rem;
@@ -293,6 +296,7 @@
               <li class="nav-item px-3">
                 <!-- <a class="nav-link active " aria-current="page" href="#"> PERFORM </a> -->
                 <a class="nav-link active" id="togglePerfRigs" aria-current="page" href="#perfRigsTable" data-bs-toggle="collapse" data-bs-target="#perfRigsTable" > BROWSE/PERFORM </a>
+                
               </li>
               <li class="nav-item px-3">
                 <a class="nav-link" href="#"> SETTINGS </a>
@@ -310,18 +314,18 @@
     <!-- this is the main container -->
     <div class="allCont container-fluid " >  
 
-        <section class="d-flex  pb-2 pt-2 "> 
+        <section class="d-flex h-80 pb-2 pt-2  "> 
 
-            <div class="table-primary w-100 p-0 m-0 collapse " id="rigTable"></div>
-            <div class="table-primary w-100 p-0 m-0" id="perfRigsTable"></div> 
-            <div class="d-flex " >
+           <!--  <div class="table-primary w-100 p-0 m-0 collapse " id="rigTable"></div> -->
+            <div class="table-primary w-100 p-0 m-0" id="perfRigsTablex"></div> 
+            <div class="d-flex" >
 
-                <div class="btn-group-vertical  d-flex px-2 py-0 mx-0 pe-0 "  role="group" > 
-                    <button class="btn  btn-primary mb-2 flex-fill"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                <div class="row w-20 px-2 py-0 mx-0 pe-0  "  role="group" > 
+                    <button class="btn  btn-primary mb-2 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                         <span class="badge bg-secondary "> LEFT  </span>
                     </button>                     
             
-                    <button class="btn  btn-primary flex-fill  "   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <button class="btn btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                       <span class="badge bg-secondary "> RIGHT </span>
                     </button> 
                 </div> 
@@ -336,7 +340,7 @@
                 <div class="d-flex justify-content-center  align-self-center align-content-center perfMode"> 
              
                 <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
-                <label class="btn btn-sm btn-primary" for="btnradio1">longrignames 1 kl.sm xxxxxxx
+                <label class="btn btn-sm btn-primary" for="btnradio1">longrignames 1 kl.sm xxxyyy
                     <webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>
                 </label>
                 
@@ -421,8 +425,8 @@
         </div>
 
 
-        <div class="d-flex flex-row d-none d-lg-block pt-2 pb-2">
-            <div class="column justify-content-center  align-self-center align-content-center  btn-group btn-group-lg " id="perfRigsTable" role="group" >  
+        <div class="d-flex flex-row d-none d-lg-block ">
+            <div class="column pt-2 pb-2 justify-content-center  align-self-center align-content-center  btn-group btn-group-lg " id="perfRigsTable" role="group" >  
                 <input type="radio" class ="btn-check" name="btnrdio" id ="btnradio1" autocomplete="off" checked>
                 <label class="btn  btn-primary" for="btnradio1">longrignames 1 gr lg...xxxxxx
                     <webaudio-knob id="rigPerfmodeGain1" min=0 max=10 sprites="127" enable=0 src="ASSETS/meters/green_dPurple_Metergreen_arrowot_arrow_1439_32x32_128.png" > </webaudio-knob>
@@ -642,15 +646,15 @@
         <div class="d-none d-sm-block border border-dark row d-flex pt-2"> 
             <div class="d-md-none pb-2" >
            
-                <button class="fw-bold font-monospace align-items-stretch btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">IN: 
+                <button class="fw-bold font-monospace align-items-stretch btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">INPUT: 
                     <span class="badge bg-secondary">Noise: 5.6</span>
                     <span class="badge bg-secondary">Clean: 5.6</span>
                     <span class="badge bg-secondary">Dist: 5.6</span>
                 </button>
-           
+                <!-- 
                 <button class="justify-content-end btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rig Det.
                 </button>
-            
+                -->
             </div>
         <!-- just show wenn larger than medium -->
             <div class="container d-none d-md-block pb-2  d-flex  align-items-stretch" >
@@ -659,10 +663,11 @@
                     <span class="badge bg-secondary">Clean Sense: 6.6</span>
                     <span class="badge bg-secondary">Distortion Sense: 6.6</span>    
                 </button>
+                <!--
                 <button class="fw-bold font-monospace btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Rig Details
                     <span class="badge bg-secondary">Author: Hugo Hu</span>
                 </button>
-
+                -->
             </div>
         </div>    
     </section>
