@@ -75,12 +75,6 @@ function triggerLongPress() {
     //button.removeEventListener('long-press', once);
     offCanvasBottomLabel.innerText = "hugoooo";
     bsOffCanvas.show();
-    //const bsCollapse = new bootstrap.Collapse(myCollapse);
-    //const toggleButton = document.getElementById(this.id);
-    //bsCollapse.show();
-    //toggleButton.addEventListener('click', () => {
-    //    bsCollapse.toggle();
-    //})
     
 }
 
@@ -93,113 +87,42 @@ function triggerLongPress() {
 //console.log($('#example') + "#"  + $('#example')[0] + "##" +  document.getElementById('example') + "##"  );
 
 document.addEventListener('DOMContentLoaded',function () {
-   rigTable.on("rowClick", function(e, row) {
-     alert("row" + row.getIndex() );
-    });
-
-//    let table = new DataTable('#example');
-//    console.log(Object.keys(table));
-
-//let rigOrPerfData = [
-//    {id: 1, name:"rig 1", gain: 12},
-//    {id: 2, name:"rig 2", gain: 6},
-//    {id: 3, name:"rig 3", gain: 3}
-//];
-
-    //let table = new Tabulator('#example-table', {
-       
-        //autoColumns:true,
-     //   layout: "fitColumns",
-        //resizableColumnFit: true,
-    //    columns: [
-    //        {title:"Name", field:"name" },
-    //        {title:"Gain", field:"gain"}
-    //    ],
-    //    reactiveData: true,
-    //    data: [
-    //        {id: 1, name:"rig 1", gain: 12},
-    //        {id: 2, name:"rig 2", gain: 6}
-    //    ]  
-    //} );
+    perfRigsTableData.pop();
+    perfRigsTableData.push({ name:"perf1", author: "tttt"}); //add new perf or rig to table
 
 } );
 
+let perfRigsTableData = [];
 
-let rigTable = new Tabulator('#rigTable', {
+
+
+let perfRigsTable = new Tabulator('#perfRigsTablex', {
        
     //autoColumns:true,
     layout: "fitColumns", //alternative: fitData
     //resizableColumnFit: true,
     columns: [
-        {title:"Name", field:"name", headerFilter:"input",
-            cellClick:function(e, cell) {
-                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
-                let value = cell.getValue();
-                cell.getElement().style.color = "#3FB449";
-                return value;
-            }
+        {title:"Name", field:"name" , headerHozAlign:"center"
+        //,
+        //    cellClick:function(e, cell) {
+        //        let value = cell.getValue();
+        //        cell.getElement().style.color = "#3FB449";
+        //        return value;
+        //    }
         },
-        {title:"Gain", field:"gain", headerFilter:"input"}
-    ],
+        {title:"Author", field:"author" , headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}
+        ],
     reactiveData: true,
-    responsiveLayout: true,
-    pagination:"local",
+    //pagination:"local",
     paginationSize: 7,
-    minHeight: "20%",
-    maxHeight: "40%",
-    data: [
-        {id: 1, name:"rigxxxxxxxxxx 1", gain: 12},
-        {id: 2, name:"rigfffffffff 2", gain: 6},
-        {id: 3, name:"rigeeeeeeeee 3", gain: 12},
-        {id: 4, name:"rigf 4", gain: 6},
-        {id: 5, name:"rig 5", gain: 12},
-        {id: 6, name:"rig 6", gain: 6},
-        {id: 7, name:"rig 7", gain: 12},
-        {id: 8, name:"rig 8", gain: 6},
-        {id: 9, name:"rig 9", gain: 12},
-        {id: 10, name:"rig 10", gain: 6},
-        {id: 11, name:"rig 11", gain: 12},
-        {id: 12, name:"rig 12", gain: 6},
-        {id: 13, name:"rig 13", gain: 6}
-    ]
-} );
+    rowHeight: 50,
+    //columnDefaults: { height: 100 },
+    //minHeight: "30%",
+    //maxHeight: "40%",
+    //height: "25%",
+    footerElement: "<button> Details</button>",
+    data: perfRigsTableData
 
-let perfRigsTable = new Tabulator('#perfRigsTable', {
-       
-    //autoColumns:true,
-    layout: "fitColumns", //alternative: fitData
-    //resizableColumnFit: true,
-    columns: [
-        {title:"Name", field:"name", headerFilter:"input",
-            cellClick:function(e, cell) {
-                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
-                let value = cell.getValue();
-                cell.getElement().style.color = "#3FB449";
-                return value;
-            }
-        },
-        {title:"Author", field:"author", headerFilter:"input"}
-    ],
-    reactiveData: true,
-    pagination:"local",
-    paginationSize: 7,
-    minHeight: "20%",
-    maxHeight: "40%",
-    data: [
-        {id: 1, name:"perfxxxxxxxxx 1", author: 12},
-        {id: 2, name:"perffffffffff 2", author: 6},
-        {id: 3, name:"perfeeeeeeeee 3", author: 12},
-        {id: 4, name:"perff 4", author: 6},
-        {id: 5, name:"perf 5", author: 12},
-        {id: 6, name:"perf 6", author: 6},
-        {id: 7, name:"perf 7", author: 12},
-        {id: 8, name:"perf 8", author: 6},
-        {id: 9, name:"perf 9", author: 12},
-        {id: 10, name:"perf 10", author: 6},
-        {id: 11, name:"perf 11", author: 12},
-        {id: 12, name:"perf 12", author: 6},
-        {id: 13, name:"perf 13", author: 6}
-    ]
 } );
 
 
@@ -211,8 +134,9 @@ let fxTable = new Tabulator('#fxTable', {
     columns: [
         {title:"Name", field:"name", headerFilter:"input",
             cellClick:function(e, cell) {
-                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
+                alert("cell clicked " + cell.getValue() + Object.keys(cell) + "###" + this )
                 let value = cell.getValue();
+                this.addEventListener('long-press',triggerLongPress, true);
                 cell.getElement().style.color = "#3FB449";
             return value;
             }
@@ -221,9 +145,9 @@ let fxTable = new Tabulator('#fxTable', {
     ],
     reactiveData: true,
     pagination:"local",
-    paginationSize: 12,
-   // minHeight: "20%",
-   // maxHeight: "40%",
+    paginationSize: 8,
+    minHeight: "20%",
+    maxHeight: "40%",
     data: [
         {id: 1, name:"Wah Wah", category: "Wah" },
         {id: 2, name:"Wah low pass", category: "Wah"},
@@ -241,63 +165,7 @@ let fxTable = new Tabulator('#fxTable', {
     ]
 } );
 
-/*
-let perfRigsTable = new Tabulator('#perfRigsTable', {
-    headerVisible: false, 
-    rowHeight: 40,
-    //layout: "fitDataTable",
-    //layout: "fitDataFill",
-    //layout: "fitData",
-    layout: "fitColumns",
-    //responsiveLayout: "collapse",
-    columns: [
-        {title:"Rig1", field:"rig1",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())}, formatter:"textarea" },
-        //{title:"G.1", field:"gain1",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
-        {title:"Rig2", field:"rig2",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())}, formatter:"textarea"  },
-        //{title:"G.2", field:"gain2",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
-        {title:"Rig3", field:"rig3",cellClick:function(e, cell) {
-                alert("cell clicked " + cell.getValue() + Object.keys(cell) )
-                let value = cell.getValue();
-                cell.getElement().style.color = "#3FB449";
-                return value;
-            }, formatter:"textarea"
-            //formatter: function(cell, formatterParams) {
-            //    let value = cell.getValue();
-            //    return "<span style='color:#3FB449;'>" + value + "</span>";
-            //    } 
-        },
-        //{title:"G.3", field:"gain3",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
-        {title:"Rig4", field:"rig4",cellClick:function(e, cell) {
-            alert("cell clicked " + cell.getValue());
-            let value = cell.getValue();
-            cell.getElement().style.color = "#3FB449";
-            return value;
-            }, 
-            formatter:"textarea"
-        },
-        //{title:"G.4", field:"gain4",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} },
-        {title:"Rig5", field:"rig5",cellClick:function(e, cell) {
-            alert("cell clicked " + cell.getValue());
-            let value = cell.getValue();
-            cell.getElement().style.color = "#3FB449";
-            return value;
-        }, formatter:"textarea" },
-        //{title:"G.5", field:"gain5",cellClick:function(e, cell) {alert("cell clicked " + cell.getValue())} }
-    ],
-    data:[
-        {id: 1, rig1:"Rigyyyyyyyy 1",
-         //gain1:"10",
-         rig2:"Rigwwwwwwwww 2",
-         // gain2:"10",
-         rig3:"Rigweeeeeeee 3",
-         // gain3:"3",
-         rig4:"Rigwadwdwad 4",
-         // gain4:"7",
-         rig5:"Rig ddsad    5"}
-         // gain5:"1"}
-    ]
-});
-*/
+
 
 
 let rigTestObj = {
@@ -324,9 +192,6 @@ let newObj = JSON.parse(text);
 console.log("newobj" + newObj.fxA.name);
 
 
-
-
-
 function paramLookup(cell) {
     console.log(cell);
     //return {tickElement: "<i class='fa fa-check'> </i>"};
@@ -347,7 +212,7 @@ let elementsToHide = document.getElementsByClassName("toHide");
 // document.getElementById("fxContainer1").children[0].innerHTML = 'yyy'; //set fx name 
 //document.getElementById("fxContainer1").children[1].innerHTML = 'xxxx';  //set value
 
-for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
+//for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
 
 let longClickElements = document.getElementsByClassName('longPress');
 console.log(longClickElements.length);
@@ -374,30 +239,27 @@ document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', fu
 //document.getElementById('fxContainer1').style.display = 'inherit'; //show the container with one fx control
 
 
-
-let rigTableElement = document.getElementById('rigTable');
-document.getElementById('rigTable').addEventListener('hide.bs.collapse', function () {
-    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
-    console.log('hide.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
-    document.getElementById('perfRigsTable').toggleClass('show');
-});
-
-document.getElementById('rigTable').addEventListener('show.bs.collapse', function () {
-    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'visible';  } //hide rig gain on startup, because we start in per mode
-    console.log('show.bs.collapse rigTable' + perfRigsTable.style + "#" + rigTable.style + "#" + this.value);
-    document.getElementById('rigTable').toggleClass('show');
+//listen on table long press
+perfRigsTable.on("rowTapHold", function(e,row)  {
+    //let temp = row.getCells();
+    //console.log("##" + row.getCells()[0].getValue()); //get name of perf or rig
+    console.log("lonpgpress rig or row" + e + "#"  + "#" + "#" + row.getCells() + "#" + row.getData());
 });
 
 
 //hide gain meter when in perfmode aka "perform"
 document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', function () {
-    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
+    //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
     console.log('show.bs.collapse perfrigstable' + "#" + this.Tabulator);
-    rigTableElement.classList.remove("show");
+    //rigTableElement.classList.remove("show");
     for (elementToHide of elementsToHide) { 
         "####" + console.log(Object.keys(elementToHide) + elementsToHide.length); 
         elementToHide.style.display = 'inherit';
     }
+
+    perfRigsTable.setColumns( [{title:"Name", field:"name", headerHozAlign:"center" }, {title:"Author", field:"author", headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}]);
+    perfRigsTableData.pop();
+    perfRigsTableData.push({ name:"perf1", author: "tttt" , headerHozAlign:"center"}); //add new perf or rig to table
     //this.toggleClass('show');
     //document.getElementById('perfRigsTable').toggleClass;
     //perfRigsTable.style.visibility = 'visible';
@@ -409,13 +271,17 @@ document.getElementById('perfRigsTable').addEventListener('show.bs.collapse', fu
 //}) ;
 
 document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e => {
-    for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
+    //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
     for (elementToHide of elementsToHide) { 
         "####" + console.log(Object.keys(elementToHide) + elementsToHide.length); 
         elementToHide.style.display = 'none';
     }
     console.log('hide.bs.collapse perfrigstable' + "#"  );
-    rigTableElement.classList.add("show");
+    //rigTableElement.classList.add("show");
+    
+    perfRigsTable.setColumns( [{title:"Name", field:"name", headerHozAlign:"center" }, {title:"Gain", field:"gain" , headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}]);
+    perfRigsTableData.pop();
+    perfRigsTableData.push({ name:"rigxxxxxxxxxx 1", gain: 8 , headerHozAlign:"center"}); //add new perf or rig to table
 
 });
 
@@ -470,32 +336,3 @@ for (inputKnobVarFxElement of inputKnobVarFxElements) {
     //fxContainer.style.display = 'inline';
 //}
 
-
-//this downloads a js object to local disk
-//let fileBlob = new Blob([JSON.stringify(rigTestObj)], {type: 'text/plain'})
-//function download(data, filename, type) {
-    //fileBlob = new Blob([data], {type: type});
-    //if(window.navigator.)
-//    let a = document.createElement("a");
-//    let url = URL.createObjectURL(file);
-//    a.href = url;
-//    a.download = filename;
-//    document.body.appendChild(a);
-//    a.click();
-//    setTimeout(function() {
-//        document.body.removeChild(a);
-//        window.URL.revokeObjectURL(url);
-//    }, 0);
-//}
-//download rigs or performance objects
-//download(JSON.stringify(rigTestObj),'testfile','txt');
-
-//read blob to object
-//let reader = new FileReader();
-//reading in blob
-//reader.readAsText(fileBlob);
-//reader.onload = function() {
-//    link.href = reader.result;
-//    console.log("reader result" + reader.result);
-//    link.click();
-//};
