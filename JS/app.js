@@ -65,7 +65,7 @@ function onEnabled() {
     //Object.keys(obj);
     let kemperMidiOut;
     let kemperMidiIn;
-    alert("WebMidi activated");
+    alert("WebMidi activated is browser or node " + Utilities.isBrowser + "#" + Utilities.isNode);
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name + "#" + Object.keys(input));
@@ -84,7 +84,7 @@ function onEnabled() {
     });
     kemperMidiOut = WebMidi.getOutputByName("WIDI Master");
     kemperMidiIn = WebMidi.getInputByName("WIDI Master");
-    alert("kempermidiin keys:" + Object.keys(kemperMidiIn));
+    
     alert("kempermidiout keys:" + Object.keys(kemperMidiOut));
     console.log(kemperMidiOut);
     alert("kemperMidiIn1:" + kemperMidiIn);
@@ -97,7 +97,8 @@ function onEnabled() {
         console.log("sysex in:" + Object.keys(e));
         console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
     });
-
+    alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
+    alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
 
 }
 
