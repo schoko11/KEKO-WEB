@@ -65,7 +65,7 @@ function onEnabled() {
     //Object.keys(obj);
     let kemperMidiOut;
     let kemperMidiIn;
-    alert("WebMidi activated is browser or node " + Utilities.isBrowser + "#" + Utilities.isNode);
+    alert("WebMidi activated");
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name + "#" + Object.keys(input));
@@ -99,7 +99,7 @@ function onEnabled() {
     });
     alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
     alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
-
+    alert("browser or node " + Utilities.isBrowser() + "#" + Utilities.isNode());
 }
 
 //element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
