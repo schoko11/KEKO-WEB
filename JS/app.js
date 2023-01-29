@@ -42,7 +42,10 @@ let inAndOut = 0;
 //    console.log("async await" + out)
 //}
 
-const kemperMidi = WebMidi.enable({sysex: true}).then(onEnabled);
+const kemperMidi = WebMidi
+    .enable({sysex: true})
+    .then(onEnabled)
+    .catch(err => alert("Error " + err));
 
 
 //(async (kemperMidi) => {
