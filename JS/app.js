@@ -86,7 +86,9 @@ function onEnabled() {
     kemperMidiOut = WebMidi.getOutputByName("WIDI Master");
     kemperMidiIn = WebMidi.getInputByName("WIDI Master");
     console.log(kemperMidiOut);
-    debugger;
+    alert("kemperMidiIn1:" + kemperMidiIn);
+    kemperMidiIn = WebMidi.inputs[0];
+    alert("kemperMidiIn2:" + kemperMidiIn);
     kemperMidiIn.addListener("sysex", (e) => {
         //debugger;
         alert("sysex in" + Object.keys(e));
