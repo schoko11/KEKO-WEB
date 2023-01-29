@@ -43,7 +43,7 @@ let inAndOut = 0;
 //}
 
 const kemperMidi = WebMidi.enable({sysex: true}).then(onEnabled);
-
+alert(kemperMidi);
 
 //(async (kemperMidi) => {
 //    try {
