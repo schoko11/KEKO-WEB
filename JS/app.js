@@ -76,12 +76,14 @@ function onEnabled() {
         
        
     WebMidi.outputs.forEach(output => console.log(output.manufacturer + "#" + output.name));
-    kemperMidiOut = WebMidi.getOutputByName("WIDI Master OUT");
-    kemperMidiIn = WebMidi.getInputByName("WIDI Master IN");
+    kemperMidiOut = WebMidi.getOutputByName("WIDI Master");
+    kemperMidiIn = WebMidi.getInputByName("WIDI Master");
     console.log(kemperMidiOut);
     debugger;
     kemperMidiIn.addListener("sysex", (e) => {
         //debugger;
+        alert("sysex in" + Object.keys(e));
+        alert("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
         console.log("sysex in:" + Object.keys(e));
         console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
     });
