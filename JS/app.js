@@ -60,8 +60,8 @@ const kemperMidi = WebMidi
 
 //sendKemperMidiOut('CC',48,0);
 
-function test(e) {
-    alert("sysex in detected" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
+function test() {
+    alert("sysex in detected" + this + "#" + this.message + "##" + this.dataBytes + "#####");
 }
 
 function onEnabled() {
@@ -69,7 +69,7 @@ function onEnabled() {
     let kemperMidiOut;
     let kemperMidiIn;
     alert("WebMidi activated");
-    WebMidi.inputs[0].addListener("sysex",test(e));
+    WebMidi.inputs[0].addListener("sysex",test);
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name + "#" + Object.keys(input));      
