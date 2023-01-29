@@ -97,8 +97,9 @@ function onEnabled() {
     //});
     alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
     alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
-    alert("browser or node " + WebMidi.Utilities.isBrowser() + "#" + WebMidiUtilities.isNode());
+   
 }
+ alert("browser or node " + WebMidi.Utilities.isBrowser + "#" + WebMidiUtilities.isNode);
 
 //element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
 //const event = new Event('change')
