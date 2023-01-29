@@ -43,7 +43,7 @@ let inAndOut = 0;
 //}
 
 const kemperMidi = WebMidi.enable({sysex: true}).then(onEnabled);
-alert(kemperMidi);
+
 
 //(async (kemperMidi) => {
 //    try {
@@ -62,6 +62,7 @@ function onEnabled() {
     //Object.keys(obj);
     let kemperMidiOut;
     let kemperMidiIn;
+    alert("WebMidi activated");
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name);
