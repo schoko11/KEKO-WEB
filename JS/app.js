@@ -60,6 +60,9 @@ const kemperMidi = WebMidi
 
 //sendKemperMidiOut('CC',48,0);
 
+function test(e) {
+    alert("sysex in detected" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
+}
 
 function onEnabled() {
     //Object.keys(obj);
@@ -69,9 +72,7 @@ function onEnabled() {
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name + "#" + Object.keys(input));
-        input.addListener("sysex", (e) => {
-            alert("sysex in 1" + e.dataBytes);
-        });
+        inputs[0].addListener("sysex",test(e));
         if (input.name === "WIDI Master IN") {
             alert("WIDI MASTER IN found");
         }
@@ -99,7 +100,7 @@ function onEnabled() {
     });
     alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
     alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
-    alert("browser or node " + Utilities.isBrowser() + "#" + Utilities.isNode());
+    alert("browser or node " + WebMidi.Utilities.isBrowser() + "#" + WebMidiUtilities.isNode());
 }
 
 //element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
