@@ -64,6 +64,7 @@ function onEnabled() {
     let kemperMidiIn;
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
+        alert(input.name);
         if (input.name === "WIDI Master IN") {
             alert("WIDI MASTER IN found");
         }
