@@ -69,13 +69,20 @@ function onEnabled() {
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
         alert(input.name);
+        alert(Object.keys(input));
+        input.addListener("sysex", (e) => {
+            alert("sysex in 1" + e.dataBytes);
+        });
         if (input.name === "WIDI Master IN") {
             alert("WIDI MASTER IN found");
         }
     });
         
        
-    WebMidi.outputs.forEach(output => console.log(output.manufacturer + "#" + output.name));
+    WebMidi.outputs.forEach(output =>  {
+        console.log(output.manufacturer + "#" + output.name);
+        alert("output " + output.name);
+    });
     kemperMidiOut = WebMidi.getOutputByName("WIDI Master");
     kemperMidiIn = WebMidi.getInputByName("WIDI Master");
     console.log(kemperMidiOut);
