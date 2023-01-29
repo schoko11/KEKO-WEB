@@ -69,19 +69,16 @@ function onEnabled() {
     let kemperMidiOut;
     let kemperMidiIn;
     alert("WebMidi activated");
+    WebMidi.inputs[0].addListener("sysex",test(e));
     WebMidi.inputs.forEach(input => {
         console.log(input.manufacturer + "#" + input.name);
-        alert(input.name + "#" + Object.keys(input));
-        inputs[0].addListener("sysex",test(e));
-        if (input.name === "WIDI Master IN") {
-            alert("WIDI MASTER IN found");
-        }
+        alert(input.name + "#" + Object.keys(input));      
     });
         
        
     WebMidi.outputs.forEach(output =>  {
         console.log(output.manufacturer + "#" + output.name);
-        alert("output " + output.name);
+        //alert("output " + output.name);
     });
     kemperMidiOut = WebMidi.getOutputByName("WIDI Master");
     kemperMidiIn = WebMidi.getInputByName("WIDI Master");
@@ -91,13 +88,13 @@ function onEnabled() {
     alert("kemperMidiIn1:" + kemperMidiIn);
     kemperMidiIn = WebMidi.inputs[0];
     alert("kemperMidiIn2:" + kemperMidiIn);
-    WebMidi.inputs[0].addListener("sysex", (e) => {
+    //WebMidi.inputs[0].addListener("sysex", (e) => {
         //debugger;
-        alert("sysex in" + Object.keys(e));
-        alert("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
-        console.log("sysex in:" + Object.keys(e));
-        console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
-    });
+    //    alert("sysex in" + Object.keys(e));
+    //    alert("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
+    //    console.log("sysex in:" + Object.keys(e));
+    //    console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
+    //});
     alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
     alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
     alert("browser or node " + WebMidi.Utilities.isBrowser() + "#" + WebMidiUtilities.isNode());
