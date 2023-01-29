@@ -1,55 +1,93 @@
+//const {WebMidi} = require("webmidi");
+import {WebMidi} from "./webmidi.esm.min.js";
+import {TabulatorFull} from "./tabulator_esm.min.js";
+//import {Alert,Button,Carousel,Collapse,Dropdown,Modal,Offcanvas,Popover,ScrollSpy,Tab,Toast,Tooltip} from "../JS/bootstrap.esm.min.js"
+//import bootstrapBundle from "../JS/bootstrap.bundle.min.js"
+//const {Webmidi} = require("webmidi")
+//import {} from "./webaudio-controls.js"
 
-/*
-let kemperMidiOut = WebMidi
-    .enable({sysex:true}) 
-    .then(function () {
-        WebMidi.inputs.forEach(inputs => {
-            console.log("###" + inputs.manufacturer, inputs.name);
-        });
-        kemperMidiOut = WebMidi.getOutputByName("WIDI Master OUT")  
-        console.log(kemperMidiOut);
-        console.log("active");
-        //var el = document.getElementById('rignext');
-        //el.addEventListener('click', function(event) {
-        //    event.preventDefault();
-        //    kemperMidiOut.channels[1].sendControlChange(48,0);
-        //})
-        //if (el !== undefined) {
-        //    console.log("el " + Object.keys(el));
-           
-        //}
-        
-        //kemperMidiOut.channels[1].sendControlChange(48,0);
+let inAndOut = 0;
 
-        return kemperMidiOut;
-    })         
-    .catch(err => alert(err));
+//let kemperMidiOut = WebMidi
+//    .enable({sysex:true}) 
+//    .then(function () {
+//        WebMidi.inputs.forEach(inputs => {
+//            console.log("###" + inputs.manufacturer, inputs.name);
+//        });
+//        inAndOut++;
+//        kemperMidiOut = WebMidi.getOutputByName("WIDI Master OUT")  
+//        console.log(kemperMidiOut);
+//        console.log("active");       
+//        //kemperMidiOut.channels[1].sendControlChange(48,0);
 
-let kemperMidiIn = WebMidi
-    .enable({sysex:true}) 
-    .then(function () {
-        kemperMidiIn = WebMidi.getOutputByName("WIDI Master In")  
-        console.log("then in" + kemperMidiOut)
-        return kemperMidiOut
-    })         
-    .catch(err => alert(err));    
+//        return kemperMidiOut;
+//    })         
+//    .catch(err => alert(err));
+
+//let kemperMidiIn = WebMidi
+//    .enable({sysex:true}) 
+//    .then(function () {
+//        kemperMidiIn = WebMidi.getOutputByName("WIDI Master In")  
+//        console.log("then in" + kemperMidiOut)
+//        return kemperMidiOut
+//    })         
+//    .catch(err => alert(err));    
 
 //function to send midi out with async await, because of asynchronity of a promise
-const sendKemperMidiOut = async (typ,par1,par2) => {
-    const out = await kemperMidiOut;
-    if (typ === 'CC') {
-        out.channels[1].sendControlChange(par1,par2)
-    }
-    console.log("async await" + out)
-}
-console.log("kempermidiout " + kemperMidiOut)
+//const sendKemperMidiOut = async (typ,par1,par2) => {
+//    const out = await kemperMidiOut;
+//    if (typ === 'CC') {
+//        out.channels[1].sendControlChange(par1,par2)
+//    }
+//    console.log("async await" + out)
+//}
+
+const kemperMidi = WebMidi.enable({sysex: true}).then(onEnabled);
+
+
+//(async (kemperMidi) => {
+//    try {
+//        kemperInit(await kemperMidi);
+//        //await kemperMidiOut;
+//    } catch (err) {
+//        console.log(err);
+//    }
+//})(kemperMidi);
+
+
 //sendKemperMidiOut('CC',48,0);
 
 
+function onEnabled() {
+    //Object.keys(obj);
+    let kemperMidiOut;
+    let kemperMidiIn;
+    WebMidi.inputs.forEach(input => {
+        console.log(input.manufacturer + "#" + input.name);
+        if (input.name === "WIDI Master IN") {
+            alert("WIDI MASTER IN found");
+        }
+    });
+        
+       
+    WebMidi.outputs.forEach(output => console.log(output.manufacturer + "#" + output.name));
+    kemperMidiOut = WebMidi.getOutputByName("WIDI Master OUT");
+    kemperMidiIn = WebMidi.getInputByName("WIDI Master IN");
+    console.log(kemperMidiOut);
+    debugger;
+    kemperMidiIn.addListener("sysex", (e) => {
+        //debugger;
+        console.log("sysex in:" + Object.keys(e));
+        console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
+    });
+
+
+}
+
 //element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
-const event = new Event('change')
-element.dispatchEvent(event)
-*/
+//const event = new Event('change')
+//element.dispatchEvent(event)
+
 
 let modalNameMapping = {
     lpFxAHeader: "Fx Stomp A",
@@ -66,6 +104,7 @@ let modalNameMapping = {
 }
 
 let myOffcanvas = document.getElementById("offCanvasBottom");
+//let bsOffCanvas = document.getElementById("myOffcanvas");
 let bsOffCanvas = new bootstrap.Offcanvas(myOffcanvas);
 
 
@@ -96,7 +135,7 @@ let perfRigsTableData = [];
 
 
 
-let perfRigsTable = new Tabulator('#perfRigsTablex', {
+let perfRigsTable = new TabulatorFull('#perfRigsTablex', {
        
     //autoColumns:true,
     layout: "fitColumns", //alternative: fitData
@@ -126,7 +165,7 @@ let perfRigsTable = new Tabulator('#perfRigsTablex', {
 } );
 
 
-let fxTable = new Tabulator('#fxTable', {
+let fxTable = new TabulatorFull('#fxTable', {
        
     //autoColumns:true,
     layout: "fitColumns", //alternative: fitData
@@ -147,7 +186,7 @@ let fxTable = new Tabulator('#fxTable', {
     pagination:"local",
     paginationSize: 8,
     minHeight: "20%",
-    maxHeight: "40%",
+    //maxHeight: "40%",
     data: [
         {id: 1, name:"Wah Wah", category: "Wah" },
         {id: 2, name:"Wah low pass", category: "Wah"},
@@ -216,7 +255,7 @@ let elementsToHide = document.getElementsByClassName("toHide");
 
 let longClickElements = document.getElementsByClassName('longPress');
 console.log(longClickElements.length);
-for(i = 0; i < longClickElements.length; i++) {    //add longpress event listeners to fx, amplifier equalizer and cabinet
+for(let i = 0; i < longClickElements.length; i++) {    //add longpress event listeners to fx, amplifier equalizer and cabinet
     //console.log("" + longClickElements[i].id.substring(0,1) );
     //only buttons with id starting with "lp"
     if (longClickElements[i].id.substring(0,2) === "lp") { 
@@ -288,14 +327,16 @@ document.getElementById('perfRigsTable').addEventListener('hide.bs.collapse', e 
 
 function triggerShortPress() {
    console.log(document.getElementById("modalParamsHeader").setAttribute("textContent","fdsfds") );
+   //debugger;
    modalParamsHeader.innerText = modalNameMapping[this.id + "Header"];  //set text of modal header to id "modalParamsHeader"
 }
 
 function handleKnobFixElements(event) {
+    //debugger;
     event.preventDefault();
     console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.parentElement.id + "#" + event.touchend );
     let targetTouch = event.targetTouches;
-  
+    //debugger;
     let temp = this.id;
     if (this.parentElement.id === "") {     //fixed knob elements no need to dynamically assign 
     }
@@ -314,18 +355,22 @@ console.log("start" + window.screen.availHeight + "#" + window.screen.availWidth
 
 //catch the fixed elements by classname on all fix knobs and attach event handler just trigger on touchleave
 let inputKnobFixElements = document.getElementsByClassName("inputKnobFix");
-for (inputKnobFixElement of inputKnobFixElements) {  
+//debugger;
+//for (inputKnobFixElement of inputKnobFixElements) {  
+for(let i = 0; i < inputKnobFixElements.length; i++) {    
     //inputKnobFixElement.addEventListener("input", handleKnobFixElements, true ); 
-    inputKnobFixElement.addEventListener("touchend", handleKnobFixElements, true );
+    inputKnobFixElements[i].addEventListener("touchend", handleKnobFixElements, true );
     //inputKnobFixElement.addEventListener("mouseup", handleKnobFixElements, true );  //support mouse unclick
 }
 
 
 //catch the variable input fx elements and attach event handler
 let inputKnobVarFxElements = document.getElementsByClassName("fxContainers");
-for (inputKnobVarFxElement of inputKnobVarFxElements) {  
+//debugger;
+//for (inputKnobVarFxElement of inputKnobVarFxElements) {  
+for(let i = 0; i < inputKnobVarFxElements.length; i++) { 
     //inputKnobVarFxElement.children[1].addEventListener("input", handleKnobFixElements, true ); 
-    inputKnobVarFxElement.children[1].addEventListener("touchend", handleKnobFixElements, true ); 
+    inputKnobVarFxElements[i].children[1].addEventListener("touchend", handleKnobFixElements, true ); 
     //inputKnobVarFxElement.children[1].addEventListener("touseup", handleKnobFixElements, true ); //support mouse unclick 
 }
 
@@ -336,3 +381,4 @@ for (inputKnobVarFxElement of inputKnobVarFxElements) {
     //fxContainer.style.display = 'inline';
 //}
 
+//export {}
