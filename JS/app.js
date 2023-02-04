@@ -84,7 +84,7 @@ function onEnabled() {
     kemperMidiIn = WebMidi.getInputByName("WIDI Master");
     
     kemperMidiIn.addListener("sysex", e => {
-        console.log("sysex in " + Object.keys(e));
+        alert("sysex in " + Object.keys(e));
     })
     
     alert("kempermidiout keys:" + Object.keys(kemperMidiOut));
