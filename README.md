@@ -9,6 +9,5 @@ Long press brings up the offcanvas element (selecting an fx or setting it off)
 Short press brings up the parameter of the fx
  
 As of now (04.02.2023) i will switch to a rather conventional midi cable to do the development.
-With Android i could not receive sysex from the Kemper(Samsung galaxy S20/android 13,chrome 109), on windows 10 i got crashes after a few received sysex (shutting down the browser!).
-Another advantage is that i could use linux to code, which is way more convenient than with an offline WIN 10.
+Could use linux to code, which is way more convenient than with an offline WIN 10 (doing bluetooth later on).
 
