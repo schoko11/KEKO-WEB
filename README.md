@@ -8,5 +8,6 @@ When pressing an Fx button there is a dual functionality:
 Long press brings up the offcanvas element (selecting an fx or setting it off)
 Short press brings up the parameter of the fx
  
-
+As of now (04.02.2023) i will switch to a rather conventional midi cable to do the development.
+Could use linux to code, which is way more convenient than with an offline WIN 10 (doing bluetooth later on).
 
