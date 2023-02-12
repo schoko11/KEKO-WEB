@@ -1,0 +1,25 @@
+{
+  "name": "KEKO-WEB",
+  "version": "0.0.1",
+  "main": "app.js",
+  "homepage": "https://schoko11.github.io/KEKO-WEB/",
+  "scripts": {
+    "build": "esbuild src/app.ts --bundle --minify --outfile=dist/app.js --loader:.html=text",
+    "watch": "esbuild src/app.ts --bundle --outfile=dist/app.js --loader:.html=text --serve=localhost:8000 --servedir=. --watch",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "tabulator-tables": "^5.4.3",
+    "webmidi": "^3.1.4"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.6",
+    "@types/node": "^18.11.19",
+    "@types/tabulator-tables": "^5.4.3",
+    "esbuild": "^0.17.5",
+    "gh-pages": "^5.0.0"
+  }
+}
