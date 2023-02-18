@@ -97,14 +97,14 @@ function onEnabled() {
         console.log(output.manufacturer + "#" + output.name);
        // alert("output " + output.name);
     });
-    midiOut = WebMidi.getOutputByName["Fireface UCX (23654150) Port 1"];
-    midiIn = WebMidi.getInputByName("Fireface UCX (23654150) Port 1");
+    //midiOut = WebMidi.getOutputByName["Fireface UCX (23654150) Port 1"];
+    //midiIn = WebMidi.getInputByName("Fireface UCX (23654150) Port 1");
    
-    console.log("midin " + midiIn + "#" + WebMidi);
-    midiIn.addListener("sysex", e => {
+    //console.log("midin " + midiIn + "#" + WebMidi);
+    //midiIn.addListener("sysex", e => {
         //alert("sysex in " + Object.keys(e));
-        console.log("sysex in" + e.message.statusByte+ "#" + e.message.rawDataBytes + "#" + e.dataBytes );
-    })
+    //    console.log("sysex in" + e.message.statusByte+ "#" + e.message.rawDataBytes + "#" + e.dataBytes );
+    //})
     //e.message.statusByte:240
     //e.message.statusrawDataBytes and //e.message.dataBytes equal: 
     //0,0,1,0,11,4,2,11  //kemper bass
