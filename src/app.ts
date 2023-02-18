@@ -1,22 +1,40 @@
 //const {WebMidi} = require("webmidi");
 import {WebMidi} from "webmidi";
 import {TabulatorFull} from "tabulator-tables";
-import './popper.min.js';
-const webaudio = require('../src/webaudio-controls.min.cjs');  //add as cinnibjs module otherwise esbuild will complain
+import '../src/externalLibs/popper.min.js';
+//import { triggerLongPress } from "../src/triggerLongPress";
+const webaudio = require('../src/externalLibs/webaudio-controls.min.cjs');  //add as cinnibjs module otherwise esbuild will complain
 //https://esbuild.github.io/content-types/
-const longpress = require('../src/long-press-event.min.cjs');
+const longpress = require('../src/externalLibs/long-press-event.min.cjs');
 //when starting the browser locally with --allow-file-access-from-files you can open index.html and it will load JS without CORS errors
 
-import { Offcanvas } from '../src/bootstrap.esm.min.js';
-//import {Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover, ScrollSpy, Tab, Toast, Tooltip} from "bootstrap"
-//import * as bootstrap from "bootstrap"
-//import bootstrap from 'bootstrap'
-//import bootstrap  from "../JS/bootstrap.bundle.min.js"
-//const {Webmidi} = require("webmidi")
-//import {} from "./webaudio-controls.js"
+import { triggerLongPress } from "../src/triggerLongPress"; 
+import { perfRigsTable,perfRigsTableData } from "../src/perfRigsTable";
+import { Offcanvas } from "bootstrap";
 
-let inAndOut = 0;
+let myOffcanvas = document.getElementById("offCanvasBottom");
+let bsOffCanvas = new Offcanvas(myOffcanvas!);
+let modalParamsHeader = document.getElementById("modalParamsHeader");
 
+let myCollapse = document.getElementById("perfRigsTable");
+
+
+const fxTable = require('../src/fxTable');
+const modalNameMapping = require('../src/modalNameMapping');
+
+
+//unfortuntly necessary at the moment, reason not known set in offcanvas.scss
+myOffcanvas?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
+myOffcanvas?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
+
+
+
+//this is trigger from relevant longpress buttons
+//function triggerLongPress() {
+//    console.log("longpress " + "#" + this.id + "###" + document?.getElementById("offCanvasBottomLabel")?.attributes + "###" + document?.getElementById("offCanvasBottomLabel")?.innerText);
+//    document?.getElementById("offCanvasBottomLabel")?.setAttribute("inner.Text","hugoooo");
+    //bsOffCanvas.show();
+//}
 //let kemperMidiOut = WebMidi
 //    .enable({sysex:true}) 
 //    .then(function () {
@@ -55,17 +73,6 @@ WebMidi
     .enable({sysex: true})
     .then(onEnabled)
     .catch(err => alert("Error " + err));
-
-
-//(async (kemperMidi) => {
-//    try {
-//        kemperInit(await kemperMidi);
-//        //await kemperMidiOut;
-//    } catch (err) {
-//        console.log(err);
-//    }
-//})(kemperMidi);
-
 
 //sendKemperMidiOut('CC',48,0);
 
@@ -119,11 +126,8 @@ function onEnabled() {
     //0,0,1,0,61,69  //kemper mix reverb
     //0,0,1,0,11,5  //kemper middle
 
-    //alert("kempermidiout keys:" + Object.keys(kemperMidiOut));
     //console.log(kemperMidiOut);
-    //alert("kemperMidiIn1:" + kemperMidiIn);
     //kemperMidiIn = WebMidi.inputs[0];
-    //alert("kemperMidiIn2:" + kemperMidiIn);
     //WebMidi.inputs[0].addListener("sysex", (e) => {
         //debugger;
     //    alert("sysex in" + Object.keys(e));
@@ -131,82 +135,12 @@ function onEnabled() {
     //    console.log("sysex in:" + Object.keys(e));
     //    console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
     //});
-    //alert("kempermidiin keys1:" + Object.keys(kemperMidiIn.eventMap));
-    //alert("kempermidiin keys2:" + Object.keys(kemperMidiIn._midiInput) + "#" + Object.keys(kemperMidiIn.channels));
    
 }
- //alert("browser or node " + WebMidi.Utilities.isBrowser + "#" + WebMidiUtilities.isNode);
 
 //element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
 //const event = new Event('change')
 //element.dispatchEvent(event)
-
-let perfRigsTableData = [{  id:1, name:"perf1", author: "author1" }];
-
-let perfRigsTable = new TabulatorFull('#perfRigsTablex', {
-       
-    //autoColumns:true,
-    layout: "fitColumns", //alternative: fitData
-    //resizableColumnFit: true,
-    columns: [
-        {title:"Name", field:"name" , headerHozAlign:"center"
-        //,
-        //    cellClick:function(e, cell) {
-        //        let value = cell.getValue();
-        //        cell.getElement().style.color = "#3FB449";
-        //        return value;
-        //    }
-        },
-        {title:"Author", field:"author" , headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}
-        ],
-    reactiveData: true,
-    //pagination:"local",
-    paginationSize: 7,
-    rowHeight: 50,
-    //columnDefaults: { height: 100 },
-    //minHeight: "30%",
-    //maxHeight: "40%",
-    //height: "25%",
-    footerElement: "<button> Details</button>",
-    data: perfRigsTableData
-
-} );
-
-//perfRigsTable.clearData();
-
-//perfRigsTable.addData([{ id:1, name:"perf1", author: "author1"}]); //add new perf or rig to table
-
-let modalNameMapping = {
-    lpFxAHeader: "Fx Stomp A",
-    lpFxBHeader: "Fx Stomp B",
-    lpFxCHeader: "Fx Stomp C",
-    lpFxDHeader: "Fx Stomp D",
-    lpFxXHeader: "Fx Stomp X",
-    lpFxMHeader: "Fx Stomp M",
-    lpFxYHeader: "Fx Stomp Y",
-    lpFxRHeader: "Fx Stomp R",
-    lpAmplifierHeader: "Amplifier",
-    lpEqualizerHeader: "Equalizer",
-    lpCabinetHeader: "Cabinet"
-}
-
-let myOffcanvas = document.getElementById("offCanvasBottom");
-//let bsOffCanvas = document.getElementById("myOffcanvas");
-let bsOffCanvas = new Offcanvas(myOffcanvas!);
-
-
-let modalParamsHeader = document.getElementById("modalParamsHeader");
-
-//this is trigger from relevant longpress buttons
-function triggerLongPress() {
-
-     console.log("longpress " + "#" + this.id + "###" + document?.getElementById("offCanvasBottomLabel")?.attributes + "###" + document?.getElementById("offCanvasBottomLabel")?.innerText);
-    //button.removeEventListener('long-press', once);
-    //offCanvasBottomLabel.innerText = "xxx";
-    document?.getElementById("offCanvasBottomLabel")?.setAttribute("inner.Text","hugoooo");
-    bsOffCanvas.show();
-    
-}
 
 //set gain value of rig
 //rigGain1.value = 10;
@@ -218,51 +152,7 @@ function triggerLongPress() {
 
 document.addEventListener('DOMContentLoaded',function () {
 
-  
-
 } );
-
-
-
-
-let fxTable = new TabulatorFull('#fxTable', {       
-    //autoColumns:true,
-    layout: "fitColumns", //alternative: fitData
-    //resizableColumnFit: true,
-    columns: [
-        {title:"Name", field:"name", headerFilter:"input",
-            cellClick:function(e, cell) {
-                alert("cell clicked " + cell.getValue() + Object.keys(cell) + "###" + this )
-                let value = cell.getValue();
-                this.addEventListener('long-press',triggerLongPress, true);
-                cell.getElement().style.color = "#3FB449";
-            return value;
-            }
-        },
-        {title:"Category", field:"category", headerFilter:"input" }
-    ],
-    reactiveData: true,
-    //pagination: "local",
-    paginationSize: 8,
-    minHeight: "20%",
-    //maxHeight: "40%",
-    data: [
-        {id: 1, name:"Wah Wah", category: "Wah" },
-        {id: 2, name:"Wah low pass", category: "Wah"},
-        {id: 3, name:"Wah high pass", category: "Wah"},
-        {id: 4, name:"Wah Vowel filter", category: "Wah"},
-        {id: 5, name:"Wah Phaser", category: "Wah"},
-        {id: 6, name:"Wah Flanger", category: "Wah"},
-        {id: 7, name:"Wah Rate Reducer", category: "Wah"},
-        {id: 8, name:"Wah Ring Modulator", category: "Wah"},
-        {id: 9, name:"Wah Formant Modulator", category: "Wah"},
-        {id: 10, name:"Kemper Drive", category: "Distortion"},
-        {id: 11, name:"Green Scream", category: "Distortion"},
-        {id: 12, name:"Plus DS", category: "Distortion"},
-        {id: 13, name:"One DS", category: "Distortion"}
-    ]
-} );
-
 
 
 
@@ -284,6 +174,7 @@ let rigTestObj = {
 const myJSON = JSON.stringify(rigTestObj);
 localStorage.setItem("test1",myJSON);
 let text = localStorage.getItem("test1");
+console.log("localstorage item text" + text);
 
 //read obj
 //let newObj = JSON.parse(text?);
@@ -296,16 +187,11 @@ function paramLookup(cell) {
     //return {param1:"green"}
 }
 
-let perfModes = document.getElementsByClassName("perfMode");
-let rigModeMeters = document.getElementsByClassName("rigMode");
-let elementsToHide = document.getElementsByClassName("toHide");
+//let perfModes = document.getElementsByClassName("perfMode");
+//let rigModeMeters = document.getElementsByClassName("rigMode");
+//let elementsToHide = document.getElementsByClassName("toHide");
 //let fxContainers = document.getElementsByClassName("fxContainers");
 
-//console.log("fxcontainer" + document.getElementById("fxContainer1").nextSibling.nodeName );
-
-//let fxtemps = document.getElementById("fxContainer1").children;
-//console.log(fxtemps[1].innerHTML);
-// console.log(document.getElementById("fxContainer1").children[0].innerHTML + "## " + document.getElementById("fxContainer1").children[1].innerHTML);
 
 // document.getElementById("fxContainer1").children[0].innerHTML = 'yyy'; //set fx name 
 //document.getElementById("fxContainer1").children[1].innerHTML = 'xxxx';  //set value
@@ -323,6 +209,11 @@ for(let i = 0; i < longClickElements.length; i++) {    //add longpress event lis
     }
 }
 
+
+let fxContainers = document.getElementsByClassName('fxContainers');
+
+
+
 //listen on table long press
 perfRigsTable.on("rowTapHold", function(e,row)  {
     //let temp = row.getCells();
@@ -332,15 +223,10 @@ perfRigsTable.on("rowTapHold", function(e,row)  {
 
 
 //show Slots for performance via remove class and read performance table when toggle "BROWSER/PEFORM"
-document?.getElementById('perfRigsTable')?.addEventListener('show.bs.collapse', function () {
+myCollapse?.addEventListener('show.bs.collapse', function () {
     //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
-    console.log('show.bs.collapse perfrigstable' + "#" + this.Tabulator);
-    //rigTableElement.classList.remove("show");
-    for (let elementToHide of elementsToHide) { 
-        console.log(Object.keys(elementToHide)); 
-        //elementToHide.setAttribute("style.display",'inherit');
-        elementToHide.classList.remove("d-none");
-    }
+    console.log('show.bs.collapse perfrigstable' + "#" + Object.keys(this));
+
     perfRigsTable.setColumns( [{title:"Name", field:"name", headerHozAlign:"center" }, {title:"Author", field:"author", headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}]);
     perfRigsTable.clearData();
     perfRigsTable.addData([{ id:1, name:"perf1", author: "author1"}]); //add new perf or rig to table
@@ -348,19 +234,30 @@ document?.getElementById('perfRigsTable')?.addEventListener('show.bs.collapse', 
 });
 
 //hide slot section for rig mode and read rig table
-document?.getElementById('perfRigsTable')?.addEventListener('hide.bs.collapse', e => {
+myCollapse?.addEventListener('hide.bs.collapse', function() {    
     //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
-    for (let elementToHide of elementsToHide) { elementToHide.classList.add("d-none"); }
-    console.log('hide.bs.collapse perfrigstable' + "#"  );
-    //rigTableElement.classList.add("show");
+    console.log('hide.bs.collapse perfrigstable' + "#" + Object.keys(this) + "##" + this.classList);
+
     perfRigsTable.clearData();
     perfRigsTable.addData([{ id:1, name:"rig1", author: "authorx1"}]); //add new perf or rig to table
 });
 
+//set maxvalue of the first fx element
+//fxContainers[0].children[1]["max"] = "30";
 
 function triggerShortPress() {
    //debugger;
-   modalParamsHeader?.setAttribute("innerText" , modalNameMapping[this.id + "Header"]);  //set text of modal header to id "modalParamsHeader"
+   console.log( Object.keys(modalParamsHeader!.innerText ) + "##" + this.id );
+   //modalParamsHeader?.innerText = "test";  //set text of modal header to id "modalParamsHeader"
+   modalParamsHeader!.innerHTML = "innerText";
+   //console.log(fxContainers[0].children[1].getAttribute("max"));
+   for (let i = 0; i < fxContainers.length; i++) {
+        //console.log(fxContainers[i].id + "###" + fxContainers[i].classList.add("d-none"));
+   }
+   //modalParamsHeader!.children[0].innerHTML = 'firstFx'; //set fx name 
+   //modalParamsHeader!.children[1].innerHTML = "4";
+   //modalParamsHeader!.children[2].innerHTML = "fx 2";
+
 }
 
 function handleKnobFixElements(event) {
@@ -380,10 +277,9 @@ function handleKnobFixElements(event) {
 }
 
 
-console.log("start" + window.screen.availHeight + "#" + window.screen.availWidth);
+//console.log("start" + window.screen.availHeight + "#" + window.screen.availWidth);
 
 console.log("inputknobfix " + document.getElementsByClassName("inputKnobFix").length);
-
 //catch the fixed elements by classname on all fix knobs and attach event handler just trigger on touchleave
 let inputKnobFixElements = document.getElementsByClassName("inputKnobFix");
 //debugger;
@@ -407,11 +303,4 @@ for(let i = 0; i < inputKnobVarFxElements.length; i++) {
     //inputKnobVarFxElement.children[1].addEventListener("touseup", handleKnobFixElements, true ); //support mouse unclick 
 }
 
-
-//show or hide all fxContainers
-//for(fxContainer of fxContainers) {
-    //fxContainer.style.display = 'none';
-    //fxContainer.style.display = 'inline';
-//}
-
-//export {}
+export { bsOffCanvas, myOffcanvas}
