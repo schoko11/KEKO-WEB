@@ -8,6 +8,9 @@ The information is stored in the browser via localstorage (midi in: KEKO_MIDI_IN
 The midi connection Dialog can be updated any time when pressing "settings" -> set midi
 
 
+#As of 27.02.2023 When in Rig Mode "LEFT" and "RIGHT" of Rigs is supported
+
+
 When pressing an Fx button there is a dual functionality: 
 
 Long press brings up the offcanvas element (selecting an fx or setting it off)
