@@ -10,10 +10,15 @@ const longpress = require('../src/externalLibs/long-press-event.min.cjs');
 
 import { triggerLongPress } from "../src/triggerLongPress"; 
 import { perfRigsTable,perfRigsTableData } from "../src/perfRigsTable";
-import { Offcanvas } from "bootstrap";
+import { Modal, Offcanvas } from "bootstrap";
+import { FxObj } from "../src/FxObj";
+import { rejects } from "assert";
 
 let myOffcanvas = document.getElementById("offCanvasBottom");
 let bsOffCanvas = new Offcanvas(myOffcanvas!);
+let kekoSettings = document.getElementById("kekoSettings");
+let kekoSettingsOffCanvas = new Offcanvas(kekoSettings!);
+
 let modalParamsHeader = document.getElementById("modalParamsHeader");
 
 let myCollapse = document.getElementById("perfRigsTable");
@@ -27,7 +32,14 @@ const modalNameMapping = require('../src/modalNameMapping');
 myOffcanvas?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
 myOffcanvas?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
 
+kekoSettings?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
+kekoSettings?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
 
+
+WebMidi
+    .enable({sysex: true})
+    .then(onEnabled)
+    .catch(err => alert("Error " + err));
 
 //this is trigger from relevant longpress buttons
 //function triggerLongPress() {
@@ -69,34 +81,213 @@ myOffcanvas?.addEventListener('hide.bs.offcanvas', function () { this.style.visi
 //    console.log("async await" + out)
 //}
 
-WebMidi
-    .enable({sysex: true})
-    .then(onEnabled)
-    .catch(err => alert("Error " + err));
+let midiInName = localStorage.getItem("KEKO_MIDI_IN");
+let midiOutName = localStorage.getItem("KEKO_MIDI_OUT");
 
-//sendKemperMidiOut('CC',48,0);
+let midiOutput;
+let midiInput;
+let perfMode: boolean = true;
 
-function test() {
-    //alert("sysex in detected" + this + "#" + this.message + "##" + this.dataBytes + "#####");
-    console.log("sysex in")
+var modalForMidiConn = new Modal(document.getElementById('chooseMidiConn')!, {keyboard: false});
+let chooseMidiConnModal = document.getElementById('chooseMidiConn');
+var modalTitle = chooseMidiConnModal?.querySelector('.modal-title');
+let setDefaultMidi = (<HTMLInputElement>document.getElementById('setDefaultMidi'));
+
+let midiModalClose = (<HTMLInputElement>document.getElementById('midiClose'));
+let rigsOrPerfRight = (<HTMLInputElement>document.getElementById('rigsOrPerfRight'));
+let rigsOrPerfLeft = (<HTMLInputElement>document.getElementById('rigsOrPerfLeft'));
+
+let selectMidiIn = (<HTMLInputElement>document.getElementById('inputGroupSelect'));
+let selectMidiOut = (<HTMLInputElement>document.getElementById('outputGroupSelect'));
+selectMidiIn!.innerHTML += '<option selected>Choose...</option>';
+selectMidiOut!.innerHTML += '<option selected>Choose...</option>';
+
+//var modalForKekoSettings = new Modal(document.getElementById('kekoSettings')!, {keyboard: false});
+let kekoSetMidi= (<HTMLInputElement>document.getElementById('kekoSetMidi'));
+
+console.log("#x#x#x"+ kekoSetMidi!.getAttributeNames());
+kekoSetMidi!.addEventListener('click', function () {
+    console.log("settings pressed " + this );
+    midiInName = null;
+    midiOutName = null;
+    selectMidiIn.innerHTML = '';
+    selectMidiOut.innerHTML = '';
+    //selectMidiIn.innerHTML += '<label class="form-check-label" for="inputGroupSelect"> Midi In </label>';
+    selectMidiIn!.innerHTML += '<option selected>Choose...</option>';
+    selectMidiOut!.innerHTML += '<option selected>Choose...</option>';
+    console.log("before setmidi " + midiInName + "#" + selectMidiIn.innerHTML)
+    setMidi();
+    midiInput = WebMidi.getInputByName(midiInName!);
+    midiOutput = WebMidi.getOutputByName(midiOutName!);
+});
+
+
+
+selectMidiIn?.addEventListener('change', function () {
+    //var options = temp!.querySelector("selected");
+    console.log('fdsfds' + this!.value +  "##"  + this.children[1].getAttributeNames());
+    if (this.children.length > 1) {
+        if (this.children[1].getAttributeNames().includes("input")) { //we added input on midi in and output on midi output
+            console.log("midi in found " + this.value);
+            if (this!.value !== "Choose...") { midiInName = this.value; }
+        }
+        if (midiInName !== null && midiOutName !== null && this!.value !== "Choose..." ) {  midiModalClose?.removeAttribute("disabled"); }
+        if (this.value === "Choose...") {  midiModalClose?.setAttribute("disabled",""); }
+    }
+});
+
+
+selectMidiOut?.addEventListener('change', function () {
+    //var options = temp!.querySelector("selected");
+    console.log('fdsfds' + this!.value +  "##"  + this.children[1].getAttributeNames());
+    if (this.children.length > 1) {
+
+        if (this.children[1].getAttributeNames().includes("output")) { //we added input on midi in and output on midi output
+            console.log("midi output found")
+            if (this!.value !== "Choose...") { midiOutName = this.value; }
+        }
+        if (midiInName !== null && midiOutName !== null && this!.value !== "Choose..." ) {  midiModalClose?.removeAttribute("disabled"); }
+        if (this.value === "Choose...") {  midiModalClose?.setAttribute("disabled",""); }
+    }
+});
+
+
+async function midiSet() {
+    console.log("in midiset " + midiInName + "#" + midiOutName );
+  
+    if (midiInName === null || midiOutName === null) {
+        //alert("no midi in found");
+        console.log("midi in and or midi out not set");
+        //let myModal = new Modal(document.getElementById('staticBackdrop')! , {keyboard: false});
+        //myModal.show();
+ 
+        modalTitle!.textContent = 'Please choose midiin and midiout';
+        
+        WebMidi.inputs.forEach(input => {
+            console.log(input + " " + WebMidi.inputs.length);
+            selectMidiIn!.innerHTML += '<option ' + "input" + ' value="' + input.name + '">' + input.name + '</option>';
+        });    
+            
+        WebMidi.outputs.forEach( output => {
+            console.log(output + " " + WebMidi.outputs.length)
+            selectMidiOut!.innerHTML += '<option ' + "output" + ' value="' + output.name + '">' + output.name + '</option>';
+        });    
+            
+        modalForMidiConn.show();
+
+        return new Promise<void>((resolve,reject) => 
+            document.getElementById('midiClose')?.addEventListener('click', () => {
+                console.log("clicked" + midiInName + "###" + midiOutName + "##" + setDefaultMidi!.checked);
+                console.log("xxxxx" + document.getElementById('setDefaultMidi')?.hasAttribute("checked") + "");
+                if (midiInName !== null && midiOutName !== null)  { resolve() };
+                if (midiInName === null || midiOutName === null)  { reject("not all have been chosen") }
+            })            
+        );
+    }
+}
+
+function setMidi() {
+    WebMidi.inputs.forEach(input => {
+        console.log(input.name + "fdfd ")
+    }); 
+    WebMidi.outputs.forEach(output => {
+        console.log(output.name + "fdfd ")
+    });  
+    const promises: Promise<void>[] = [];
+    promises.push( midiSet());
+
+    Promise.all(promises).then((values) => {
+        console.log("end" + values + " # " + setDefaultMidi!.checked);
+        //store midi in and midi out in local storage
+        if (setDefaultMidi!.checked) {
+            localStorage.setItem("KEKO_MIDI_IN",midiInName!);
+            localStorage.setItem("KEKO_MIDI_OUT", midiOutName!);
+        }
+        midiInput = WebMidi.getInputByName(midiInName!);
+        midiOutput = WebMidi.getOutputByName(midiOutName!);
+        //WebMidi.getInputByName(midiOutName!)?.channels[1].sendControlChange(48,0)
+        console.log("end2" + midiOutput.connection + "##" + midiOutput.state);
+        rigsOrPerfRight.addEventListener('click', () => {
+            if (midiOutput.state === 'connected' && !perfMode) midiOutput.channels[1].sendControlChange(48,0); //rig right
+        })
+
+        rigsOrPerfLeft.addEventListener('click', () => {
+            if (midiOutput.state === 'connected' && !perfMode) midiOutput.channels[1].sendControlChange(49,0); //rig left
+        })
+
+
+        //window.location.reload();
+        //document.location.reload();
+      }).catch( (err) => {
+        console.log("uhh" + err);
+      });
+
+
 }
 
 function onEnabled() {
-    //Object.keys(obj);
-    let midiOut;
-    let midiIn;
-    //alert("WebMidi activated");
-    //WebMidi.inputs[1].addListener("sysex",test);
-    WebMidi.inputs.forEach(input => {
-        console.log(input.manufacturer + "#" + input.name);
-        //alert("input" + input.name + "#" + Object.keys(input));      
-    });
+
+    //(async () => {
+        //Object.keys({midiInName})[0]
+    //    await midiSet(midiInName!, "midiInName");
+    //    await midiSet(midiOutName!, "midiOutName");
+
+    //})();
+
+    setMidi(); //if midi in and out are not set request them via modal popup
+
+
+    console.log("midiinname " + midiInName);
+    //if (midiInName === null) {
+        //alert("no midi in found");
+    //    console.log("no midi in found");
+        //let myModal = new Modal(document.getElementById('staticBackdrop')! , {keyboard: false});
+        //myModal.show();
+ 
+    //    if (selectMidi!.children.length > 1) {
+    //        for (let i = 1; i < selectMidi!.children.length; i++) {
+    //            selectMidi!.children[i].remove();
+    //        }
+    //    }
+
+
+        //var modalBodyInput = chooseMidiConnModal?.querySelector('.modal-body input');
+    //    modalTitle!.textContent = 'Please choose Midi in';
         
+    //    WebMidi.inputs.forEach( input => {
+    //        selectMidi!.innerHTML += '<option ' + "input" + ' value="' + input.name + '">' + input.name + '</option>';
+    //    });
+
+        
+    console.log("xxx " + midiOutName);
+
+    //if (midiOutName === null) {
+            //if we appended options to choose from we remove all except choose...
+    //        console.log("xxx out " + selectMidi?.children.length);
+    //    if (selectMidi!.children.length > 1) {
+    //        for (let i = 1; i < selectMidi!.children.length; i++) {
+    //            selectMidi!.children[i].remove();
+    //        }
+    //    }
+    //    modalTitle!.textContent = 'Please choose Midi in';
+        
+    //    WebMidi.outputs.forEach( output => {
+    //        selectMidi!.innerHTML += '<option ' + "output" + ' value="' + output.name + '">' + output.name + '</option>';
+    //    });
+
+    //    modalForMidiConn.show();
+        
+    //    console.log("##" + selectMidi!.children.length + selectMidi!.children[0]);
+    //}
+
     //debugger;
-    WebMidi.outputs.forEach(output =>  {
-        console.log(output.manufacturer + "#" + output.name);
+    //WebMidi.outputs.forEach(output =>  {
+    //    console.log("out " + output.manufacturer + "#" + output.name);
        // alert("output " + output.name);
-    });
+    //});
+    
+    
+
     //midiOut = WebMidi.getOutputByName["Fireface UCX (23654150) Port 1"];
     //midiIn = WebMidi.getInputByName("Fireface UCX (23654150) Port 1");
    
@@ -169,6 +360,16 @@ let rigTestObj = {
     }
 }
 
+let fxNames = ["Wah Wah", "Wah Low Pass"];
+let fxObjects: FxObj[] = [];
+fxNames.forEach( element => {
+    console.log("xxxxx" + element);   
+    fxObjects.push(new FxObj(element)); 
+})
+//let fxObj1 = new FxObj("Wah Wah");
+
+
+console.log(" fxObj1 " + Object.keys(fxObjects[0]) + "#" + fxObjects[0].name + "#");
 
 //write obj to disk
 const myJSON = JSON.stringify(rigTestObj);
@@ -231,6 +432,7 @@ myCollapse?.addEventListener('show.bs.collapse', function () {
     perfRigsTable.clearData();
     perfRigsTable.addData([{ id:1, name:"perf1", author: "author1"}]); //add new perf or rig to table
 
+    perfMode = true;
 });
 
 //hide slot section for rig mode and read rig table
@@ -240,6 +442,7 @@ myCollapse?.addEventListener('hide.bs.collapse', function() {
 
     perfRigsTable.clearData();
     perfRigsTable.addData([{ id:1, name:"rig1", author: "authorx1"}]); //add new perf or rig to table
+    perfMode = false;
 });
 
 //set maxvalue of the first fx element

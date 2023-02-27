@@ -1,11 +1,23 @@
+import { FxParameterDefinitions } from "./FxParameterDefintion";
+import { FxParameterIds } from "./FxParameterIds";
+import { FxParameterNames } from "./FxParameterNames";
 
-class FxObj {
+
+export class FxObj {
     name: string;
 
     //parameterNamesPerFx: ; 
-    fxParameter: FxParameterDescription;
+    fxParameterNames: FxParameterNames;
+    //fxIds: typeof FxParameterIds[] = [];
+    fxIds: FxParameterIds;
+    fxDefintions: FxParameterDefinitions;
+    //fxIds: number[] = [];
     constructor (fxName: string) {
         this.name = fxName;
-        this.fxParameter = new FxParameterDescription("",fxName);
+        //let tempVal: number[] = [];
+        //let fxPar = new FxParameterNames();
+        this.fxParameterNames = new FxParameterNames(fxName);
+        this.fxIds = new FxParameterIds(fxName)
+        this.fxDefintions = new FxParameterDefinitions(fxName);
     }
 }

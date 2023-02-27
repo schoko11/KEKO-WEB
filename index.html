@@ -299,11 +299,11 @@
               <li class="nav-item px-3">
                 <!-- <a class="nav-link active " aria-current="page" href="#"> PERFORM </a> -->
                 <a class="nav-link active" id="togglePerfRigs" role="button" aria-current="page" href="#perfRigsTable" data-bs-toggle="collapse" data-bs-target="#perfRigsTable" 
-                aria-expanded="false" aria-controls="perfRigsTable"> BROWSE/PERFORM </a>
+                aria-expanded="true" aria-controls="perfRigsTable"> BROWSE/PERFORM </a>
                 
               </li>
               <li class="nav-item px-3">
-                <a class="nav-link" href="#"> SETTINGS </a>
+                <a class="nav-link" href="#kekoSettings" data-bs-toggle="offcanvas" data-bs-target="#kekoSettings" aria-controls="kekoSettings"> SETTINGS </a>
               </li>
               <li class="nav-item px-3">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> LOAD/SAVE </a>
@@ -314,6 +314,57 @@
         </div>
     </nav>
    
+    <div class="modal fade" id="chooseMidiConn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+             <!--  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+            <div class="modal-body">
+                <label class="form-check-label" for="inputGroupSelect"> Midi In: </label>
+                <select class="form-select mb-3" id="inputGroupSelect" aria-label="Example " required>
+                    
+               <!--     <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+               -->
+                </select>
+                <label class="form-check-label" for="outputGroupSelect"> Midi Out: </label>
+                <select class="form-select" id="outputGroupSelect" aria-label="Example" required="required">
+                    <!--     <option selected>Choose...</option>
+                         <option value="1">One</option>
+                         <option value="2">Two</option>
+                         <option value="3">Three</option>
+                    -->
+                     </select>
+        
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="midiClose" class="btn btn-secondary" data-bs-dismiss="modal" disabled>Close</button>
+              <input class="form-check-input" type="checkbox" value="" id="setDefaultMidi" checked="true">
+            <label class="form-check-label" for="setDefaultMidi"> Set Default </label>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="kekoSettings" aria-labelledby="offcanvasBottomLabel" data-bs-scroll="true" >
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title" id="kekoSettingsLabel"> Settings</h4>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body " id="kekoSetMidi">
+                <button class="btn btn-primary"   type="button" > Set Midi  </button>
+            </div>
+        </div>
+
+
+      
 
     <!-- this is the main container -->
     <div class="allCont container-fluid " >  
@@ -327,18 +378,12 @@
                 <div class="row w-20 px-2 m-0 py-0 mx-0 pe-0  "  role="group" > 
                     
                     <!--<div class="fw-bold fs-6 font-monospace p-0 d-flex justify-content-center" > gain </div>-->
-                    <!-- 
-                        <webaudio-switch class="btn p-0 pb-2 fw-bold font-monospace  "  id="rigPerfLeft"  type="kick"  src="ASSETS/buttons/big_button8.png"  step=2 min=0 max=1></webaudio-switch> 
-                   
-                        <webaudio-switch class="btn p-0 pb-2fw-bold font-monospace  "   id="rigPerfRight" src="ASSETS/buttons/big_button8.png"  step=2 min=0 max=1></webaudio-switch> 
-                                       
-                    -->
-                    
-                    <button class="btn  btn-primary mb-2 "  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                        
+                    <button class="btn  btn-primary mb-2 "  type="button" id="rigsOrPerfLeft">
                         <span class="badge bg-secondary "> LEFT  </span>
                     </button>                     
             
-                    <button class="btn btn-primary"   type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                    <button class="btn btn-primary"   type="button" id="rigsOrPerfRight">
                       <span class="badge bg-secondary "> RIGHT </span>
                     </button>
                      
@@ -350,7 +395,7 @@
     
     <!-- on sm and xs size an smaller no padding left and right to win more space -->
 
-    <section class="row  border border-dark p-0 ps-2 pe-2 collapse " id="perfRigsTable"> 
+    <section class="row  border border-dark p-0 ps-2 pe-2 collapse show" id="perfRigsTable"> 
          <div class="d-flex flex-row d-none d-sm-block d-md-none btn-group btn-broup-sm pt-2 pb-2 m-0" role="group" >   
         <!--     <div class="d-flex flex-row d-none d-sm-block d-md-none btn-group btn-broup-sm pt-2 pb-2 m-0" id="perfRigsTable" role="group" > -->              
                 <div class="d-flex justify-content-center  align-self-center align-content-center perfMode"> 
