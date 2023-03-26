@@ -102,6 +102,128 @@ let selectMidiOut = (<HTMLInputElement>document.getElementById('outputGroupSelec
 selectMidiIn!.innerHTML += '<option selected>Choose...</option>';
 selectMidiOut!.innerHTML += '<option selected>Choose...</option>';
 
+let obj = document.getElementsByTagName("webaudio-knob");
+
+//catch the variable input fx elements and attach event handler
+let inputKnobVarFxElements = document.getElementsByClassName("fxContainers");
+let divFxContainers = document.getElementsByClassName('divFxContainers');
+
+let currentRigname: string = "";
+
+function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
+    let x1;
+    if ( obj.min[index] < 0 ) {
+        //if 
+        x1 = parseFloat( (((msb*127 + lsb) / 8128) *  Math.abs(obj.min[index]) ).toFixed(2)) - Math.abs(obj.min[index]);
+    } else {
+        console.log("xxxdxd 3" + obj.label[index]);
+        x1 = parseFloat( (((msb*127 + lsb) / 16256) *  obj.max[index]  ).toFixed(2)) ;
+    }
+
+
+    let x2 = ((msb*127 + lsb) / 8128);
+    let x3 = msb*127 + lsb;
+    console.log("calcmsblsb " + x1 + "#" + x2 + "#" + x3 + "###" + obj.min[index]);
+    //console.log("calcmsblsb " + ((x1 / 10) * 50)+ "#" + x2 + "#" + x3 );
+    return x1.toFixed(2);
+}
+
+
+let mainFrontKnobs = {
+    "step": ["0.1", "0.1","0.1","0.1","0.1"],
+    "min": ["0", "-5","-5","-5","-5"],
+    "max": ["10", "5","5","5","5","5"],
+    "label": ["knobGain","knobBass","knobMids","knobTrebble","knobPresence"],
+    "textRepl": [[""], [""],[""],[""],[""]],
+    "nameOfFx": "Equalizer",
+    "multiReqPos": [18,18,20,22,24],
+    "singleReqId": [4,4,5,6,7],
+    "adressPage": [10,11,11,11,11]
+}
+
+
+let fx0 = {    
+   "step": ["0.1","0.1","1","1","1","1","0.1","0.1"],
+    "min": ["0","0","-100","-100","0","0","-5","0"],
+    "max": ["10","10","100","100","5","100","5","10"],
+    "label": ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
+    "textRepl": [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
+    "nameOfFx": "Wah Wah",
+    "multiReqPos": [26,28,30,114,  ,34 ,18,  116,  22]
+    
+    //"minVal": []
+};
+let fx1 = {    
+    "step": ["2","10","20","1"],
+     "min": ["0","0","0","2"],
+     "max": ["10","50","100","22"],
+     "label": ["fxpar4", "fxpar5", "fxpar6", "fxpar7"],
+     "textRepl": [[""],[""],[""],[""]],
+     "nameOfFx": ""
+ }; 
+
+ let fx2 = {
+    "step": [""],
+    "min": [""],
+    "max": [""],
+    "label": [""],
+    "textRepl": [[""],[""],[""],[""]],
+    "nameOfFx": "Off"
+ }
+
+ let wholeRig = {
+    "lpFxA": fx0,
+    "lpFxB": fx1,
+    "lpFxC": fx2, 
+    "lpFxD": fx1, 
+    "lpFxX": fx1, 
+    "lpFxM": fx1, 
+    "lpFxY": fx1, 
+    "lpFxR": fx1,
+   // "lpFxP": fx1, //amp 
+   // "lpFxE": fx1, //eq
+   // "lpFxS": fx1, //cab aka speaker   
+   // "lpFxI": fx1, //input
+   // "lpFxO": fx1  //output
+ }
+
+
+ //document.getElementById(wholeRig[this.id]["label"][0])!.setValue(3,true); //setvalue of knobs
+ //document.getElementById(wholeRig["lpFxA"]["label"][0])!.setValue(3,true); //first 
+
+
+//document.getElementById("fxContainer" + "0")!.innerHTML = 
+//'<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + "labelll" + '</label>' +   
+//'<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="fxConatainerx1" diameter=75 ' +
+//'step=' + "5" + ' min=' + "0" + ' max=' + "30" + ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" ></webaudio-knob>';
+
+
+//prepare html for fx
+for (let i = 0; i < divFxContainers.length; i++) {
+    console.log(wholeRig[divFxContainers[i].id]?.label + "dddd" + divFxContainers[i].id );
+    for (let j = 0; j <  wholeRig[divFxContainers[i].id]?.label.length ; j++) {
+        //the 8 fx slots have 5 chars, the others are fixed
+        //if (divFxContainers[i].id.length <= 5 ) { 
+        //console.log(wholeRig[divFxContainers[i].id].label[j])
+        if (wholeRig[divFxContainers[i].id]?.label[0] === "") { continue; }
+        divFxContainers[i].innerHTML += '<div class="col border pb-4 pt-0 fxContainers" id="' + divFxContainers[i].id + j.toString() + '"> ' +
+        '<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + wholeRig[divFxContainers[i].id].label[j] + '</label>' +
+        '<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" diameter=75 id="' + wholeRig[divFxContainers[i].id].label[j] + '" ' +
+        'step=' + wholeRig[divFxContainers[i].id].step[j] + ' min=' + wholeRig[divFxContainers[i].id].min[j] + ' max=' + wholeRig[divFxContainers[i].id].max[j] +
+         ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" value="" >' +
+        ' </webaudio-knob>  </div>';
+        //console.log("xxfdfdx" + divFxContainers[0].children[0].innerHTML);
+        //console.log(divFxContainers[i].children[0].children[0].children[1]);
+        //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
+
+    }    
+    //console.log("fds" + fxContainers[i].children[1].getAttribute("max") + fxContainers[i].id  )
+}
+
+let knob1 = document.getElementsByTagName("webaudio-knob");
+let testknob = document.getElementById("Pedal Mode");
+
+
 //var modalForKekoSettings = new Modal(document.getElementById('kekoSettings')!, {keyboard: false});
 let kekoSetMidi= (<HTMLInputElement>document.getElementById('kekoSetMidi'));
 
@@ -115,7 +237,7 @@ kekoSetMidi!.addEventListener('click', function () {
     //selectMidiIn.innerHTML += '<label class="form-check-label" for="inputGroupSelect"> Midi In </label>';
     selectMidiIn!.innerHTML += '<option selected>Choose...</option>';
     selectMidiOut!.innerHTML += '<option selected>Choose...</option>';
-    console.log("before setmidi " + midiInName + "#" + selectMidiIn.innerHTML)
+    //console.log("before setmidi " + midiInName + "#" + selectMidiIn.innerHTML)
     setMidi();
     midiInput = WebMidi.getInputByName(midiInName!);
     midiOutput = WebMidi.getOutputByName(midiOutName!);
@@ -138,8 +260,7 @@ selectMidiIn?.addEventListener('change', function () {
 
 
 selectMidiOut?.addEventListener('change', function () {
-    //var options = temp!.querySelector("selected");
-    console.log('fdsfds' + this!.value +  "##"  + this.children[1].getAttributeNames());
+    //console.log('fdsfds' + this!.value +  "##"  + this.children[1].getAttributeNames());
     if (this.children.length > 1) {
 
         if (this.children[1].getAttributeNames().includes("output")) { //we added input on midi in and output on midi output
@@ -151,6 +272,21 @@ selectMidiOut?.addEventListener('change', function () {
     }
 });
 
+function requestRigDetails() {
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,50, 0]); //req multi A
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4, 1]); //RigVolume
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 1]); //request rig name as ascii
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 2]);
+}
 
 async function midiSet() {
     console.log("in midiset " + midiInName + "#" + midiOutName );
@@ -164,12 +300,12 @@ async function midiSet() {
         modalTitle!.textContent = 'Please choose midiin and midiout';
         
         WebMidi.inputs.forEach(input => {
-            console.log(input + " " + WebMidi.inputs.length);
+            //console.log(input + " " + WebMidi.inputs.length);
             selectMidiIn!.innerHTML += '<option ' + "input" + ' value="' + input.name + '">' + input.name + '</option>';
         });    
             
         WebMidi.outputs.forEach( output => {
-            console.log(output + " " + WebMidi.outputs.length)
+            //console.log(output + " " + WebMidi.outputs.length)
             selectMidiOut!.innerHTML += '<option ' + "output" + ' value="' + output.name + '">' + output.name + '</option>';
         });    
             
@@ -178,7 +314,7 @@ async function midiSet() {
         return new Promise<void>((resolve,reject) => 
             document.getElementById('midiClose')?.addEventListener('click', () => {
                 console.log("clicked" + midiInName + "###" + midiOutName + "##" + setDefaultMidi!.checked);
-                console.log("xxxxx" + document.getElementById('setDefaultMidi')?.hasAttribute("checked") + "");
+                //console.log("xxxxx" + document.getElementById('setDefaultMidi')?.hasAttribute("checked") + "");
                 if (midiInName !== null && midiOutName !== null)  { resolve() };
                 if (midiInName === null || midiOutName === null)  { reject("not all have been chosen") }
             })            
@@ -206,13 +342,21 @@ function setMidi() {
         midiInput = WebMidi.getInputByName(midiInName!);
         midiOutput = WebMidi.getOutputByName(midiOutName!);
         //WebMidi.getInputByName(midiOutName!)?.channels[1].sendControlChange(48,0)
-        console.log("end2" + midiOutput.connection + "##" + midiOutput.state);
+        //console.log("end2" + midiOutput.connection + "##" + midiOutput.state);
+     
         rigsOrPerfRight.addEventListener('click', () => {
-            if (midiOutput.state === 'connected' && !perfMode) midiOutput.channels[1].sendControlChange(48,0); //rig right
+           
+            console.log("right right pressed");
+            if (midiOutput.state === 'connected' && !perfMode)  {
+                midiOutput.channels[1].sendControlChange(48,0);
+                //TODO wait for rig to change until request rig details fullfilled request rigname from table if different then go on
+            } //rig right
+            requestRigDetails();
         })
-
+    
         rigsOrPerfLeft.addEventListener('click', () => {
             if (midiOutput.state === 'connected' && !perfMode) midiOutput.channels[1].sendControlChange(49,0); //rig left
+            requestRigDetails();
         })
 
 
@@ -225,107 +369,136 @@ function setMidi() {
 
 }
 
+function sysexIn() {
+    console.log("sysexin " + Object.keys(this.eventMap.sysex) + "#" + this.message.data);
+
+}
+
 function onEnabled() {
 
     //(async () => {
-        //Object.keys({midiInName})[0]
-    //    await midiSet(midiInName!, "midiInName");
-    //    await midiSet(midiOutName!, "midiOutName");
-
     //})();
 
     setMidi(); //if midi in and out are not set request them via modal popup
+    
+    midiInput = WebMidi.getInputByName(midiInName!);
+    midiOutput = WebMidi.getOutputByName(midiOutName!);
+
+   
+
+    //midiInput.addListener("sysex", sysexIn(this));
+    midiInput.addListener("sysex", e => {
+        console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
+        if (e.message.data[6] === 2 && e.message.data[8] >= 50 && e.message.data[8] <= 61) {  //is answer to multirequest stomps and Effects
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] )
+            console.log(" xxxx " + e.message.data[28] + "#" + e.message.data[29] )
+            console.log(" xxxx " + e.message.data[34] + "#" + e.message.data[35] )
+        }
+
+        else if (e.message.data[6] === 2 && e.message.data[8] === 10) {  //is answer to multirequest Amplifier
+            let arrayOfValues: string[] = [];
+            for(let i = 0;i < mainFrontKnobs.step.length; i++) {
+                arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
+                    e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
+                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = arrayOfValues[i];
+                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
+            }
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 11) {  //is answer to multirequest Equalizer
+            let arrayOfValues: string[] = [];
+            for(let i = 0;i < mainFrontKnobs.step.length; i++) {
+                arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
+                    e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
+                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = arrayOfValues[i];
+                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
+            }
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 10) {  //is answer to multirequest Amplifier
+        }
+        else if (e.message.data[6] === 1 && e.message.data[8] === 10 ) {  //single request Amplifier 
+            for (let i = 0; i < mainFrontKnobs.singleReqId.length; i++) {
+                if ((mainFrontKnobs.singleReqId[i] === e.message.data[9]) && (mainFrontKnobs.adressPage[i] === e.message.data[8]) )  {
+                    console.log("amplifier sysex single in" + mainFrontKnobs.singleReqId[i] + "####" + i);
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],mainFrontKnobs,i).toString();
+                    //console.log( )
+                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = temp;
+                }
+            }
+        }
+        else if (e.message.data[6] === 1 && e.message.data[8] === 11 ) {  //single request Rig settings in
+            for (let i = 0; i < mainFrontKnobs.singleReqId.length; i++) {
+                if ( (mainFrontKnobs.singleReqId[i] === e.message.data[9]) && (mainFrontKnobs.adressPage[i] === e.message.data[8]) ) {
+                    console.log("equalizer sysex single in " + mainFrontKnobs.singleReqId[i] + "#" + i);
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],mainFrontKnobs,i).toString();
+                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = temp;
+                }
+            }
+        }
+
+        else if (e.message.data[6] === 3 ) {  //string req
+            let temp = e.message.data.slice(10, e.message.data.length - 2);
+            console.log(String.fromCharCode(...temp));
+            currentRigname = String.fromCharCode(...temp);
+            if (e.message.data[8] === 0 && e.message.data[9] === 1 && !perfMode) {
+                //let res = String.fromCharCode(...temp);
+                perfRigsTable.clearData();
+                perfRigsTable.addData([{ id:1, name: String.fromCharCode(...temp), author: "authorx1"}]); //add new perf or rig to table
+                console.log("string in " );
+            }
+
+        }
+        e.preventDefault;
+
+    });
+
+    midiOutput = WebMidi.getOutputByName(midiOutName!);
+    //midiOutput.send(0xf0,[ 0x00, 0x20, 0x33, 0x02, 0x7f, 0x42, 0x00, 0x09, 0x00, 0xf7]); //send multi req Input Section
+    //midiOutput.send(0xf0,[ 0x00, 0x20, 0x33, 0x02, 0x7f, 0x42, 0x00, 0x0b, 0x00, 0xf7]); //send multi req Equalizer
+    //midiOutput.send(0xf0,[ 0x00, 0x20, 0x33, 0x02, 0x7f, 0x42, 0x00, 0x0a, 0x00, 0xf7]); //send multi req Amplifier
+   
+    //midiOutput.send(0xf0,[ 0x00, 0x20, 0x33, 0x02, 0x7f, 0x42, 0x00, 0x32, 0x00, 0xf7]); //send multi req Stomp A
+    //00 20 33 00 00 02 00 0b 00 00 01 00 01 00 01 40 00 19 1f 40 00 1b 1d 40 00 00 00 (27 bytes)
+    //midiOutput.send(0xf0,[ 0x00, 0x20, 0x33, 0x00, 0x7f, 0x42, 0x00, 0x32, 0x00, 0xf7]); //send fx stomp A
+    //midiOutput.send(0xf0,[ 0, 32, 51, 0, 127, 66, 0, 50, 0, 0xf7]); //send fx stomp A
+    //midiOutput.sendSysex( [],[0,32,51, 0,127, 66, 0, 50, 0] ); //send fx stomp A
+
+    
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req multi req input Section
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //req multi req Equalizer
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //req multi req Amplifier
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,12, 0]); //req multi req Cabinet
+    //midiOutput.sendSysex([0,32,51 ],[0,127, 66, 0, 50, 0] ); //req fx stomp A
+    //midiOutput.sendSysex([0,32,51,0 ],[127, 66, 0, 61, 0] ); //req fx stomp REV
+    //midiOutput.sendSysex([0,32,51,0 ],[127, 66, 0, 127, 0] ); //req fx system global
+
+    //wah wah low pass
+    //00 00 02 00 32 00 
+    //00 02             //fx id
+    //00 00 00 01 00 01 
+    //42 5f             //mix
+    //40 00 
+    //7f 7f             //volume
+    //60 00 
+    //0c 7d             //manual
+    //00 00             //peak
+    //00 00             //pedal range
+    //00 00             //pedal mode
+    //00 00 
+    //00 00 00 00 00 00 00 00 40 00 40 4d 43 68 40 00 3f 43 00 00 42 29 7f 7f //ducking
+    //40 00 40 00 00 01 00 00 00 00 00 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 73 57 22 2f 27 2f 56 1d 17 2a 3a 2e 40 00 60 53 4a 1c 40 00 00 00 68 3c 40 00 00 00 00 40 00 40 5f 7f 00 00 00 00 00 00 00 40 00 40 00 04 00 00 00 00 00 00 7f 7f 20 00 00 01 20 00 18 00 60 00 40 00 20 00 00 04 00 03 00 02 00 01 00 01 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 00 00 7f 7f 00 00 00 4c 00 53 00 44 00 49 40 00 40 00 00 00 40 00 00 01 10 00 40 00 00 00 20 00 00 00 00 00 40 00 00 00 00 00 00 00 00 00 00 01 (229 bytes)
 
 
-    console.log("midiinname " + midiInName);
+    console.log("midiinname " + midiInName + "#" + midiOutput.state);
     //if (midiInName === null) {
         //alert("no midi in found");
     //    console.log("no midi in found");
         //let myModal = new Modal(document.getElementById('staticBackdrop')! , {keyboard: false});
         //myModal.show();
- 
-    //    if (selectMidi!.children.length > 1) {
-    //        for (let i = 1; i < selectMidi!.children.length; i++) {
-    //            selectMidi!.children[i].remove();
-    //        }
-    //    }
+         
+    //console.log("xxx " + midiOutName);
 
-
-        //var modalBodyInput = chooseMidiConnModal?.querySelector('.modal-body input');
-    //    modalTitle!.textContent = 'Please choose Midi in';
-        
-    //    WebMidi.inputs.forEach( input => {
-    //        selectMidi!.innerHTML += '<option ' + "input" + ' value="' + input.name + '">' + input.name + '</option>';
-    //    });
-
-        
-    console.log("xxx " + midiOutName);
-
-    //if (midiOutName === null) {
-            //if we appended options to choose from we remove all except choose...
-    //        console.log("xxx out " + selectMidi?.children.length);
-    //    if (selectMidi!.children.length > 1) {
-    //        for (let i = 1; i < selectMidi!.children.length; i++) {
-    //            selectMidi!.children[i].remove();
-    //        }
-    //    }
-    //    modalTitle!.textContent = 'Please choose Midi in';
-        
-    //    WebMidi.outputs.forEach( output => {
-    //        selectMidi!.innerHTML += '<option ' + "output" + ' value="' + output.name + '">' + output.name + '</option>';
-    //    });
-
-    //    modalForMidiConn.show();
-        
-    //    console.log("##" + selectMidi!.children.length + selectMidi!.children[0]);
-    //}
-
-    //debugger;
-    //WebMidi.outputs.forEach(output =>  {
-    //    console.log("out " + output.manufacturer + "#" + output.name);
-       // alert("output " + output.name);
-    //});
-    
-    
-
-    //midiOut = WebMidi.getOutputByName["Fireface UCX (23654150) Port 1"];
-    //midiIn = WebMidi.getInputByName("Fireface UCX (23654150) Port 1");
-   
-    //console.log("midin " + midiIn + "#" + WebMidi);
-    //midiIn.addListener("sysex", e => {
-        //alert("sysex in " + Object.keys(e));
-    //    console.log("sysex in" + e.message.statusByte+ "#" + e.message.rawDataBytes + "#" + e.dataBytes );
-    //})
-    //e.message.statusByte:240
-    //e.message.statusrawDataBytes and //e.message.dataBytes equal: 
-    //0,0,1,0,11,4,2,11  //kemper bass
-    //          id,highbyte, lowbyte
-    //0,0,1,0,4,64,0,0  //kemper stomp A OFF
-    //0,0,1,0,4,64,0,1  //kemper stomp A ON
-    //0,0,1,0,4,1  //kemper rig vol
-    //0,0,1,0,9,3  //kemper noise gate 
-    //0,0,1,0,10,4  //kemper gain
-    //0,0,1,0,11,4  //kemper bass
-    //0,0,1,0,11,5  //kemper middle
-    //0,0,1,0,11,5  //kemper middle
-    //0,0,1,0,11,6  //kemper trebble
-    //0,0,1,0,11,7  //kemper presence
-    //0,0,1,0,11,5  //kemper middle
-    //0,0,1,0,60,69  //kemper delay mix
-    //0,0,1,0,60,93  //kemper delay feedback
-    //0,0,1,0,61,93  //kemper time reverb
-    //0,0,1,0,61,69  //kemper mix reverb
-    //0,0,1,0,11,5  //kemper middle
-
-    //console.log(kemperMidiOut);
-    //kemperMidiIn = WebMidi.inputs[0];
-    //WebMidi.inputs[0].addListener("sysex", (e) => {
-        //debugger;
-    //    alert("sysex in" + Object.keys(e));
-    //    alert("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
-    //    console.log("sysex in:" + Object.keys(e));
-    //    console.log("#" + e.message + "##" + e.rawData + "###" + e.type + "####" + e.dataBytes + "#####" + e.statusByte);
-    //});
    
 }
 
@@ -333,17 +506,14 @@ function onEnabled() {
 //const event = new Event('change')
 //element.dispatchEvent(event)
 
-//set gain value of rig
-//rigGain1.value = 10;
-
-//document.getElementById("example").attributes.DataTable();
-//let doc = document.getElementById('example');
-//console.log(Object.keys($('#example')) + "#" + Object.keys(document.getElementById('example').attributes ));
-//console.log($('#example') + "#"  + $('#example')[0] + "##" +  document.getElementById('example') + "##"  );
 
 document.addEventListener('DOMContentLoaded',function () {
 
+
+
 } );
+
+
 
 
 
@@ -372,8 +542,8 @@ fxNames.forEach( element => {
 console.log(" fxObj1 " + Object.keys(fxObjects[0]) + "#" + fxObjects[0].name + "#");
 
 //write obj to disk
-const myJSON = JSON.stringify(rigTestObj);
-localStorage.setItem("test1",myJSON);
+//const myJSON = JSON.stringify(rigTestObj);
+//localStorage.setItem("test1",myJSON);
 let text = localStorage.getItem("test1");
 console.log("localstorage item text" + text);
 
@@ -411,7 +581,7 @@ for(let i = 0; i < longClickElements.length; i++) {    //add longpress event lis
 }
 
 
-let fxContainers = document.getElementsByClassName('fxContainers');
+
 
 
 
@@ -439,9 +609,10 @@ myCollapse?.addEventListener('show.bs.collapse', function () {
 myCollapse?.addEventListener('hide.bs.collapse', function() {    
     //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
     console.log('hide.bs.collapse perfrigstable' + "#" + Object.keys(this) + "##" + this.classList);
+    requestRigDetails();
 
-    perfRigsTable.clearData();
-    perfRigsTable.addData([{ id:1, name:"rig1", author: "authorx1"}]); //add new perf or rig to table
+    //perfRigsTable.clearData();
+    //perfRigsTable.addData([{ id:1, name:"rig1", author: "authorx1"}]); //add new perf or rig to table
     perfMode = false;
 });
 
@@ -450,33 +621,121 @@ myCollapse?.addEventListener('hide.bs.collapse', function() {
 
 function triggerShortPress() {
    //debugger;
-   console.log( Object.keys(modalParamsHeader!.innerText ) + "##" + this.id );
-   //modalParamsHeader?.innerText = "test";  //set text of modal header to id "modalParamsHeader"
-   modalParamsHeader!.innerHTML = "innerText";
-   //console.log(fxContainers[0].children[1].getAttribute("max"));
-   for (let i = 0; i < fxContainers.length; i++) {
-        //console.log(fxContainers[i].id + "###" + fxContainers[i].classList.add("d-none"));
+
+   //wholeRig["lpFxA"] = fx1;
+   
+   console.log( Object.keys(modalParamsHeader!.innerText ) + "##" + this.id  + wholeRig[this.id]["label"]);
+
+   //update label
+   //document.getElementById(this.id + "0")!.children[0].innerHTML = "joo";
+
+   //wholeRig[this.id]["label"]  //array of fx name where to 
+   document.getElementById("lpFxA0")!.children[1].innerHTML = "fds";
+   //document.getElementById("lpFxA1")!.children[1].setValue(3,true);
+   //document.getElementById(wholeRig[this.id]["label"][0])!.setValue(3,true);
+
+   console.log("innerhtml fx" + document.getElementById("lpFxA0")?.children[1].nodeName);
+   console.log("innerhtml fx" + document.getElementById("lpFxA0")?.children[1].classList );
+   console.log("innerhtml fx" + wholeRig[this.id]["textRepl"].length);
+
+
+
+   //replace value of knob, incase its not a "simple" value on open the fx
+   for(let i = 0; i < wholeRig[this.id]["textRepl"].length; i++) {
+        console.log("trigger val:" + wholeRig[this.id]["textRepl"][i] + "#" + wholeRig[this.id]["textRepl"][i].length );
+        if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
+           
+            document.getElementById(this.id + i)!.children[1].innerHTML = wholeRig[this.id]["textRepl"][i][(<HTMLInputElement>document.getElementById(this.id + i)!.children[1]).value];
+        }
+        
    }
-   //modalParamsHeader!.children[0].innerHTML = 'firstFx'; //set fx name 
-   //modalParamsHeader!.children[1].innerHTML = "4";
-   //modalParamsHeader!.children[2].innerHTML = "fx 2";
+
+   //hide all fx controls
+    for (let i = 0;i < divFxContainers.length; i++) {
+        divFxContainers[i].classList.add("d-none");
+    }
+   //and remove the hide class "d-none" just on the current
+   document.getElementById(this.id)?.classList.remove("d-none");
+
+   let objtest1 = document.getElementById("fxContainer" + "0");
+   let objtest = document.getElementById("lpFxA" + "0")?.children[1]
+   if (this.id.includes("lpFx")) {
+        console.log("fffff" +  document.getElementById("fxContainer" + "0")?.children[1].innerHTML);
+        objtest1?.setAttribute("value","test");
+        //objtest!.setAttribute("step","15");
+        //objtest!.innerHTML = 'fds';
+   }
+
+   //modalParamsHeader?.innerText = "test";  //set text of modal header to id "modalParamsHeader"
+   modalParamsHeader!.innerHTML = wholeRig[this.id].nameOfFx;
 
 }
 
 function handleKnobFixElements(event) {
     //debugger;
     //event.preventDefault();
-    console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.parentElement.id + "#" + event.touchend );
+    //assign value
+    //this.innerText = Number((this.value).toFixed(3));
+    this.innerText =  (this.value).toFixed(2);
+
+
+    console.log("trigger val1:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" );
+    
+
+    if (this.id.includes("knob")) {
+        //6215: 48, 119
+         //x30 = 48
+         //x47
+        //5190: 40, 110
+        //9910: 78, 4
+        //
+        let currVal = this.value;
+        let index = mainFrontKnobs.label.findIndex(x => x === this.id);
+
+        let modifier: number = 1625.6;
+        //if it there is a negative value and symmetric
+        if (parseInt(mainFrontKnobs.min[index]) < 0  && (Math.abs(parseInt(mainFrontKnobs.min[index])) ===  Math.abs(parseInt(mainFrontKnobs.max[index])))  ) {
+            currVal = currVal  + Math.abs(parseInt(mainFrontKnobs.max[index])); //add e.g. 5 to the current value if the max range is -5 to 5, correspond to 0 - max (16256)
+            modifier = 8128 / Math.abs(parseInt(mainFrontKnobs.max[index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
+            //modifier = 3251.2;
+        }
+        let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
+        let temp2 = temp1* 127;
+        if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
+        let temp3 = Math.floor(Math.abs(currVal) * modifier) - (temp1 * 127);
+
+          
+        //console.log("knob: " + this.id + "#" + this.value + "#" + (this.value & 0x7f).toString(16).padStart(2,'0') + "###" + ((this.value >> 127) & 0x7f).toString(16).padStart(2,'0') );
+        console.log("knob1: " + temp1 + "#" + temp3 + "#" + (Math.abs(this.value) * modifier) + "##");
+        console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + "###" + ((6215 >> 127) & 127).toString(10) );
+
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,mainFrontKnobs.adressPage[index], mainFrontKnobs.singleReqId[index],temp1,temp3]);
+
+        return;
+    }
+
+    //if (this.parentElement)
+    //update textvalue instean of normal value if present, when touching
+    for(let i = 0; i < wholeRig[this.parentElement.id.substring(0,5)]["textRepl"].length; i++) {
+        //console.log("trigger val:" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i] + "#");
+        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i].length > 1) { //two elements minimum
+            //console.log("trigger value" + document.getElementById(this.parentElement.id)!.children[1].value  + "####" + document.getElementById(this.parentElement.id.substring(0,5) + i )!.children[1].innerHTML);
+            document.getElementById(this.parentElement.id.substring(0,5) + i )!.children[1].innerHTML = wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i][(<HTMLInputElement>document.getElementById(this.parentElement.id.substring(0,5) + i)!.children[1]).value];
+        }
+        
+    }
+    console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.max + "#" + this.step + "#" + this.parentElement.id );
     let targetTouch = event.targetTouches;
     //debugger;
     let temp = this.id;
-    if (this.parentElement.id === "") {     //fixed knob elements no need to dynamically assign 
-    }
-    if (this.parentElement.id !== "") {     // variable fx knobs elements 
+    if (this.parentElement.id !== "") {  
+        if (this.parentElement.id === "fxContainer5") {
+            console.log("fxcontainer5 " + this.getAttribute("max") );
+            //this!.setAttribute("max","500");  
+        }
     }
 
-    //assign value
-    this.innerText = this.value;
+
 }
 
 
@@ -496,14 +755,5 @@ for(let i = 0; i < inputKnobFixElements.length; i++) {
 }
 
 
-//catch the variable input fx elements and attach event handler
-let inputKnobVarFxElements = document.getElementsByClassName("fxContainers");
-//debugger;
-//for (inputKnobVarFxElement of inputKnobVarFxElements) {  
-for(let i = 0; i < inputKnobVarFxElements.length; i++) { 
-    //inputKnobVarFxElement.children[1].addEventListener("input", handleKnobFixElements, true ); 
-    inputKnobVarFxElements[i].children[1].addEventListener("touchend", handleKnobFixElements, true ); 
-    //inputKnobVarFxElement.children[1].addEventListener("touseup", handleKnobFixElements, true ); //support mouse unclick 
-}
 
 export { bsOffCanvas, myOffcanvas}

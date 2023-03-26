@@ -1,0 +1,120 @@
+    //abspos 6: 2=answer multireq.
+    //abspos 8: 50=stomp A, 51=stomp B ...
+    //abspos 9-10: 128 X abspos 9 + abspos 10   //
+    //abspos 16-17 abspos 16 = 1 -> fx is on, otherwise off
+    //abspos 18-19 fxvalue Mix -> 128 X abspos 17 + abspos 18
+    //abspos 21-22 fxvalue Volume -> 128 X abspos 21 + abspos 22
+    //abspos 115-116 mix pos.53
+    //request answer multi request here WAH WAH stomp A, guilty for alle stomps and effects
+    //fx pos X 
+    //240,0,32,51,0,0,2,0,50,0  //multi req (2) 50 is stomp A
+    //0,1,                      //fx id   pos.0
+    //0,0,                      //not set pos.1 
+    //0,1,                      //not set pos.2
+    //0,1,                      //last 00 01 means on, 00 00 means off pos.3
+    //63,120,                   //mix pos.4
+    //64,0,                     //not set pos.5
+    //64,0,                     //volume +5 pos.6
+    //96,0,                     //stereo pos.7 
+    //12,44,                    //wah manual / freq. shifter delay pitch pos.8  
+    //0,0,                      //wah peak pos.9
+    //0,0,                      //wah pedal range pos.10
+    //0,0,                      
+    //0,1,                      //Wah pedal mode range 0 - 5 pos.11 
+    //0,0,                      //Wah touch Attack / Kemper fuzz impedance LP pos.13 
+    //0,0,                      //Wah Touch Release pos.14  
+    //0,0,                      //Wah Touch Boots / Delay Cross Feedback pos.15 
+    //0,0,                      //Distortion Drive / Reverb Formant Mix pos.16
+    //64,0,                     //Distortion Tone / Reverb Mid Frequency pos.17 
+    //64,77,                    //KEMPER Fuzz Octa / Compressor Intensity / Noise Gate Threshold / Auto Swell Compressor  pos.18
+    //67,104,                   //Compressor Attack / Legacy Delay Bandwidth / Legacy Reverb Bandwidth pos.19
+    //64,0,                     //KEMPER Fuzz Transistor Shape / Modulation Rate Phaser, Phaser Vibe and Flanger / Auto Swell / Widener Tune pos.20
+    //63,67,                    //KEMPER Drive Definition / KEMPER Fuzz Transistor Tone / Modulation Depth / Micro Pitch Detune / Double Tracker Looseness / Widener Intensity pos.2
+    //0,0,                      //Modulation Feedback / Formant Reverb Vowel pos.22
+    //66,41,                    //KEMPER Drive Slim Down / KEMPER Fuzz Definition / Modulation Crossover / Octaver Low Cut pos.23
+    //127,127,                  //Modulation Hyper Chorus Amount pos.24
+    //64,0,                     //Modulation Manual / Reverb Formant Offset / Spring Reverb Spectral Balance
+    //64,0,                     //Modulation Peak Spread / Wah Phaser Peak Spread / Reverb Formant Peak
+    //0,1,                      //Modulation Stages / Wah Phaser Stages / Legacy Reverb Room Size
+    //0,0,                      //not set pos.28
+    //0,0,                      //not set pos.29   
+    //0,0,                      //Rotary Speed (Slow/Fast)
+    //64,0,                     //Rotary Distance
+    //64,0,                     //Rotary Low-High-Balance
+    //64,0,                     //Compressor Squash / Legacy Delay Frequency / Legacy Reverb Mid Frequency
+    //64,0,                     //Graphic EQ Gain 80 Hz
+    //64,0,                     //Graphic EQ Gain 160 Hz
+    //64,0,                     //Graphic EQ Gain 320 Hz
+    //64,0,                     //Graphic EQ Gain 640 Hz
+    //64,0,                     //Graphic EQ Gain 1250 Hz
+    //64,0,                     //Graphic EQ Gain 2500 Hz
+    //64,0,                     //Graphic EQ Gain 5000 Hz    
+    //64,0,                     //Graphic EQ Gain 10000 Hz
+    //115,87,                   //Studio EQ / Metal EQ / Metal DS Low Gain / Acoustic Simulator Body
+    //34,47,                    //Studio EQ Low Frequency
+    //39,47,                    //Studio EQ / Metal EQ / Metal DS High Gain /Acoustic Simulator Sparkle
+    //86,29,                    //Studio EQ High Frequency
+    //23,42,                    //Studio EQ Mid1 / Metal EQ / Metal DS Middle Gain / Acoustic Simulator Bronze
+    //58,46,                    //Studio EQ Mid1 / Metal EQ / Metal DS Middle Frequency
+    //64,0,                     //Studio EQ Mid1 Q-Factor
+    //96,83,                    //Studio EQ Mid2 Gain / Acoustic Simulator Pickup
+    //74,28,                    //Studio EQ Mid2 Frequency pos.50
+    //64,0,
+    //0,0,
+    //64,0,
+    //64,0,
+    //0,0,
+    //0,64,
+    //0,64,
+    //95,127,
+    //0,0,
+    //0,0,
+    //0,0,
+    //0,64,
+    //0,64,
+    //0,4,
+    //0,0,
+    //0,0,
+    //0,0,
+    //127,127,
+    //32,0,
+    //0,1,
+    //32,0,
+    //24,0,
+    //96,0,
+    //64,0,
+    //32,0,
+    //0,4,
+    //0,3,
+    //0,2,
+    //0,1,
+    //0,1,
+    //127,127,
+    //127,127,
+    //127,127,
+    //127,127,
+    //127,127,
+    //0,0,127,
+    //127,0,
+    //0,0,
+    //76,0,
+    //83,0,
+    //68,0,
+    //73,64,
+    //0,64,
+    //0,0,
+    //0,64,
+    //0,0,
+    //1,16,
+    //0,64,
+    //0,0,
+    //0,32,
+    //0,0,
+    //0,0,
+    //0,64,
+    //0,0,
+    //0,0,
+    //0,0,
+    //0,0,
+    //0,0,
+    //1,247
