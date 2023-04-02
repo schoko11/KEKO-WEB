@@ -14,6 +14,7 @@ import { Modal, Offcanvas } from "bootstrap";
 import { FxObj } from "../src/FxObj";
 import { rejects } from "assert";
 
+
 let myOffcanvas = document.getElementById("offCanvasBottom");
 let bsOffCanvas = new Offcanvas(myOffcanvas!);
 let kekoSettings = document.getElementById("kekoSettings");
@@ -35,51 +36,15 @@ myOffcanvas?.addEventListener('hide.bs.offcanvas', function () { this.style.visi
 kekoSettings?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
 kekoSettings?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
 
+const maxTime = 9999999999999;
+let startTimeFxInputs: Array<number> = [maxTime,maxTime,maxTime,maxTime,maxTime,
+                                        maxTime,maxTime,maxTime,maxTime,maxTime,
+                                        maxTime,maxTime,maxTime,maxTime,maxTime];
 
 WebMidi
     .enable({sysex: true})
     .then(onEnabled)
     .catch(err => alert("Error " + err));
-
-//this is trigger from relevant longpress buttons
-//function triggerLongPress() {
-//    console.log("longpress " + "#" + this.id + "###" + document?.getElementById("offCanvasBottomLabel")?.attributes + "###" + document?.getElementById("offCanvasBottomLabel")?.innerText);
-//    document?.getElementById("offCanvasBottomLabel")?.setAttribute("inner.Text","hugoooo");
-    //bsOffCanvas.show();
-//}
-//let kemperMidiOut = WebMidi
-//    .enable({sysex:true}) 
-//    .then(function () {
-//        WebMidi.inputs.forEach(inputs => {
-//            console.log("###" + inputs.manufacturer, inputs.name);
-//        });
-//        inAndOut++;
-//        kemperMidiOut = WebMidi.getOutputByName("WIDI Master OUT")  
-//        console.log(kemperMidiOut);
-//        console.log("active");       
-//        //kemperMidiOut.channels[1].sendControlChange(48,0);
-
-//        return kemperMidiOut;
-//    })         
-//    .catch(err => alert(err));
-
-//let kemperMidiIn = WebMidi
-//    .enable({sysex:true}) 
-//    .then(function () {
-//        kemperMidiIn = WebMidi.getOutputByName("WIDI Master In")  
-//        console.log("then in" + kemperMidiOut)
-//        return kemperMidiOut
-//    })         
-//    .catch(err => alert(err));    
-
-//function to send midi out with async await, because of asynchronity of a promise
-//const sendKemperMidiOut = async (typ,par1,par2) => {
-//    const out = await kemperMidiOut;
-//    if (typ === 'CC') {
-//        out.channels[1].sendControlChange(par1,par2)
-//    }
-//    console.log("async await" + out)
-//}
 
 let midiInName = localStorage.getItem("KEKO_MIDI_IN");
 let midiOutName = localStorage.getItem("KEKO_MIDI_OUT");
@@ -104,11 +69,61 @@ selectMidiOut!.innerHTML += '<option selected>Choose...</option>';
 
 let obj = document.getElementsByTagName("webaudio-knob");
 
+let stompsSwitch =  (<HTMLCollection>document.getElementsByClassName("STOMPS"));
+let stackSwitch =  (<HTMLCollection>document.getElementsByClassName("STACK"));
+let effectsSwitch =  (<HTMLCollection>document.getElementsByClassName("EFFECTS"));
+
+//240,0,32,51,0,0,3,0,0,0,48,0,247   //unknown
+//240,0,32,51,0,0,3,0,0,0,48,0,247
+
+//127,1,0,4,64,0,1 all stomps on
+//127,1,0,4,64,0,0 all stomps off
+for(let i = 0;i < stompsSwitch.length; i++ ) {
+    stompsSwitch[i].addEventListener('change', function(e) {
+        console.log("addeventlistener stomps" + e.target!.value + "#" + i);
+        //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
+        if (i === 0) { stompsSwitch[1]!.setValue(e.target.value,false); }
+        if (i === 1) { stompsSwitch[0]!.setValue(e.target.value,false); }
+        console.log("midioutput stompswitch " + midiOutput.state);
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,64,0, e.target.value]); 
+    });
+}
+
+//127,1,0,4,65,0,1 all stack on
+//127,1,0,4,65,0,0 all stack off
+for(let i = 0;i < stackSwitch.length; i++ ) {
+    stackSwitch[i].addEventListener('change', function(e) {
+        console.log("addeventlistener stack" + e.target!.value + "#" + i);
+        //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
+        if (i === 0) { stackSwitch[1]!.setValue(e.target.value,false); }
+        if (i === 1) { stackSwitch[0]!.setValue(e.target.value,false); }
+        console.log("midioutput stackswitch " + midiOutput.state);
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,65,0, e.target.value]); 
+    });
+}
+
+//127,1,0,4,66,0,1 all effects on
+//127,1,0,4,66,0,0 all effects off
+for(let i = 0;i < effectsSwitch.length; i++ ) {
+    effectsSwitch[i].addEventListener('change', function(e) {
+        console.log("addeventlistener effects" + e.target!.value + "#" + i);
+        //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
+        if (i === 0) { effectsSwitch[1]!.setValue(e.target.value,false); }
+        if (i === 1) { effectsSwitch[0]!.setValue(e.target.value,false); }
+        console.log("midioutput stackswitch " + midiOutput.state);
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,66,0, e.target.value]); 
+    });
+}
+
+
 //catch the variable input fx elements and attach event handler
 let inputKnobVarFxElements = document.getElementsByClassName("fxContainers");
 let divFxContainers = document.getElementsByClassName('divFxContainers');
 
 let currentRigname: string = "";
+
+let startTime: number;
+let endTime: number;
 
 function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
     let x1;
@@ -123,7 +138,7 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
 
     let x2 = ((msb*127 + lsb) / 8128);
     let x3 = msb*127 + lsb;
-    console.log("calcmsblsb " + x1 + "#" + x2 + "#" + x3 + "###" + obj.min[index]);
+    //console.log("calcmsblsb " + x1 + "#" + x2 + "#" + x3 + "###" + obj.min[index]);
     //console.log("calcmsblsb " + ((x1 / 10) * 50)+ "#" + x2 + "#" + x3 );
     return x1.toFixed(2);
 }
@@ -149,6 +164,7 @@ let fx0 = {
     "label": ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
     "textRepl": [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
     "nameOfFx": "Wah Wah",
+    "nameOfFxId": ["0","1"],
     "multiReqPos": [26,28,30,114,  ,34 ,18,  116,  22]
     
     //"minVal": []
@@ -163,12 +179,14 @@ let fx1 = {
  }; 
 
  let fx2 = {
-    "step": [""],
-    "min": [""],
-    "max": [""],
-    "label": [""],
-    "textRepl": [[""],[""],[""],[""]],
-    "nameOfFx": "Off"
+    "step": ["0.1"],
+    "min": ["0"],
+    "max": ["10"],
+    "label": ["Threshold"],
+    "textRepl": [[""]],
+    "nameOfFx": "Noise Gate 2:1",
+    "nameOfFxId": ["0","37"],
+    "multiReqPos": [46]
  }
 
  let wholeRig = {
@@ -272,20 +290,71 @@ selectMidiOut?.addEventListener('change', function () {
     }
 });
 
-function requestRigDetails() {
+async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, startTime: number) {
+    if (!perfMode) {
+
+        //request next rig
+        const timeout1 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        (async () => {
+            for(let i = 0; i < 1; i++) {
+                console.log("right rig 2 " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+                await midiOutput.channels[1].sendControlChange(CCNumber,0);
+                await timeout1(100);
+                await requestRigDetails();
+                console.log("right rig 2x " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+            }
+        })();
+        //return;
+
+        //wait until everyting is here
+        const timeout2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        (async () => {
+            for(let i = 0; i <= 20; i++) {
+                //if (perfRigsTable.getData()[0].name  === currentRigname) {
+                    let j = 0;
+                    for (j = 0; j < 15; j++) {
+                        if (startTimeFxInputs[j] > startTime) {
+                            startTimeFxInputs[j] = startTime;
+                        } else {
+                            console.log("rig not finally loaded " + j + "#" + startTimeFxInputs[j] + "###" + startTime );
+                            break;
+                        } 
+                    }
+                    if (j >= 14) {
+                        endTime = Date.now(); 
+                        return;
+                    }
+                //}  
+                //when the sysexin changes the rigname we are finished, assuming taking the longest time, if not should be no problem
+                await timeout2(100);
+            }
+        //startTimeFxInputs.forEach(e => {e = maxTime});
+        })();
+    }
+}
+
+async function requestRigDetails() {
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,50, 0]); //req multi A
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,12, 0]); //Cabinet
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,50, 0]); //req multi A
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,125, 0]); //req multi looper
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,127, 0]); //req multi system
+    
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,64]);  //request single stomp section
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,65]);  //request single stack section
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,66]);  //request single effects section
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4, 1]); //RigVolume
     midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 1]); //request rig name as ascii
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 2]);
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 2]); //request author as ascii
 }
 
 async function midiSet() {
@@ -344,19 +413,69 @@ function setMidi() {
         //WebMidi.getInputByName(midiOutName!)?.channels[1].sendControlChange(48,0)
         //console.log("end2" + midiOutput.connection + "##" + midiOutput.state);
      
-        rigsOrPerfRight.addEventListener('click', () => {
+
+
+
+        rigsOrPerfRight.addEventListener('click', async () => {
+            //if (await changeAndWaitForDetails(48,perfMode,startTime)) {
+
+            //}
+
            
             console.log("right right pressed");
             if (midiOutput.state === 'connected' && !perfMode)  {
-                midiOutput.channels[1].sendControlChange(48,0);
-                //TODO wait for rig to change until request rig details fullfilled request rigname from table if different then go on
+                const startTime: number = Date.now();
+                //startTime = 9999999999999;        //1680014238181 set time to max
+                //await midiOutput.channels[1].sendControlChange(48,0);
+                //const timeout0 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+                //(async () => {
+                //    for(let i = 0; i < 1; i++) {
+                //        console.log("right rig 2 " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+                //        midiOutput.channels[1].sendControlChange(48,0);
+                //        await timeout0(1000);
+                //        requestRigDetails();
+                //    }
+                //})();
+
+                await changeAndWaitForDetails(48,perfMode,startTime);
+
+                //const timeout1 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+                //(async () => {
+                //    for(let i = 0; i < 1; i++) {
+                //        console.log("right rig 2 " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+                //        midiOutput.channels[1].sendControlChange(48,0);
+                //        await timeout1(100);
+                //        requestRigDetails();
+                //    }
+                //})();
+
+                //const timeout2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+                //(async () => {
+                //    for(let i = 0; i <= 20; i++) {
+                //        if (perfRigsTable.getData()[0].name  === currentRigname) {
+                //            if (startTimeFxInputs[13] >  startTime) { 
+                //                console.log("right rig 4 " + perfRigsTable.getData()[0].name  + "#" + currentRigname + "####" + startTimeFxInputs[13]  + "-" + Date.now());    
+                //                startTimeFxInputs[13] = startTime;
+                //                return;
+                //            } 
+                //        }  
+                        //when the sysexin changes the rigname we are finished, assuming taking the longest time, if not should be no problem
+                //        await timeout2(100);
+                //    }
+                    //startTimeFxInputs.forEach(e => {e = maxTime});
+               // })();
+
+                //console.log("right rig 4 " + perfRigsTable.getData()[0].name + + "###" + currentRigname + "#" + Date.now());
+
             } //rig right
-            requestRigDetails();
-        })
+ 
+        });
     
         rigsOrPerfLeft.addEventListener('click', () => {
-            if (midiOutput.state === 'connected' && !perfMode) midiOutput.channels[1].sendControlChange(49,0); //rig left
-            requestRigDetails();
+            const startTime: number = Date.now();
+            if (midiOutput.state === 'connected' && !perfMode)  { changeAndWaitForDetails(49,perfMode,startTime); }
+            //    midiOutput.channels[1].sendControlChange(49,0); //rig left
+            //requestRigDetails();
         })
 
 
@@ -387,16 +506,20 @@ function onEnabled() {
    
 
     //midiInput.addListener("sysex", sysexIn(this));
+
+    //midiOutput.addListener("sysex", e => {
+    //    console.log("sysexout " + e.message.data);
+    //})
+
     midiInput.addListener("sysex", e => {
         console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
-        if (e.message.data[6] === 2 && e.message.data[8] >= 50 && e.message.data[8] <= 61) {  //is answer to multirequest stomps and Effects
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] )
-            console.log(" xxxx " + e.message.data[28] + "#" + e.message.data[29] )
-            console.log(" xxxx " + e.message.data[34] + "#" + e.message.data[35] )
+        if (e.message.data[6] === 2 && e.message.data[8] === 9) {  //is answer to multirequest input
+            startTimeFxInputs[0] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
-
         else if (e.message.data[6] === 2 && e.message.data[8] === 10) {  //is answer to multirequest Amplifier
             let arrayOfValues: string[] = [];
+            startTimeFxInputs[1] = Date.now();
             for(let i = 0;i < mainFrontKnobs.step.length; i++) {
                 arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
                     e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
@@ -406,6 +529,7 @@ function onEnabled() {
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 11) {  //is answer to multirequest Equalizer
             let arrayOfValues: string[] = [];
+            startTimeFxInputs[2] = Date.now();
             for(let i = 0;i < mainFrontKnobs.step.length; i++) {
                 arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
                     e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
@@ -413,8 +537,84 @@ function onEnabled() {
                     (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
             }
         }
-        else if (e.message.data[6] === 2 && e.message.data[8] === 10) {  //is answer to multirequest Amplifier
+        else if (e.message.data[6] === 2 && e.message.data[8] === 12) {  //is answer to multirequest cabinet
+            startTimeFxInputs[3] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
+        //multi req in 10,11: appendix b midi manual
+        else if (e.message.data[6] === 2 && e.message.data[8] === 50) {  //is answer to multirequest stomp A
+            startTimeFxInputs[4] = Date.now();
+            let longpr = document.getElementsByClassName("longPress");
+         
+            //set the two stomps switches to on or off 
+           // if (e.message.data[14] === 0 && e.message.data[15] === 1) {
+           //     stompsSwitch[0]!.setValue(1,false);
+           //     stompsSwitch[1]!.setValue(1,false);
+           // }
+           // if (e.message.data[14] === 0 && e.message.data[15] === 0) {
+           //     stompsSwitch[0]!.setValue(0,false);
+           //     stompsSwitch[1]!.setValue(0,false);
+           // }
+
+            for(let i = 0;i < longpr.length; i++) {
+                if (longpr![i].id === "lpFxA") {
+                    console.log("yesss " + i + "#" + longpr[i].firstChild?.nodeValue + "###" );
+                    longpr[i]!.firstChild!.nodeValue = fx2.nameOfFx;
+                    console.log("stomps change " );
+
+                    //test1[0].setValue(1,false);
+                    //test1[1].setValue(1,false);
+                   
+                    //});
+                    //document.getElementById("STOMPS")![0].setValue(1,true); //nope
+                }
+            }
+            if (e.message.data[16] === 0 && e.message.data[17] === 1 ) { //turn on stomps
+                //document.getElementById("STOMPS")?.setValue(1);
+            }
+
+            //findAndLoadFx(e.message.data[10],e.message.data[11])
+            //if ( (fx0.nameOfFxId[0] === e.message.data[10]) && (fx0.nameOfFxId[1] === e.message.data[11])) {
+                console.log("fxa sysexin " + document.getElementsByClassName("longPress").length + "#" + fx0.nameOfFxId[0] + "#" + e.message.data[10] + e.message.data[11])
+            //}
+            console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 51) {  //is answer to multirequest stomp B
+            startTimeFxInputs[5] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 52) {  //is answer to multirequest stomp C
+            startTimeFxInputs[6] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 53) {  //is answer to multirequest stomp D
+            startTimeFxInputs[7] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 56) {  //is answer to multirequest stomp X
+            startTimeFxInputs[8] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+
+        else if (e.message.data[6] === 2 && e.message.data[8] === 58) {  //is answer to multirequest stomp X
+            startTimeFxInputs[9] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 60) {  //is answer to multirequest stomp X
+            startTimeFxInputs[10] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 61) {  //is answer to multirequest stomp X
+            startTimeFxInputs[11] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 127) {  //is answer to multirequest stomp X
+            startTimeFxInputs[12] = Date.now();
+            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+
+       
+      
         else if (e.message.data[6] === 1 && e.message.data[8] === 10 ) {  //single request Amplifier 
             for (let i = 0; i < mainFrontKnobs.singleReqId.length; i++) {
                 if ((mainFrontKnobs.singleReqId[i] === e.message.data[9]) && (mainFrontKnobs.adressPage[i] === e.message.data[8]) )  {
@@ -436,20 +636,51 @@ function onEnabled() {
                 }
             }
         }
-
+        else if (e.message.data[6] === 1 && e.message.data[8] === 4 ) {  //single request stomps. stack fx on and off
+            console.log("single in " + e.message.data[9]);
+            if (e.message.data[9] === 64) {
+                stompsSwitch[0]!.setValue(e.message.data[11],false);
+                stompsSwitch[1]!.setValue(e.message.data[11],false);
+            }    
+            if (e.message.data[9] === 65) {
+                stackSwitch[0]!.setValue(e.message.data[11],false);
+                stackSwitch[1]!.setValue(e.message.data[11],false);
+            }  
+            if (e.message.data[9] === 66) {
+                effectsSwitch[0]!.setValue(e.message.data[11],false);
+                effectsSwitch[1]!.setValue(e.message.data[11],false);
+            }    
+        
+        }
         else if (e.message.data[6] === 3 ) {  //string req
-            let temp = e.message.data.slice(10, e.message.data.length - 2);
-            console.log(String.fromCharCode(...temp));
-            currentRigname = String.fromCharCode(...temp);
+            
+            //console.log(String.fromCharCode(...temp));
             if (e.message.data[8] === 0 && e.message.data[9] === 1 && !perfMode) {
-                //let res = String.fromCharCode(...temp);
-                perfRigsTable.clearData();
-                perfRigsTable.addData([{ id:1, name: String.fromCharCode(...temp), author: "authorx1"}]); //add new perf or rig to table
-                console.log("string in " );
+                let temp = e.message.data.slice(10, e.message.data.length - 2);
+                currentRigname = String.fromCharCode(...temp);
+                startTime = Date.now();
+                startTimeFxInputs[13] = Date.now();
+                perfRigsTable.setData([{ id:1, name: String.fromCharCode(...temp)}]);
+              
+                //perfRigsTable.setData( )
+                //perfRigsTable.addData([{ id:1, name: String.fromCharCode(...temp), author: "authorx1"}]); //add new perf or rig to table
+                console.log("string in " + String.fromCharCode(...temp) );
+            }
+                        //console.log(String.fromCharCode(...temp));
+            if (e.message.data[8] === 0 && e.message.data[9] === 2 && !perfMode) {
+                startTimeFxInputs[14] = Date.now();
+                let temp = e.message.data.slice(10, e.message.data.length - 2);
+                perfRigsTable.setData([{ id:1, name: perfRigsTable.getData()[0].name,  author: String.fromCharCode(...temp)}]);
+                console.log("string in " + String.fromCharCode(...temp) );
             }
 
         }
-        e.preventDefault;
+      
+            
+
+
+       
+        //e.preventDefault;
 
     });
 
@@ -473,22 +704,6 @@ function onEnabled() {
     //midiOutput.sendSysex([0,32,51,0 ],[127, 66, 0, 61, 0] ); //req fx stomp REV
     //midiOutput.sendSysex([0,32,51,0 ],[127, 66, 0, 127, 0] ); //req fx system global
 
-    //wah wah low pass
-    //00 00 02 00 32 00 
-    //00 02             //fx id
-    //00 00 00 01 00 01 
-    //42 5f             //mix
-    //40 00 
-    //7f 7f             //volume
-    //60 00 
-    //0c 7d             //manual
-    //00 00             //peak
-    //00 00             //pedal range
-    //00 00             //pedal mode
-    //00 00 
-    //00 00 00 00 00 00 00 00 40 00 40 4d 43 68 40 00 3f 43 00 00 42 29 7f 7f //ducking
-    //40 00 40 00 00 01 00 00 00 00 00 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 73 57 22 2f 27 2f 56 1d 17 2a 3a 2e 40 00 60 53 4a 1c 40 00 00 00 68 3c 40 00 00 00 00 40 00 40 5f 7f 00 00 00 00 00 00 00 40 00 40 00 04 00 00 00 00 00 00 7f 7f 20 00 00 01 20 00 18 00 60 00 40 00 20 00 00 04 00 03 00 02 00 01 00 01 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 00 00 7f 7f 00 00 00 4c 00 53 00 44 00 49 40 00 40 00 00 00 40 00 00 01 10 00 40 00 00 00 20 00 00 00 00 00 40 00 00 00 00 00 00 00 00 00 00 01 (229 bytes)
-
 
     console.log("midiinname " + midiInName + "#" + midiOutput.state);
     //if (midiInName === null) {
@@ -502,33 +717,12 @@ function onEnabled() {
    
 }
 
-//element.addEventListener('change',() => sendKemperMidiOut('CC',48,0))
-//const event = new Event('change')
-//element.dispatchEvent(event)
-
 
 document.addEventListener('DOMContentLoaded',function () {
 
 
-
 } );
 
-
-
-
-
-let rigTestObj = {
-    "fxA" : {
-        "name": "wah wah",
-        "params": ["delay","gain" ], 
-        "gain": 3,
-        "bass" : 3,
-        "middle": 5,
-        "trebble": 2,
-        "presence": 7,
-        "rigvol": 4
-    }
-}
 
 let fxNames = ["Wah Wah", "Wah Low Pass"];
 let fxObjects: FxObj[] = [];
@@ -557,11 +751,6 @@ function paramLookup(cell) {
     //return {tickElement: "<i class='fa fa-check'> </i>"};
     //return {param1:"green"}
 }
-
-//let perfModes = document.getElementsByClassName("perfMode");
-//let rigModeMeters = document.getElementsByClassName("rigMode");
-//let elementsToHide = document.getElementsByClassName("toHide");
-//let fxContainers = document.getElementsByClassName("fxContainers");
 
 
 // document.getElementById("fxContainer1").children[0].innerHTML = 'yyy'; //set fx name 
@@ -600,7 +789,7 @@ myCollapse?.addEventListener('show.bs.collapse', function () {
 
     perfRigsTable.setColumns( [{title:"Name", field:"name", headerHozAlign:"center" }, {title:"Author", field:"author", headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}]);
     perfRigsTable.clearData();
-    perfRigsTable.addData([{ id:1, name:"perf1", author: "author1"}]); //add new perf or rig to table
+    //perfRigsTable.addData([{ id:1, name:"perf1", author: "author1"}]); //add new perf or rig to table
 
     perfMode = true;
 });

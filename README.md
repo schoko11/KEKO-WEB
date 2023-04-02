@@ -18,4 +18,5 @@ Could use linux to code, which is way more convenient than with an offline WIN 1
 
 You have to use Chrome (testing on linux mint).
 
+# As of 02.03.2023 When in Rig Mode: Stomp, Stack and Effects section are toggleable, eq's are loaded and rigname + author
 # As of 27.02.2023 When in Rig Mode "LEFT" and "RIGHT" of Rigs is supported
