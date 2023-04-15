@@ -16,7 +16,15 @@ Short press brings up the parameter of the fx
 As of now (04.02.2023) i will switch to a rather conventional midi cable to do the development.
 Could use linux to code, which is way more convenient than with an offline WIN 10 (doing bluetooth later on).
 
-You have to use Chrome (testing on linux mint).
 
-# As of 02.03.2023 When in Rig Mode: Stomp, Stack and Effects section are toggleable, eq's are loaded and rigname + author
-# As of 27.02.2023 When in Rig Mode "LEFT" and "RIGHT" of Rigs is supported
+You have to use Chrome (testing on linux mint).
+Try it here: https://schoko11.github.io/KEKO-WEB/
+
+
+Supported Features:
+15.04.2023: When changing to rig mode (click Browse/Perform in the main menu), after that the rig settings are sent and received.
+            For now some effects are recognized on Stomp A, Fx "WAH WAH" is fully functional, short press on Stomp A to change
+            the effects parameter.
+            Gain, bass, mids, trebble, presence on the main screen are also fully operational.
+            Rig Right and Left, changes the rig and collect its data, rig name and rig author, STOMPS, STACK and EFFECTS main
+            section(trigger with the round buttons).    
