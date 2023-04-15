@@ -11,9 +11,10 @@ const longpress = require('../src/externalLibs/long-press-event.min.cjs');
 import { triggerLongPress } from "../src/triggerLongPress"; 
 import { perfRigsTable,perfRigsTableData } from "../src/perfRigsTable";
 import { Modal, Offcanvas } from "bootstrap";
-import { FxObj } from "../src/FxObj";
+import { arrayOfFxObj, defFxObj } from "../src/FxObj";
 import { rejects } from "assert";
 
+console.log("start" + arrayOfFxObj[1]["nameOfFx"]);
 
 let myOffcanvas = document.getElementById("offCanvasBottom");
 let bsOffCanvas = new Offcanvas(myOffcanvas!);
@@ -39,7 +40,8 @@ kekoSettings?.addEventListener('hide.bs.offcanvas', function () { this.style.vis
 const maxTime = 9999999999999;
 let startTimeFxInputs: Array<number> = [maxTime,maxTime,maxTime,maxTime,maxTime,
                                         maxTime,maxTime,maxTime,maxTime,maxTime,
-                                        maxTime,maxTime,maxTime,maxTime,maxTime];
+                                        maxTime,maxTime,maxTime,maxTime,maxTime,
+                                        maxTime];
 
 WebMidi
     .enable({sysex: true})
@@ -82,10 +84,10 @@ for(let i = 0;i < stompsSwitch.length; i++ ) {
     stompsSwitch[i].addEventListener('change', function(e) {
         console.log("addeventlistener stomps" + e.target!.value + "#" + i);
         //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
-        if (i === 0) { stompsSwitch[1]!.setValue(e.target.value,false); }
-        if (i === 1) { stompsSwitch[0]!.setValue(e.target.value,false); }
+        if (i === 0) { stompsSwitch[1]!.setValue(e.target!.value,false); }
+        if (i === 1) { stompsSwitch[0]!.setValue(e.target!.value,false); }
         console.log("midioutput stompswitch " + midiOutput.state);
-        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,64,0, e.target.value]); 
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,64,0, e.target!.value]); 
     });
 }
 
@@ -93,12 +95,12 @@ for(let i = 0;i < stompsSwitch.length; i++ ) {
 //127,1,0,4,65,0,0 all stack off
 for(let i = 0;i < stackSwitch.length; i++ ) {
     stackSwitch[i].addEventListener('change', function(e) {
-        console.log("addeventlistener stack" + e.target!.value + "#" + i);
+        //console.log("addeventlistener stack" + e.target!.value + "#" + i);
         //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
-        if (i === 0) { stackSwitch[1]!.setValue(e.target.value,false); }
-        if (i === 1) { stackSwitch[0]!.setValue(e.target.value,false); }
-        console.log("midioutput stackswitch " + midiOutput.state);
-        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,65,0, e.target.value]); 
+        if (i === 0) { stackSwitch[1]!.setValue(e.target!.value,false); }
+        if (i === 1) { stackSwitch[0]!.setValue(e.target!.value,false); }
+        //console.log("midioutput stackswitch " + midiOutput.state);
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,65,0, e.target!.value]); 
     });
 }
 
@@ -106,12 +108,12 @@ for(let i = 0;i < stackSwitch.length; i++ ) {
 //127,1,0,4,66,0,0 all effects off
 for(let i = 0;i < effectsSwitch.length; i++ ) {
     effectsSwitch[i].addEventListener('change', function(e) {
-        console.log("addeventlistener effects" + e.target!.value + "#" + i);
+        //console.log("addeventlistener effects" + e.target!.value + "#" + i);
         //depending on the screensize the view changes, so we also have two stomps stack, effects main switches
-        if (i === 0) { effectsSwitch[1]!.setValue(e.target.value,false); }
-        if (i === 1) { effectsSwitch[0]!.setValue(e.target.value,false); }
-        console.log("midioutput stackswitch " + midiOutput.state);
-        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,66,0, e.target.value]); 
+        if (i === 0) { effectsSwitch[1]!.setValue(e.target!.value,false); }
+        if (i === 1) { effectsSwitch[0]!.setValue(e.target!.value,false); }
+        //console.log("midioutput stackswitch " + midiOutput.state);
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,4,66,0, e.target!.value]); 
     });
 }
 
@@ -127,14 +129,25 @@ let endTime: number;
 
 function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
     let x1;
+   
     if ( obj.min[index] < 0 ) {
         //if 
         x1 = parseFloat( (((msb*127 + lsb) / 8128) *  Math.abs(obj.min[index]) ).toFixed(2)) - Math.abs(obj.min[index]);
+        console.log("calcmsblsb neg " + x1 + "#" + msb + "#" + lsb);
     } else {
-        console.log("xxxdxd 3" + obj.label[index]);
+        console.log("xxxdxd 3" + obj.label[index] + "# msb " + msb + "# lsb " + lsb);
         x1 = parseFloat( (((msb*127 + lsb) / 16256) *  obj.max[index]  ).toFixed(2)) ;
-    }
+        if (obj.label[index] === "knobGain") {
 
+        }
+        if (obj["textRepl"][index].length > 1 ) {
+            let val = Math.floor( ( msb * 127) + lsb);
+        }
+        if (obj.label[index] === "Pedal Mode") {
+            //console.log("pedal mode " + x1 + "##" + Math.floor((msb*127 + lsb) / 16256) );
+        }
+    }
+    //console.log("calcmsblsb " + obj.min[index] + "###" + x1);
 
     let x2 = ((msb*127 + lsb) / 8128);
     let x3 = msb*127 + lsb;
@@ -144,60 +157,28 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
 }
 
 
-let mainFrontKnobs = {
-    "step": ["0.1", "0.1","0.1","0.1","0.1"],
-    "min": ["0", "-5","-5","-5","-5"],
-    "max": ["10", "5","5","5","5","5"],
-    "label": ["knobGain","knobBass","knobMids","knobTrebble","knobPresence"],
-    "textRepl": [[""], [""],[""],[""],[""]],
-    "nameOfFx": "Equalizer",
-    "multiReqPos": [18,18,20,22,24],
-    "singleReqId": [4,4,5,6,7],
-    "adressPage": [10,11,11,11,11]
-}
+//let mainFrontKnobs = {
+//    "step": ["0.1", "0.1","0.1","0.1","0.1"],
+//    "min": ["0", "-5","-5","-5","-5"],
+//    "max": ["10", "5","5","5","5","5"],
+//    "label": ["knobGain","knobBass","knobMids","knobTrebble","knobPresence"],
+//    "textRepl": [[""], [""],[""],[""],[""]],
+//    "nameOfFx": "Equalizer",
+//    "multiReqPos": [18,18,20,22,24],
+//    "singleReqId": [4,4,5,6,7],
+//    "adressPage": [10,11,11,11,11]
+//}
 
-
-let fx0 = {    
-   "step": ["0.1","0.1","1","1","1","1","0.1","0.1"],
-    "min": ["0","0","-100","-100","0","0","-5","0"],
-    "max": ["10","10","100","100","5","100","5","10"],
-    "label": ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
-    "textRepl": [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
-    "nameOfFx": "Wah Wah",
-    "nameOfFxId": ["0","1"],
-    "multiReqPos": [26,28,30,114,  ,34 ,18,  116,  22]
-    
-    //"minVal": []
-};
-let fx1 = {    
-    "step": ["2","10","20","1"],
-     "min": ["0","0","0","2"],
-     "max": ["10","50","100","22"],
-     "label": ["fxpar4", "fxpar5", "fxpar6", "fxpar7"],
-     "textRepl": [[""],[""],[""],[""]],
-     "nameOfFx": ""
- }; 
-
- let fx2 = {
-    "step": ["0.1"],
-    "min": ["0"],
-    "max": ["10"],
-    "label": ["Threshold"],
-    "textRepl": [[""]],
-    "nameOfFx": "Noise Gate 2:1",
-    "nameOfFxId": ["0","37"],
-    "multiReqPos": [46]
- }
-
- let wholeRig = {
-    "lpFxA": fx0,
-    "lpFxB": fx1,
-    "lpFxC": fx2, 
-    "lpFxD": fx1, 
-    "lpFxX": fx1, 
-    "lpFxM": fx1, 
-    "lpFxY": fx1, 
-    "lpFxR": fx1,
+ let wholeRig: Object = {
+    "lpFxA": defFxObj,
+    "lpFxB": defFxObj,
+    "lpFxC": defFxObj, 
+    "lpFxD": defFxObj, 
+    "lpFxX": defFxObj, 
+    "lpFxM": defFxObj, 
+    "lpFxY": defFxObj, 
+    "lpFxR": defFxObj,
+   // "lpFxG": defFxObj //Rig settings
    // "lpFxP": fx1, //amp 
    // "lpFxE": fx1, //eq
    // "lpFxS": fx1, //cab aka speaker   
@@ -217,26 +198,23 @@ let fx1 = {
 
 
 //prepare html for fx
-for (let i = 0; i < divFxContainers.length; i++) {
-    console.log(wholeRig[divFxContainers[i].id]?.label + "dddd" + divFxContainers[i].id );
-    for (let j = 0; j <  wholeRig[divFxContainers[i].id]?.label.length ; j++) {
-        //the 8 fx slots have 5 chars, the others are fixed
-        //if (divFxContainers[i].id.length <= 5 ) { 
-        //console.log(wholeRig[divFxContainers[i].id].label[j])
-        if (wholeRig[divFxContainers[i].id]?.label[0] === "") { continue; }
-        divFxContainers[i].innerHTML += '<div class="col border pb-4 pt-0 fxContainers" id="' + divFxContainers[i].id + j.toString() + '"> ' +
-        '<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + wholeRig[divFxContainers[i].id].label[j] + '</label>' +
-        '<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" diameter=75 id="' + wholeRig[divFxContainers[i].id].label[j] + '" ' +
-        'step=' + wholeRig[divFxContainers[i].id].step[j] + ' min=' + wholeRig[divFxContainers[i].id].min[j] + ' max=' + wholeRig[divFxContainers[i].id].max[j] +
-         ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" value="" >' +
-        ' </webaudio-knob>  </div>';
-        //console.log("xxfdfdx" + divFxContainers[0].children[0].innerHTML);
-        //console.log(divFxContainers[i].children[0].children[0].children[1]);
-        //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
 
-    }    
+
+//for (let i = 0; i < divFxContainers.length; i++) {
+//    console.log(wholeRig[divFxContainers[i].id]?.label + "dddd" + divFxContainers[i].id + "##" +  divFxContainers.length);
+//    for (let j = 0; j <  wholeRig[divFxContainers[i].id]?.label.length ; j++) {
+//         console.log("prepare html for fx" + wholeRig[divFxContainers[i].id]?.label[0] + "#" + divFxContainers[i].id);
+//        if (wholeRig[divFxContainers[i].id]?.label[0] === "") { continue; }
+//        divFxContainers[i].innerHTML += '<div class="col border pb-4 pt-0 fxContainers" id="' + divFxContainers[i].id + j.toString() + '"> ' +
+//        '<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + wholeRig[divFxContainers[i].id].label[j] + '</label>' +
+//        '<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" diameter=75 id="' + wholeRig[divFxContainers[i].id].label[j] + '" ' +
+//        'step=' + wholeRig[divFxContainers[i].id].step[j] + ' min=' + wholeRig[divFxContainers[i].id].min[j] + ' max=' + wholeRig[divFxContainers[i].id].max[j] +
+//         ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" value="" >' +
+//        ' </webaudio-knob>  </div>';
+        //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
+//    }    
     //console.log("fds" + fxContainers[i].children[1].getAttribute("max") + fxContainers[i].id  )
-}
+//}
 
 let knob1 = document.getElementsByTagName("webaudio-knob");
 let testknob = document.getElementById("Pedal Mode");
@@ -297,11 +275,11 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
         const timeout1 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         (async () => {
             for(let i = 0; i < 1; i++) {
-                console.log("right rig 2 " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+                //console.log("right rig 2 " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
                 await midiOutput.channels[1].sendControlChange(CCNumber,0);
                 await timeout1(100);
                 await requestRigDetails();
-                console.log("right rig 2x " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
+                //console.log("right rig 2x " + Date.now() + "###" + perfRigsTable.getData()[0].name  + "#" + currentRigname);
             }
         })();
         //return;
@@ -316,7 +294,7 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
                         if (startTimeFxInputs[j] > startTime) {
                             startTimeFxInputs[j] = startTime;
                         } else {
-                            console.log("rig not finally loaded " + j + "#" + startTimeFxInputs[j] + "###" + startTime );
+                            //console.log("rig not finally loaded " + j + "#" + startTimeFxInputs[j] + "###" + startTime );
                             break;
                         } 
                     }
@@ -333,7 +311,32 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
     }
 }
 
+function prepareFxControls(id: string, index: number){
+    //for (let i = 0; i < divFxContainers.length; i++) {
+        divFxContainers[index].innerHTML = '';
+        console.log(wholeRig[id]?.label + "dddd" + id + "##" +  divFxContainers.length);
+        for (let j = 0; j <  wholeRig[id]?.label.length ; j++) {
+            //the 8 fx slots have 5 chars, the others are fixed
+            //if (divFxContainers[i].id.length <= 5 ) { 
+            console.log("prepare html for fx" + wholeRig[id]?.label[0] + "#" + id);
+            if (wholeRig[id]?.label[0] === "") { continue; }
+            divFxContainers[index].innerHTML += '<div class="col border pb-4 pt-0 fxContainers" id="' + id + j.toString() + '"> ' +
+            '<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + wholeRig[id].label[j] + '</label>' +
+            '<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" diameter=75 id="' + wholeRig[id].label[j] + '" ' +
+            'step=' + wholeRig[id].step[j] + ' min=' + wholeRig[id].min[j] + ' max=' + wholeRig[id].max[j] +
+             ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" value="" >' +
+            ' </webaudio-knob>  </div>';
+            //console.log("xxfdfdx" + divFxContainers[0].children[0].innerHTML);
+            //console.log(divFxContainers[i].children[0].children[0].children[1]);
+            //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
+    
+        }    
+        //console.log("fds" + fxContainers[i].children[1].getAttribute("max") + fxContainers[i].id  )
+    //}
+}
+
 async function requestRigDetails() {
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,4, 0]); //req rig section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
@@ -471,9 +474,9 @@ function setMidi() {
  
         });
     
-        rigsOrPerfLeft.addEventListener('click', () => {
+        rigsOrPerfLeft.addEventListener('click', async () => {
             const startTime: number = Date.now();
-            if (midiOutput.state === 'connected' && !perfMode)  { changeAndWaitForDetails(49,perfMode,startTime); }
+            if (midiOutput.state === 'connected' && !perfMode)  { await changeAndWaitForDetails(49,perfMode,startTime); }
             //    midiOutput.channels[1].sendControlChange(49,0); //rig left
             //requestRigDetails();
         })
@@ -489,11 +492,11 @@ function setMidi() {
 }
 
 function sysexIn() {
-    console.log("sysexin " + Object.keys(this.eventMap.sysex) + "#" + this.message.data);
-
+    //console.log("sysexin " + Object.keys(this.eventMap.sysex) + "#" + this.message.data);
 }
 
 function onEnabled() {
+    let fxIndexStart: number = 7;
 
     //(async () => {
     //})();
@@ -512,54 +515,104 @@ function onEnabled() {
     //})
 
     midiInput.addListener("sysex", e => {
-        console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
-        if (e.message.data[6] === 2 && e.message.data[8] === 9) {  //is answer to multirequest input
+        let fxId: string = "";
+
+        //console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
+        if (e.message.data[6] === 2 && e.message.data[8] === 4) {  //is answer to multirequest rig
             startTimeFxInputs[0] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            //console.log(" multi input " + e.message.data[26] + "#"+ e.message.data[27] );
+        }
+        else if (e.message.data[6] === 2 && e.message.data[8] === 9) {  //is answer to multirequest Input
+            startTimeFxInputs[1] = Date.now();
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 10) {  //is answer to multirequest Amplifier
             let arrayOfValues: string[] = [];
-            startTimeFxInputs[1] = Date.now();
-            for(let i = 0;i < mainFrontKnobs.step.length; i++) {
-                arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
-                    e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
-                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = arrayOfValues[i];
-                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
+            startTimeFxInputs[2] = Date.now();
+            for(let i = 0;i < 1; i++) {
+                //console.log("multireq sysexin amp " + i  + "#" + e.message.data[arrayOfFxObj[0]["multiReqPos"]![i] + 1] + "#")
+                arrayOfValues.push(calcMsbLsb(e.message.data[arrayOfFxObj[2]["multiReqPos"]![i]],
+                    e.message.data[arrayOfFxObj[2]["multiReqPos"][i] + 1],arrayOfFxObj[2],i).toString());
+                    //console.log("multireq sysexin amp 2 " + i  + "#" +  arrayOfValues[i] + "##" + mainFrontKnobs.label[i]);
+                    document.getElementById(arrayOfFxObj[2]["label"]![i])!.innerHTML = arrayOfValues[i];
+                    (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][i]))!.setValue(arrayOfValues[i],false);
+                    //(<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
             }
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 11) {  //is answer to multirequest Equalizer
             let arrayOfValues: string[] = [];
-            startTimeFxInputs[2] = Date.now();
-            for(let i = 0;i < mainFrontKnobs.step.length; i++) {
-                arrayOfValues.push(calcMsbLsb(e.message.data[mainFrontKnobs.multiReqPos[i]],
-                    e.message.data[mainFrontKnobs.multiReqPos[i] + 1],mainFrontKnobs,i).toString());
-                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = arrayOfValues[i];
-                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
+            startTimeFxInputs[3] = Date.now();
+            for(let i = 0;i < arrayOfFxObj[3]["step"].length; i++) {
+                //console.log("eq multirequest in " + arrayOfFxObj[3]["multiReqPos"][i])
+                arrayOfValues.push(calcMsbLsb(e.message.data[arrayOfFxObj[3]["multiReqPos"][i]],
+                    e.message.data[arrayOfFxObj[3]["multiReqPos"][i] + 1],arrayOfFxObj[3],i).toString());
+                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = arrayOfValues[i];
+                    (<HTMLInputElement>document.getElementById(arrayOfFxObj[3]["label"][i]))!.setValue(arrayOfValues[i],false);
+                  //(<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
             }
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 12) {  //is answer to multirequest cabinet
-            startTimeFxInputs[3] = Date.now();
+            startTimeFxInputs[4] = Date.now();
             console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         //multi req in 10,11: appendix b midi manual
         else if (e.message.data[6] === 2 && e.message.data[8] === 50) {  //is answer to multirequest stomp A
-            startTimeFxInputs[4] = Date.now();
+            fxId = "lpFxA";
+            startTimeFxInputs[5] = Date.now();
             let longpr = document.getElementsByClassName("longPress");
          
-            //set the two stomps switches to on or off 
-           // if (e.message.data[14] === 0 && e.message.data[15] === 1) {
-           //     stompsSwitch[0]!.setValue(1,false);
-           //     stompsSwitch[1]!.setValue(1,false);
-           // }
-           // if (e.message.data[14] === 0 && e.message.data[15] === 0) {
-           //     stompsSwitch[0]!.setValue(0,false);
-           //     stompsSwitch[1]!.setValue(0,false);
-           // }
+            for (let i = fxIndexStart; i < arrayOfFxObj.length; i++) {
+                console.log(arrayOfFxObj[i]["nameOfFx"][0] + i);
+                if (e.message.data[10] === arrayOfFxObj[i]["nameOfFxId"][0] && e.message.data[11] === arrayOfFxObj[i]["nameOfFxId"][1]) {
+                    wholeRig![fxId] = arrayOfFxObj[i];
+                    //console.log("found!!!  " + arrayOfFxObj[i]["nameOfFx"] + "#" + wholeRig[fxId]["nameOfFx"])
+                    break;
+                }
+            }
+            prepareFxControls(fxId,0);
+            for (let i = 0; i < wholeRig[fxId]["label"].length; i++) {
+                let temp = calcMsbLsb(e.message.data[wholeRig[fxId]["multiReqPos"][i]],
+                    e.message.data[wholeRig[fxId]["multiReqPos"][i] + 1],wholeRig[fxId],i).toString();
+                //console.log( )
+
+                //for(let i = 0; i < wholeRig[this.id]["textRepl"].length; i++) {
+   //     console.log("trigger val:" + wholeRig[this.id]["textRepl"][i].length  + "##" + i);
+   //     if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
+   
+
+    //        document.getElementById(this.id)!.children[1].innerHTML = wholeRig[this.id]["nameOfFx"];
+           // wholeRig[this.id]["nameOfFx"][(<HTMLInputElement>document.getElementById(this.id)!.children[1]).value];
+    //    }
+        
+   //}
+                console.log("temp " + temp);
+                if (document.getElementById(wholeRig[fxId]["label"][i]) === null) { 
+                    modalParamsHeader!.innerHTML = "";
+                    modalParamsHeader!.innerHTML = "off";
+                    break;
+                }
+                if (wholeRig[fxId]["textRepl"][i].length > 1) {
+                    let val = Math.floor( (e.message.data[wholeRig[fxId]["multiReqPos"][i]] * 127) + e.message.data[wholeRig[fxId]["multiReqPos"][i] + 1])
+                    let posMsb = wholeRig[fxId]["multiReqPos"][i];
+                    let posLsb = posMsb + 1;
+                    let valMsb = e.message.data[posMsb];
+                    let valLsb = e.message.data[posLsb];
+                    //console.log(" textrepl " + i + " " + temp + "###"  + valMsb + "#" + valLsb + "###" + posMsb + "#" + posLsb)
+                    //console.log("math "+ Math.floor( ((e.message.data[34] *127) + e.message.data[35])) + " val " + val );
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][val] ;    
+                    (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(val,false);
+                } else {
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
+                }
+                
+                //(<HTMLInputElement>document.getElementById(wholeRig["lpFxA"]["label"][i]))!.setValue(temp,false);
+            }
+
 
             for(let i = 0;i < longpr.length; i++) {
-                if (longpr![i].id === "lpFxA") {
+                if (longpr![i].id === fxId) {
                     console.log("yesss " + i + "#" + longpr[i].firstChild?.nodeValue + "###" );
-                    longpr[i]!.firstChild!.nodeValue = fx2.nameOfFx;
+                    longpr[i]!.firstChild!.nodeValue = wholeRig[longpr![i].id]["nameOfFx"].toString();
                     console.log("stomps change " );
 
                     //test1[0].setValue(1,false);
@@ -573,68 +626,91 @@ function onEnabled() {
                 //document.getElementById("STOMPS")?.setValue(1);
             }
 
-            //findAndLoadFx(e.message.data[10],e.message.data[11])
-            //if ( (fx0.nameOfFxId[0] === e.message.data[10]) && (fx0.nameOfFxId[1] === e.message.data[11])) {
-                console.log("fxa sysexin " + document.getElementsByClassName("longPress").length + "#" + fx0.nameOfFxId[0] + "#" + e.message.data[10] + e.message.data[11])
-            //}
+
             console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 51) {  //is answer to multirequest stomp B
-            startTimeFxInputs[5] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[6] = Date.now();
+            //console.log(" stompB " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 52) {  //is answer to multirequest stomp C
-            startTimeFxInputs[6] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[7] = Date.now();
+            //console.log(" Stomp C " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 53) {  //is answer to multirequest stomp D
-            startTimeFxInputs[7] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[8] = Date.now();
+            //console.log(" Stomp D " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 56) {  //is answer to multirequest stomp X
-            startTimeFxInputs[8] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[9] = Date.now();
+            //console.log(" Stomp E " + e.message.data[26] + "#"+ e.message.data[27] );
         }
 
         else if (e.message.data[6] === 2 && e.message.data[8] === 58) {  //is answer to multirequest stomp X
-            startTimeFxInputs[9] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[10] = Date.now();
+            //console.log(" stomp x " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 60) {  //is answer to multirequest stomp X
-            startTimeFxInputs[10] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[11] = Date.now();
+            //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 61) {  //is answer to multirequest stomp X
-            startTimeFxInputs[11] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[12] = Date.now();
+            //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 127) {  //is answer to multirequest stomp X
-            startTimeFxInputs[12] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            startTimeFxInputs[13] = Date.now();
+            //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
 
        
       
         else if (e.message.data[6] === 1 && e.message.data[8] === 10 ) {  //single request Amplifier 
-            for (let i = 0; i < mainFrontKnobs.singleReqId.length; i++) {
-                if ((mainFrontKnobs.singleReqId[i] === e.message.data[9]) && (mainFrontKnobs.adressPage[i] === e.message.data[8]) )  {
-                    console.log("amplifier sysex single in" + mainFrontKnobs.singleReqId[i] + "####" + i);
-                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],mainFrontKnobs,i).toString();
+            
+            for (let i = 0; i < arrayOfFxObj[2]["singleReqPos"].length; i++) {
+                console.log("amplifier sysex single in" + arrayOfFxObj[2]["adressPage"][i] + "####" + e.message.data[8]);
+                console.log("amplifier sysex single in 2 " + arrayOfFxObj[2]["singleReqPos"][i]+ "####" +e.message.data[9]);
+                if ((arrayOfFxObj[2]["singleReqPos"][i] === e.message.data[9]) && (arrayOfFxObj[2]["adressPage"][i] === e.message.data[8]) )  {
+          //          console.log("amplifier sysex single in" + mainFrontKnobs.singleReqId[i] + "####" + i);
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[2],i).toString();
                     //console.log( )
-                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = temp;
-                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = temp;
+                    document.getElementById(arrayOfFxObj[2]["label"][i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][i]))!.setValue(temp,false);
                 }
             }
         }
-        else if (e.message.data[6] === 1 && e.message.data[8] === 11 ) {  //single request Rig settings in
-            for (let i = 0; i < mainFrontKnobs.singleReqId.length; i++) {
-                if ( (mainFrontKnobs.singleReqId[i] === e.message.data[9]) && (mainFrontKnobs.adressPage[i] === e.message.data[8]) ) {
-                    console.log("equalizer sysex single in " + mainFrontKnobs.singleReqId[i] + "#" + i);
-                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],mainFrontKnobs,i).toString();
-                    document.getElementById(mainFrontKnobs.label[i])!.innerHTML = temp;
-                    (<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = temp;
+        else if (e.message.data[6] === 1 && e.message.data[8] === 11 ) {  //single request Equalizer settings in
+            for (let i = 0; i < arrayOfFxObj[3]["singleReqPos"].length; i++) {
+                if ( (arrayOfFxObj[3]["singleReqPos"][i] === e.message.data[9]) && (arrayOfFxObj[3]["adressPage"][i] === e.message.data[8]) ) {
+                    console.log("equalizer sysex single in " + arrayOfFxObj[3]["singleReqPos"][i] + "#" + i);
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[3],i).toString();
+                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(arrayOfFxObj[3]["label"][i]))!.setValue(temp,false);
                 }
             }
+        }
+        else if (e.message.data[6] === 1 && e.message.data[8] === 50 ) {  //single request FXa  in
+            fxId = "lpFxA";
+            //let temp = "";
+            for (let i = 0; i < wholeRig[fxId]["singleReqPos"].length; i++) { 
+                console.log("single req lpfxa in " + wholeRig[fxId]["singleReqPos"][i] + "#" + wholeRig[fxId]["textRepl"][i].length);
+                if ( wholeRig[fxId]["singleReqPos"][i] === e.message.data[9] && wholeRig[fxId]["textRepl"][i].length <= 1 ) {
+                   
+                    
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],wholeRig[fxId],i).toString();
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp;
+                    (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
+                }
+                if ( wholeRig[fxId]["singleReqPos"][i] === e.message.data[9] && wholeRig[fxId]["textRepl"][i].length > 1 ) { 
+                    let temp  = Math.floor( (e.message.data[10] * 127) + e.message.data[11]);
+                    console.log(" single req lpfxa  " + temp);
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] ;
+                    (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
+                }
+                
+            }
+            
+
         }
         else if (e.message.data[6] === 1 && e.message.data[8] === 4 ) {  //single request stomps. stack fx on and off
             console.log("single in " + e.message.data[9]);
@@ -659,7 +735,7 @@ function onEnabled() {
                 let temp = e.message.data.slice(10, e.message.data.length - 2);
                 currentRigname = String.fromCharCode(...temp);
                 startTime = Date.now();
-                startTimeFxInputs[13] = Date.now();
+                startTimeFxInputs[14] = Date.now();
                 perfRigsTable.setData([{ id:1, name: String.fromCharCode(...temp)}]);
               
                 //perfRigsTable.setData( )
@@ -668,7 +744,7 @@ function onEnabled() {
             }
                         //console.log(String.fromCharCode(...temp));
             if (e.message.data[8] === 0 && e.message.data[9] === 2 && !perfMode) {
-                startTimeFxInputs[14] = Date.now();
+                startTimeFxInputs[15] = Date.now();
                 let temp = e.message.data.slice(10, e.message.data.length - 2);
                 perfRigsTable.setData([{ id:1, name: perfRigsTable.getData()[0].name,  author: String.fromCharCode(...temp)}]);
                 console.log("string in " + String.fromCharCode(...temp) );
@@ -724,17 +800,6 @@ document.addEventListener('DOMContentLoaded',function () {
 } );
 
 
-let fxNames = ["Wah Wah", "Wah Low Pass"];
-let fxObjects: FxObj[] = [];
-fxNames.forEach( element => {
-    console.log("xxxxx" + element);   
-    fxObjects.push(new FxObj(element)); 
-})
-//let fxObj1 = new FxObj("Wah Wah");
-
-
-console.log(" fxObj1 " + Object.keys(fxObjects[0]) + "#" + fxObjects[0].name + "#");
-
 //write obj to disk
 //const myJSON = JSON.stringify(rigTestObj);
 //localStorage.setItem("test1",myJSON);
@@ -768,10 +833,6 @@ for(let i = 0; i < longClickElements.length; i++) {    //add longpress event lis
         longClickElements[i].addEventListener('click',triggerShortPress, true);
     }
 }
-
-
-
-
 
 
 //listen on table long press
@@ -809,35 +870,31 @@ myCollapse?.addEventListener('hide.bs.collapse', function() {
 //fxContainers[0].children[1]["max"] = "30";
 
 function triggerShortPress() {
-   //debugger;
-
-   //wholeRig["lpFxA"] = fx1;
    
-   console.log( Object.keys(modalParamsHeader!.innerText ) + "##" + this.id  + wholeRig[this.id]["label"]);
+   console.log("trigger short press" + wholeRig[this.id].nameOfFx + "##" + this.id  + wholeRig[this.id]["label"]);
 
    //update label
    //document.getElementById(this.id + "0")!.children[0].innerHTML = "joo";
 
    //wholeRig[this.id]["label"]  //array of fx name where to 
-   document.getElementById("lpFxA0")!.children[1].innerHTML = "fds";
+  // document.getElementById("lpFxA0")!.children[1].innerHTML = "fds";
    //document.getElementById("lpFxA1")!.children[1].setValue(3,true);
    //document.getElementById(wholeRig[this.id]["label"][0])!.setValue(3,true);
-
-   console.log("innerhtml fx" + document.getElementById("lpFxA0")?.children[1].nodeName);
-   console.log("innerhtml fx" + document.getElementById("lpFxA0")?.children[1].classList );
-   console.log("innerhtml fx" + wholeRig[this.id]["textRepl"].length);
-
-
+   if (wholeRig[this.id].nameOfFx === '') { modalParamsHeader!.innerHTML = "Off"; }
+   if (wholeRig[this.id].nameOfFx !== '') { modalParamsHeader!.innerHTML = wholeRig[this.id].nameOfFx; }
 
    //replace value of knob, incase its not a "simple" value on open the fx
-   for(let i = 0; i < wholeRig[this.id]["textRepl"].length; i++) {
-        console.log("trigger val:" + wholeRig[this.id]["textRepl"][i] + "#" + wholeRig[this.id]["textRepl"][i].length );
-        if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
-           
-            document.getElementById(this.id + i)!.children[1].innerHTML = wholeRig[this.id]["textRepl"][i][(<HTMLInputElement>document.getElementById(this.id + i)!.children[1]).value];
-        }
+   //console.log(wholeRig[this.id])
+   //for(let i = 0; i < wholeRig[this.id]["textRepl"].length; i++) {
+   //     console.log("trigger val:" + wholeRig[this.id]["textRepl"][i].length  + "##" + i);
+   //     if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
+   
+
+    //        document.getElementById(this.id)!.children[1].innerHTML = wholeRig[this.id]["nameOfFx"];
+           // wholeRig[this.id]["nameOfFx"][(<HTMLInputElement>document.getElementById(this.id)!.children[1]).value];
+    //    }
         
-   }
+   //}
 
    //hide all fx controls
     for (let i = 0;i < divFxContainers.length; i++) {
@@ -848,44 +905,109 @@ function triggerShortPress() {
 
    let objtest1 = document.getElementById("fxContainer" + "0");
    let objtest = document.getElementById("lpFxA" + "0")?.children[1]
+
    if (this.id.includes("lpFx")) {
-        console.log("fffff" +  document.getElementById("fxContainer" + "0")?.children[1].innerHTML);
-        objtest1?.setAttribute("value","test");
+        //for (let i = 0; i < wholeRig[this.id].length; i++) {
+            //document.getElementById(this.id + i)!.children[1]!.setValue(5,false)
+            //document.getElementById(this.id + i)!.children[1]!.innerHTML = "5";
+            //console.log("ffff "  );
+
+        //}
+        document.getElementById("lpFxA0")?.children[1].removeEventListener("touchend",handleKnobFixElements,true);
+        document.getElementById("lpFxA0")?.children[1].addEventListener("touchend", handleKnobFixElements, true );
+        //console.log("fffff" +  document.getElementById("lpFxA0")?.children[1].innerHTML);
+        //objtest1?.setAttribute("value","test");
         //objtest!.setAttribute("step","15");
-        //objtest!.innerHTML = 'fds';
    }
 
    //modalParamsHeader?.innerText = "test";  //set text of modal header to id "modalParamsHeader"
-   modalParamsHeader!.innerHTML = wholeRig[this.id].nameOfFx;
+
 
 }
 
+function getIndexOfFx(obj: Object, id: string): number {
+    for(let i = 0; i < obj["label"].length; i++ ) { 
+        //console.log("getindexoffx " + obj["label"][i] + "#" + id);
+        if (obj["label"][i] === id) {  return i;  }  
+    }
+    return -1;
+}
+
+function getAdrPageFromFxId(fxId: string): number  {
+    if (fxId.includes("lpFxG")) { return 4; }
+    if (fxId.includes("lpFxI")) { return 9; }
+    if (fxId.includes("lpFxP")) { return 10; }
+    if (fxId.includes("lpFxE")) { return 11; }
+    if (fxId.includes("lpFxS")) { return 12; }
+    if (fxId.includes("lpFxA")) { return 50; }     
+    if (fxId.includes("lpFxB")) { return 51; }
+    if (fxId.includes("lpFxC")) { return 52; }
+    if (fxId.includes("lpFxD")) { return 53; }
+    if (fxId.includes("lpFxX")) { return 56; }
+    if (fxId.includes("lpFxM")) { return 58; }
+    if (fxId.includes("lpFxD")) { return 60; }
+    if (fxId.includes("lpFxR")) { return 61; }
+    if (fxId.includes("lpFxR")) { return 61; }
+    if (fxId.includes("lpFxU")) { return 118; }
+    if (fxId.includes("lpFxL")) { return 125; }
+    if (fxId.includes("lpFxY")) { return 127; }     
+    return 0;
+}
+
 function handleKnobFixElements(event) {
-    //debugger;
-    //event.preventDefault();
-    //assign value
-    //this.innerText = Number((this.value).toFixed(3));
     this.innerText =  (this.value).toFixed(2);
 
-
-    console.log("trigger val1:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" );
+    //console.log("trigger val1:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" );
     
+    let maxFxObjToScan: number = 4; //visible objects have a name starting with "knob" 
+    //equalizer is at place 4 or index 3 so it must be found until this index
+    let currVal = this.value;
+    //let index =  mainFrontKnobs.label.findIndex(x => x === this.id);
+    let index: number = -1;
+
+    let j: number = 0;
 
     if (this.id.includes("knob")) {
-        //6215: 48, 119
-         //x30 = 48
-         //x47
-        //5190: 40, 110
-        //9910: 78, 4
-        //
-        let currVal = this.value;
-        let index = mainFrontKnobs.label.findIndex(x => x === this.id);
+        //6215: 48, 119     //x30 = 48     //x47      //5190: 40, 110       //9910: 78, 4
+        for (j = 0; j < maxFxObjToScan;j++ ) {
+            index = getIndexOfFx(arrayOfFxObj[j],this.id);
+            if (index >= 0) { break;}  //we keep j as index to set obj correctly even if the are in another obj, equalizer / Amplifier / Rig
+        }
 
         let modifier: number = 1625.6;
         //if it there is a negative value and symmetric
-        if (parseInt(mainFrontKnobs.min[index]) < 0  && (Math.abs(parseInt(mainFrontKnobs.min[index])) ===  Math.abs(parseInt(mainFrontKnobs.max[index])))  ) {
-            currVal = currVal  + Math.abs(parseInt(mainFrontKnobs.max[index])); //add e.g. 5 to the current value if the max range is -5 to 5, correspond to 0 - max (16256)
-            modifier = 8128 / Math.abs(parseInt(mainFrontKnobs.max[index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
+        if (parseInt(arrayOfFxObj[j]["min"][index]) < 0  && (Math.abs(parseInt(arrayOfFxObj[j]["min"][index])) ===  Math.abs(parseInt(arrayOfFxObj[j]["max"][index])))  ) {
+            currVal = currVal  + Math.abs(parseInt(arrayOfFxObj[j]["max"][index])); //add e.g. 5 to the current value if the max range is -5 to 5, correspond to 0 - max (16256)
+            modifier = 8128 / Math.abs(parseInt(arrayOfFxObj[j]["max"][index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
+            //modifier = 3251.2;
+        }
+        let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
+        let temp2 = temp1* 127;
+        if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
+        let temp3 = Math.floor(Math.abs(currVal) * modifier) - (temp1 * 127);
+  
+        //console.log("knob: " + this.id + "#" + this.value + "#" + (this.value & 0x7f).toString(16).padStart(2,'0') + "###" + ((this.value >> 127) & 0x7f).toString(16).padStart(2,'0') );
+        //console.log("knob1: " + temp1 + "#" + temp3 + "#" +  "##" + index + "##" + arrayOfFxObj[j]["adressPage"][index] + " + " + j);
+        //console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + 
+        //    "###" + ((6215 >> 127) & 127).toString(10) + "##" + arrayOfFxObj[j]["adressPage"][index] + "#" + j);
+
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,arrayOfFxObj[j]["adressPage"][index], arrayOfFxObj[j]["singleReqPos"][index],temp1,temp3]);
+
+        return;
+    }
+
+    if (this.parentElement.id.includes("lpFx")) {
+        let adrPage: number = 0; 
+        adrPage = getAdrPageFromFxId(this.parentElement.id);
+       
+        index = getIndexOfFx(wholeRig[this.parentElement.id.substring(0,5)],this.id);
+
+        let modifier: number = 1625.6;
+        //if it there is a negative value and symmetric
+        if (parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index]) < 0  && (Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) ===  
+                Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])))  ) {
+            currVal = currVal  + Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])); //add e.g. 5 to the current value if the max range is -5 to 5, correspond to 0 - max (16256)
+            modifier = 8128 / Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
             //modifier = 3251.2;
         }
         let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
@@ -893,13 +1015,10 @@ function handleKnobFixElements(event) {
         if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
         let temp3 = Math.floor(Math.abs(currVal) * modifier) - (temp1 * 127);
 
-          
-        //console.log("knob: " + this.id + "#" + this.value + "#" + (this.value & 0x7f).toString(16).padStart(2,'0') + "###" + ((this.value >> 127) & 0x7f).toString(16).padStart(2,'0') );
-        console.log("knob1: " + temp1 + "#" + temp3 + "#" + (Math.abs(this.value) * modifier) + "##");
-        console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + "###" + ((6215 >> 127) & 127).toString(10) );
+        //console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + 
+        //    "###" + ((6215 >> 127) & 127).toString(10) + "##" + adrPage );
 
-        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,mainFrontKnobs.adressPage[index], mainFrontKnobs.singleReqId[index],temp1,temp3]);
-
+        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,adrPage, wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index],temp1,temp3]);
         return;
     }
 
@@ -913,31 +1032,22 @@ function handleKnobFixElements(event) {
         }
         
     }
-    console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.max + "#" + this.step + "#" + this.parentElement.id );
-    let targetTouch = event.targetTouches;
-    //debugger;
-    let temp = this.id;
-    if (this.parentElement.id !== "") {  
-        if (this.parentElement.id === "fxContainer5") {
-            console.log("fxcontainer5 " + this.getAttribute("max") );
-            //this!.setAttribute("max","500");  
-        }
-    }
-
-
+    //console.log("handleknobfixelements " + this.id + "#" + this.value +  "#" + this.max + "#" + this.step + "#" + this.parentElement.id );
+    //let targetTouch = event.targetTouches;
 }
 
 
 //console.log("start" + window.screen.availHeight + "#" + window.screen.availWidth);
 
-console.log("inputknobfix " + document.getElementsByClassName("inputKnobFix").length);
+//console.log("inputknobfix " + document.getElementsByClassName("inputKnobFix").length);
 //catch the fixed elements by classname on all fix knobs and attach event handler just trigger on touchleave
 let inputKnobFixElements = document.getElementsByClassName("inputKnobFix");
 //debugger;
 //for (inputKnobFixElement of inputKnobFixElements) {  
-console.log("inputknobfix " + inputKnobFixElements.length);
+//console.log("inputknobfix " + inputKnobFixElements.length);
 for(let i = 0; i < inputKnobFixElements.length; i++) {    
     //debugger;
+    //console.log("inputknobfix " + i + "#" + inputKnobFixElements[i]);
     //inputKnobFixElement.addEventListener("input", handleKnobFixElements, true ); 
     inputKnobFixElements[i].addEventListener("touchend", handleKnobFixElements, true );
     //inputKnobFixElement.addEventListener("mouseup", handleKnobFixElements, true );  //support mouse unclick

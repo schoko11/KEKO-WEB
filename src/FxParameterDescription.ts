@@ -1,6 +1,6 @@
 
 //mainly for setting the html tags
-class FxParameterDescription {
+export class FxParameterDescription {
     fxParameter: string;
     //fxName: string[]; //in which fx is this parameter used 
     min: string;
@@ -17,7 +17,8 @@ class FxParameterDescription {
         this.log = 0;
         this.defvalue = "";
         this.value = "";
-        this.fxParameter = parameter;
+        this.fxParameter = "";
         //this.fxName = [];
     }
-}
+
+};
