@@ -533,8 +533,8 @@ function onEnabled() {
                 arrayOfValues.push(calcMsbLsb(e.message.data[arrayOfFxObj[2]["multiReqPos"]![i]],
                     e.message.data[arrayOfFxObj[2]["multiReqPos"][i] + 1],arrayOfFxObj[2],i).toString());
                     //console.log("multireq sysexin amp 2 " + i  + "#" +  arrayOfValues[i] + "##" + mainFrontKnobs.label[i]);
-                    document.getElementById(arrayOfFxObj[2]["label"]![i])!.innerHTML = arrayOfValues[i];
-                    (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][i]))!.setValue(arrayOfValues[i],false);
+                document.getElementById(arrayOfFxObj[2]["label"]![i])!.innerHTML = arrayOfValues[i] + arrayOfFxObj[2]["addValue"][i];
+                (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][i]))!.setValue(arrayOfValues[i],false);
                     //(<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
             }
         }
@@ -545,14 +545,14 @@ function onEnabled() {
                 //console.log("eq multirequest in " + arrayOfFxObj[3]["multiReqPos"][i])
                 arrayOfValues.push(calcMsbLsb(e.message.data[arrayOfFxObj[3]["multiReqPos"][i]],
                     e.message.data[arrayOfFxObj[3]["multiReqPos"][i] + 1],arrayOfFxObj[3],i).toString());
-                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = arrayOfValues[i];
+                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = arrayOfValues[i] + arrayOfFxObj[3]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(arrayOfFxObj[3]["label"][i]))!.setValue(arrayOfValues[i],false);
                   //(<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
             }
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 12) {  //is answer to multirequest cabinet
             startTimeFxInputs[4] = Date.now();
-            console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
+            //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
         //multi req in 10,11: appendix b midi manual
         else if (e.message.data[6] === 2 && e.message.data[8] === 50) {  //is answer to multirequest stomp A
@@ -584,7 +584,7 @@ function onEnabled() {
     //    }
         
    //}
-                console.log("temp " + temp);
+                //console.log("temp " + temp);
                 if (document.getElementById(wholeRig[fxId]["label"][i]) === null) { 
                     modalParamsHeader!.innerHTML = "";
                     modalParamsHeader!.innerHTML = "off";
@@ -598,10 +598,10 @@ function onEnabled() {
                     let valLsb = e.message.data[posLsb];
                     //console.log(" textrepl " + i + " " + temp + "###"  + valMsb + "#" + valLsb + "###" + posMsb + "#" + posLsb)
                     //console.log("math "+ Math.floor( ((e.message.data[34] *127) + e.message.data[35])) + " val " + val );
-                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][val] ;    
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][val] + wholeRig[fxId]["addValue"][i] ;    
                     (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(val,false);
                 } else {
-                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp;
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp + wholeRig[fxId]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
                 }
                 
@@ -674,7 +674,7 @@ function onEnabled() {
           //          console.log("amplifier sysex single in" + mainFrontKnobs.singleReqId[i] + "####" + i);
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[2],i).toString();
                     //console.log( )
-                    document.getElementById(arrayOfFxObj[2]["label"][i])!.innerHTML = temp;
+                    document.getElementById(arrayOfFxObj[2]["label"][i])!.innerHTML = temp + arrayOfFxObj[2]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][i]))!.setValue(temp,false);
                 }
             }
@@ -684,7 +684,7 @@ function onEnabled() {
                 if ( (arrayOfFxObj[3]["singleReqPos"][i] === e.message.data[9]) && (arrayOfFxObj[3]["adressPage"][i] === e.message.data[8]) ) {
                     console.log("equalizer sysex single in " + arrayOfFxObj[3]["singleReqPos"][i] + "#" + i);
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[3],i).toString();
-                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = temp;
+                    document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = temp + arrayOfFxObj[3]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(arrayOfFxObj[3]["label"][i]))!.setValue(temp,false);
                 }
             }
@@ -698,13 +698,13 @@ function onEnabled() {
                    
                     
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],wholeRig[fxId],i).toString();
-                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp;
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp + wholeRig[fxId]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
                 }
                 if ( wholeRig[fxId]["singleReqPos"][i] === e.message.data[9] && wholeRig[fxId]["textRepl"][i].length > 1 ) { 
                     let temp  = Math.floor( (e.message.data[10] * 127) + e.message.data[11]);
                     console.log(" single req lpfxa  " + temp);
-                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] ;
+                    document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
                     (<HTMLInputElement>document.getElementById(wholeRig[fxId]["label"][i]))!.setValue(temp,false);
                 }
                 
@@ -824,7 +824,6 @@ function paramLookup(cell) {
 //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
 
 let longClickElements = document.getElementsByClassName('longPress');
-console.log(longClickElements.length);
 for(let i = 0; i < longClickElements.length; i++) {    //add longpress event listeners to fx, amplifier equalizer and cabinet
     //console.log("" + longClickElements[i].id.substring(0,1) );
     //only buttons with id starting with "lp"
@@ -871,7 +870,7 @@ myCollapse?.addEventListener('hide.bs.collapse', function() {
 
 function triggerShortPress() {
    
-   console.log("trigger short press" + wholeRig[this.id].nameOfFx + "##" + this.id  + wholeRig[this.id]["label"]);
+   //console.log("trigger short press" + wholeRig[this.id].nameOfFx + "##" + this.id  + wholeRig[this.id]["label"]);
 
    //update label
    //document.getElementById(this.id + "0")!.children[0].innerHTML = "joo";
@@ -907,14 +906,16 @@ function triggerShortPress() {
    let objtest = document.getElementById("lpFxA" + "0")?.children[1]
 
    if (this.id.includes("lpFx")) {
-        //for (let i = 0; i < wholeRig[this.id].length; i++) {
+        for (let i = 0; i < wholeRig[this.id]["label"].length; i++) {
+            document.getElementById(this.id + i)?.children[1].removeEventListener("touchend",handleKnobFixElements,true);
+            document.getElementById(this.id + i)?.children[1].addEventListener("touchend", handleKnobFixElements, true );
             //document.getElementById(this.id + i)!.children[1]!.setValue(5,false)
             //document.getElementById(this.id + i)!.children[1]!.innerHTML = "5";
             //console.log("ffff "  );
 
-        //}
-        document.getElementById("lpFxA0")?.children[1].removeEventListener("touchend",handleKnobFixElements,true);
-        document.getElementById("lpFxA0")?.children[1].addEventListener("touchend", handleKnobFixElements, true );
+        }
+        //console.log("xxx" + wholeRig[this.id]["label"].length)
+
         //console.log("fffff" +  document.getElementById("lpFxA0")?.children[1].innerHTML);
         //objtest1?.setAttribute("value","test");
         //objtest!.setAttribute("step","15");
@@ -955,9 +956,17 @@ function getAdrPageFromFxId(fxId: string): number  {
 }
 
 function handleKnobFixElements(event) {
-    this.innerText =  (this.value).toFixed(2);
 
-    //console.log("trigger val1:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" );
+    //console.log("trigger val1:" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length + "#" + this.value);
+    //console.log("trigger val2:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" + this.parentElement.id  + "##" +  this.parentElement.id.substring(5,));
+    //when touching knobs of fx, print text instead value if defined in the fx obj
+    if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
+        this.innerText =  wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
+    }
+    if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
+        this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
+    }
+
     
     let maxFxObjToScan: number = 4; //visible objects have a name starting with "knob" 
     //equalizer is at place 4 or index 3 so it must be found until this index
@@ -1003,6 +1012,10 @@ function handleKnobFixElements(event) {
         index = getIndexOfFx(wholeRig[this.parentElement.id.substring(0,5)],this.id);
 
         let modifier: number = 1625.6;
+        //console.log("knob1: " + parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index] + "#" + 
+            Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) + "#" + 
+            Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index]))) + "#" + 
+            wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length )
         //if it there is a negative value and symmetric
         if (parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index]) < 0  && (Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) ===  
                 Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])))  ) {
@@ -1010,6 +1023,11 @@ function handleKnobFixElements(event) {
             modifier = 8128 / Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
             //modifier = 3251.2;
         }
+        //fix min 0 fx, e.g. "Mix" of WAH WAH
+        if (parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index]) === 0 && wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length <= 1) {
+            //currVal = currVal  + Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index]));
+            modifier = 16256 / Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])); 
+        } 
         let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
         let temp2 = temp1* 127;
         if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
@@ -1017,6 +1035,12 @@ function handleKnobFixElements(event) {
 
         //console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + 
         //    "###" + ((6215 >> 127) & 127).toString(10) + "##" + adrPage );
+        //console.log("knob3:" + index + "#" + temp1 + "#" + temp3 + "##" + currVal + "##" + modifier )
+        //correct textrepl value sent out...
+        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length > 1 && wholeRig[this.parentElement.id.substring(0,5)]["max"][index] <= 127) {
+            temp1 = 0;
+            temp3 = currVal;
+        }
 
         midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,adrPage, wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index],temp1,temp3]);
         return;
@@ -1028,7 +1052,8 @@ function handleKnobFixElements(event) {
         //console.log("trigger val:" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i] + "#");
         if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i].length > 1) { //two elements minimum
             //console.log("trigger value" + document.getElementById(this.parentElement.id)!.children[1].value  + "####" + document.getElementById(this.parentElement.id.substring(0,5) + i )!.children[1].innerHTML);
-            document.getElementById(this.parentElement.id.substring(0,5) + i )!.children[1].innerHTML = wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i][(<HTMLInputElement>document.getElementById(this.parentElement.id.substring(0,5) + i)!.children[1]).value];
+            document.getElementById(this.parentElement.id.substring(0,5) + i )!.children[1].innerHTML =
+                wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][i][(<HTMLInputElement>document.getElementById(this.parentElement.id.substring(0,5) + i)!.children[1]).value];
         }
         
     }
@@ -1044,10 +1069,10 @@ function handleKnobFixElements(event) {
 let inputKnobFixElements = document.getElementsByClassName("inputKnobFix");
 //debugger;
 //for (inputKnobFixElement of inputKnobFixElements) {  
-//console.log("inputknobfix " + inputKnobFixElements.length);
+console.log("inputknobfix " + inputKnobFixElements.length);
 for(let i = 0; i < inputKnobFixElements.length; i++) {    
     //debugger;
-    //console.log("inputknobfix " + i + "#" + inputKnobFixElements[i]);
+    console.log("inputknobfix " + i + "#" + inputKnobFixElements[i]);
     //inputKnobFixElement.addEventListener("input", handleKnobFixElements, true ); 
     inputKnobFixElements[i].addEventListener("touchend", handleKnobFixElements, true );
     //inputKnobFixElement.addEventListener("mouseup", handleKnobFixElements, true );  //support mouse unclick

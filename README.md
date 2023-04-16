@@ -21,10 +21,15 @@ You have to use Chrome (testing on linux mint).
 Try it here: https://schoko11.github.io/KEKO-WEB/
 
 
-Supported Features:
+### Supported Features:
+```
+16.04.2023: Fix Wah Wah Fx (both way communication and reflection)
+            Added "Wah Low Pass" , "Wah High Pass", "Wah Vowel Filter", "Wah Phaser", "Wah Flanger"
+            Only recognized on Stomp A for now
 15.04.2023: When changing to rig mode (click Browse/Perform in the main menu), after that the rig settings are sent and received.
             For now some effects are recognized on Stomp A, Fx "WAH WAH" is fully functional, short press on Stomp A to change
             the effects parameter.
             Gain, bass, mids, trebble, presence on the main screen are also fully operational.
             Rig Right and Left, changes the rig and collect its data, rig name and rig author, STOMPS, STACK and EFFECTS main
             section(trigger with the round buttons).    
+```

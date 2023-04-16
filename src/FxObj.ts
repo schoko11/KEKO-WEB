@@ -10,7 +10,7 @@ import { FxParameterNames } from "./FxParameterNames";
 //let arrayOfFxMaps: Array<Map<string, Object>> = [];
 let arrayOfFxObj: Array<Object> = [];
 
-const fxKeyNames = ["step","min","max","label","textRepl","nameOfFx","nameOfFxId","multiReqPos","singleReqPos","adressPage"];
+const fxKeyNames = ["step","min","max","label","textRepl","nameOfFx","nameOfFxId","multiReqPos","singleReqPos","adressPage","addValue"];
 
 export const defFxObj = {
     [fxKeyNames[0]] : ["0"],     //step
@@ -22,7 +22,8 @@ export const defFxObj = {
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],        //multiReqPos
     [fxKeyNames[8]]: [0],        //singleReqPos 
-    [fxKeyNames[9]]: [0]         //adressPage
+    [fxKeyNames[9]]: [0],         //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
 } 
 
 
@@ -37,7 +38,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -52,7 +54,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -67,7 +70,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [18],       //multiReqPos
     [fxKeyNames[8]]: [4],       //singleReqPos 
-    [fxKeyNames[9]]: [10]        //adressPage
+    [fxKeyNames[9]]: [10],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -82,7 +86,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [18,20,22,24],       //multiReqPos
     [fxKeyNames[8]]: [4,5,6,7],       //singleReqPos 
-    [fxKeyNames[9]]: [11,11,11,11]        //adressPage
+    [fxKeyNames[9]]: [11,11,11,11],        //adressPage
+    [fxKeyNames[10]]: ["","","",""]         //addValue
     }
 );
 
@@ -97,7 +102,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -112,7 +118,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -127,7 +134,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -142,7 +150,8 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0],       //nameofFxId
     [fxKeyNames[7]]: [0],       //multiReqPos
     [fxKeyNames[8]]: [0],       //singleReqPos 
-    [fxKeyNames[9]]: [0]        //adressPage
+    [fxKeyNames[9]]: [0],        //adressPage
+    [fxKeyNames[10]]: [""]         //addValue
     }
 );
 
@@ -172,82 +181,89 @@ arrayOfFxObj.push({
     [fxKeyNames[6]]: [0,1],
     [fxKeyNames[7]]: [26,28,30,114, 34 ,18,  116,  22],
     [fxKeyNames[8]]: [8,9,10,52,12,4,53,6],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","%","",""]         //addValue
     }
 );
 
 //wah, wah
 arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1","0.1","0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","0"],
-    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","10"],
-    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking", "Touch Attack","Touch Release","Touch Boost",     "Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","5"],
+    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
     [fxKeyNames[5]]: "Wah Low Pass",
     [fxKeyNames[6]]: [0,2],
-    [fxKeyNames[7]]: [26,28,30,114,  34 ,18,  116,  22,11,11,11],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[7]]: [26,28,30,114, 34 ,18,  116,  22],
+    [fxKeyNames[8]]: [8,9,10,52,12,4,53,6],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","%","",""]        
     }
 );
 
 //wah, wah
 arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1","0.1","0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","0"],
-    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","10"],
-    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking", "Touch Attack","Touch Release","Touch Boost",     "Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","5"],
+    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
     [fxKeyNames[5]]: "Wah High Pass",
     [fxKeyNames[6]]: [0,3],
-    [fxKeyNames[7]]: [26,28,30,114,  ,34 ,18,  116,  22,11,11,11],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[7]]: [26,28,30,114, 34 ,18,  116,  22],
+    [fxKeyNames[8]]: [8,9,10,52,12,4,53,6],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","%","",""]        
     }
 );
 
 //wah, wah
 arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1","0.1","0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","0"],
-    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","10"],
-    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking","Touch Attack","Touch Release","Touch Boost", "Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","5"],
+    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking",     "Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""]],
     [fxKeyNames[5]]: "Wah Vowel Filter",
     [fxKeyNames[6]]: [0,4],
-    [fxKeyNames[7]]: [26,28,30,114,  ,34 ,18,  116,  22,11,11,11],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[7]]: [26,28,30,114, 34 ,18,  116,  22],
+    [fxKeyNames[8]]: [8,9,10,52,12,4,53,6],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","%","",""]        
     }
 );
 
 //wah, wah
 arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","0","0","0","0"],
-    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","10","10","10","10"],
-    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Spread","Stages","Pedal Mode", "Mix", "Ducking", "Touch Attack","Touch Release","Touch Boost", "Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[0]]: ["0.1","0.1","1","1","1","0.1","1","1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-100","-100","0","-5","0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","10","100","100","5","5","5","100","5","5"],
+    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Spread","Stages", "Mix", "Ducking", "Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],["2","4","6","8","10","12"],
+                    [""],[""],[""]],
     [fxKeyNames[5]]: "Wah Phaser",
     [fxKeyNames[6]]: [0,6],
-    [fxKeyNames[7]]: [26,28,30,114,  ,34 ,18,  116,  22,11,11,11,11,11,11,11],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[7]]: [26,28,30,114,34 ,62,  64,  18,116,11],
+    [fxKeyNames[8]]: [8,9,10,52,12,26,27,4,53,6],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","","","%","",""]   
     }
 );
 
 //wah, wah
 arrayOfFxObj.push({
     [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1","0.1","0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","0"],
-    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","10"],
-    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking", "Touch Attack","Touch Release","Touch Boost",     "Volume"],
+    [fxKeyNames[1]]: ["0","0","-100","-100","0","0","-5","0","0","0","-5"],
+    [fxKeyNames[2]]: ["10","10","100","100","5","100","5","10","10","10","5"],
+    [fxKeyNames[3]]: ["Manual","Peak","Pedal Range","Peak Range",  "Pedal Mode", "Mix", "Ducking", "Touch Attack","Touch Release","Touch Boost","Volume"],
     [fxKeyNames[4]]: [[""],[""],[""],[""],  ["Off","Touch","On","Bypass @ Stop","Bypass @ Heel", "Bypass @ Toe"],[""],[""],[""],[""],[""],[""]],
     [fxKeyNames[5]]: "Wah Flanger",
     [fxKeyNames[6]]: [0,7],
-    [fxKeyNames[7]]: [26,28,30,114,  ,34 ,18,  116,  22,11,11,11],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0]
+    [fxKeyNames[7]]: [26,28,30,114, 34 ,18,  116,  36,38,40,11],
+    [fxKeyNames[8]]: [8,9,10,52,12,4,53, 13,14,15,6],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: ["","","%","%","","%","","","","",""]   
     }
 );
 
