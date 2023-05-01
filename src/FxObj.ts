@@ -366,81 +366,6 @@ arrayOfFxObj.push({
     [fxKeyNames[1]]: ["0","0","-100"],
     [fxKeyNames[2]]: ["10","10","100"],
     [fxKeyNames[3]]: ["Drive","Tone","Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""]],
-    [fxKeyNames[5]]: "Bit Shaper",
-    [fxKeyNames[6]]: [0,17],
-    [fxKeyNames[7]]: [26,28,22],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [0],
-    [fxKeyNames[10]]: ["","",""]   
-    }
-);
-
-arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1","1"],
-    [fxKeyNames[1]]: ["0","0","-100","-100"],
-    [fxKeyNames[2]]: ["10","10","100","100"],
-    [fxKeyNames[3]]: ["Drive","Soft","Ducking","Volume"],
-    [fxKeyNames[4]]: [[""],[""],[""],[""]],
-    [fxKeyNames[5]]: "Octa Shaper",
-    [fxKeyNames[6]]: [0,18],
-    [fxKeyNames[7]]: [26,28,114,22],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [1],
-    [fxKeyNames[10]]: ["","","",""]   
-    }
-);
-
-arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0"],
-    [fxKeyNames[2]]: ["10","10"],
-    [fxKeyNames[3]]: ["Drive","Volume"],
-    [fxKeyNames[4]]: [[""],[""]],
-    [fxKeyNames[5]]: "Soft Shaper",
-    [fxKeyNames[6]]: [0,19],
-    [fxKeyNames[7]]: [26,22],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [1],
-    [fxKeyNames[10]]: ["",""]   
-    }
-);
-
-arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0"],
-    [fxKeyNames[2]]: ["10","10"],
-    [fxKeyNames[3]]: ["Drive","Volume"],
-    [fxKeyNames[4]]: [[""],[""]],
-    [fxKeyNames[5]]: "Hard Shaper",
-    [fxKeyNames[6]]: [0,20],
-    [fxKeyNames[7]]: [26,22],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [1],
-    [fxKeyNames[10]]: ["",""]   
-    }
-);
-
-arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1"],
-    [fxKeyNames[1]]: ["0","0"],
-    [fxKeyNames[2]]: ["10","10"],
-    [fxKeyNames[3]]: ["Drive","Volume"],
-    [fxKeyNames[4]]: [[""],[""]],
-    [fxKeyNames[5]]: "Wave Shaper",
-    [fxKeyNames[6]]: [0,21],
-    [fxKeyNames[7]]: [26,22],
-    [fxKeyNames[8]]: [0],
-    [fxKeyNames[9]]: [1],
-    [fxKeyNames[10]]: ["",""]   
-    }
-);
-
-arrayOfFxObj.push({
-    [fxKeyNames[0]]: ["0.1","0.1","1"],
-    [fxKeyNames[1]]: ["0","0","-100"],
-    [fxKeyNames[2]]: ["10","10","100"],
-    [fxKeyNames[3]]: ["Drive","Tone","Volume"],
     [fxKeyNames[4]]: [[""],[""],[""]  ],
     [fxKeyNames[5]]: "Kemper Drive",
     [fxKeyNames[6]]: [0,32],
@@ -586,6 +511,145 @@ arrayOfFxObj.push({
     [fxKeyNames[8]]: [17,4,53,6],
     [fxKeyNames[9]]: [1],
     [fxKeyNames[10]]: ["","%","",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","100","5", "5"],
+    [fxKeyNames[3]]: ["Tone","Mix","Ducking","Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Lead Booster",
+    [fxKeyNames[6]]: [0,114],
+    [fxKeyNames[7]]: [42,114,112,22 ],
+    [fxKeyNames[8]]: [17,4,53,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["","%","",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1"],
+    [fxKeyNames[1]]: ["-5"],
+    [fxKeyNames[2]]: ["5"],
+    [fxKeyNames[3]]: ["Volume"],
+    [fxKeyNames[4]]: [[""]],
+    [fxKeyNames[5]]: "Pure Booster",
+    [fxKeyNames[6]]: [0,115],
+    [fxKeyNames[7]]: [22 ],
+    [fxKeyNames[8]]: [6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: [""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["1","0.1"],
+    [fxKeyNames[1]]: ["-100","-5"],
+    [fxKeyNames[2]]: ["100","5"],
+    [fxKeyNames[3]]: ["Pedal Range","Volume"],
+    [fxKeyNames[4]]: [[""],[""]],
+    [fxKeyNames[5]]: "Wah Pedal Booster",
+    [fxKeyNames[6]]: [0,116],
+    [fxKeyNames[7]]: [30,22 ],
+    [fxKeyNames[8]]: [10,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["%",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-5"],
+    [fxKeyNames[2]]: ["10","10","5"],
+    [fxKeyNames[3]]: ["Drive","Tone","Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""]],
+    [fxKeyNames[5]]: "Bit Shaper",
+    [fxKeyNames[6]]: [0,17],
+    [fxKeyNames[7]]: [42,44,22],
+    [fxKeyNames[8]]: [16,17,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["","",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0","0","-5","-5"],
+    [fxKeyNames[2]]: ["10","10","5","5"],
+    [fxKeyNames[3]]: ["Drive","Soft","Ducking","Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Octa Shaper",
+    [fxKeyNames[6]]: [0,18],
+    [fxKeyNames[7]]: [42,28,112,22],
+    [fxKeyNames[8]]: [16,18,53,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["","","",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1"],
+    [fxKeyNames[1]]: ["0","-5"],
+    [fxKeyNames[2]]: ["10","5"],
+    [fxKeyNames[3]]: ["Drive","Volume"],
+    [fxKeyNames[4]]: [[""],[""]],
+    [fxKeyNames[5]]: "Soft Shaper",
+    [fxKeyNames[6]]: [0,19],
+    [fxKeyNames[7]]: [26,22],
+    [fxKeyNames[8]]: [16,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1"],
+    [fxKeyNames[1]]: ["0","-5"],
+    [fxKeyNames[2]]: ["10","5"],
+    [fxKeyNames[3]]: ["Drive","Volume"],
+    [fxKeyNames[4]]: [[""],[""]],
+    [fxKeyNames[5]]: "Hard Shaper",
+    [fxKeyNames[6]]: [0,20],
+    [fxKeyNames[7]]: [26,22],
+    [fxKeyNames[8]]: [16,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["",""]   
+    }
+);
+
+
+
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1"],
+    [fxKeyNames[1]]: ["0","-5"],
+    [fxKeyNames[2]]: ["10","5"],
+    [fxKeyNames[3]]: ["Drive","Volume"],
+    [fxKeyNames[4]]: [[""],[""]],
+    [fxKeyNames[5]]: "Wave Shaper",
+    [fxKeyNames[6]]: [0,21],
+    [fxKeyNames[7]]: [26,22],
+    [fxKeyNames[8]]: [16,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["",""]   
+    }
+);
+
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1","0.1","0.1", "0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["-12","-12","-12","-12","20.3","33470",  "-5","0","-5"],
+    [fxKeyNames[2]]: ["12","12","12","12","830.6","830.6",   "5","100","5"],
+    [fxKeyNames[3]]: ["1250 Hz","2500 Hz","5000 Hz","10 000 Hz","Low Cut","High Cut","Volume","Mix","Ducking"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Graphic Equalizer",
+    [fxKeyNames[6]]: [0,97],
+    [fxKeyNames[7]]: [86,88,90,92,140,142,22,114,112],
+    [fxKeyNames[8]]: [38,39,40,41,67,68,6,4,53],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: [" dB"," dB"," dB", " dB", " Hz", " Hz","","",""]   
     }
 );
 

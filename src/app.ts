@@ -702,6 +702,7 @@ function onEnabled() {
             //let temp = "";
             for (let i = 0; i < wholeRig[fxId]["singleReqPos"].length; i++) { 
                 console.log("single req lpfxa in " + wholeRig[fxId]["singleReqPos"][i] + "#" + wholeRig[fxId]["textRepl"][i].length);
+                console.log("single req lpfxa in 2 " + i + "#" +  wholeRig[fxId]["singleReqPos"] + "#" +  wholeRig[fxId]["nameOfFx"] + "#" + fxId);
                 if ( wholeRig[fxId]["singleReqPos"][i] === e.message.data[9] && wholeRig[fxId]["textRepl"][i].length <= 1 ) {
                    
                     
@@ -936,7 +937,7 @@ function triggerShortPress() {
 
 function getIndexOfFx(obj: Object, id: string): number {
     for(let i = 0; i < obj["label"].length; i++ ) { 
-        //console.log("getindexoffx " + obj["label"][i] + "#" + id);
+        //console.log("getindexoffx " + obj["label"][i] + "#" + id + "##");
         if (obj["label"][i] === id) {  return i;  }  
     }
     return -1;
@@ -999,17 +1000,17 @@ function handleKnobFixElements(event) {
     if (this.id.includes("knob")) {
         //6215: 48, 119     //x30 = 48     //x47      //5190: 40, 110       //9910: 78, 4
         for (j = 0; j < maxFxObjToScan;j++ ) {
-            index = getIndexOfFx(arrayOfFxObj[j],this.id);
+            index = getIndexOfFx(arrayOfFxObj[j],this.id.trim());
             if (index >= 0) { break;}  //we keep j as index to set obj correctly even if the are in another obj, equalizer / Amplifier / Rig
         }
 
-        //console.log(arrayOfFxObj[index]["textRepl"][0] + " " + index + " " + this.id + " " + this.value);
+        //console.log(arrayOfFxObj[j]["textRepl"][0] + "# " + index + "## " + this.id + "### " + this.value + "####" + j);
         //update text on touch device
-        if (arrayOfFxObj[index]["textRepl"][j].length > 1) {
-            this.innerText =  arrayOfFxObj[index]["textRepl"][j][this.value];
+        if (arrayOfFxObj[j]["textRepl"][index].length > 1) {
+            this.innerText =  arrayOfFxObj[j]["textRepl"][index][this.value];
         }
-        if (arrayOfFxObj[index]["textRepl"][j].length <= 1) {
-            this.innerText =  (this.value).toFixed(2) + arrayOfFxObj[index]["addValue"][j];
+        if (arrayOfFxObj[j]["textRepl"][index].length <= 1) {
+            this.innerText =  (this.value).toFixed(2) + arrayOfFxObj[j]["addValue"][index];
         }
 
 

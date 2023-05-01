@@ -66,7 +66,16 @@ let fxTable = new TabulatorFull('#fxTable', {
         {id: 17, name:"Full OC", category: "Distortion"},
         {id: 18, name:"Kemper Fuzz", category: "Distortion"},
         {id: 19, name:"Metal DS", category: "Distortion"},
-        {id: 20, name:"Treble Booster", category: "Booster"}
+        {id: 20, name:"Treble Booster", category: "Booster"},
+        {id: 21, name:"Lead Booster", category: "Booster"},
+        {id: 22, name:"Pure Booster", category: "Booster"},
+        {id: 23, name:"Wah Pedal Booster", category: "Booster"},
+        {id: 24, name:"Bit Shaper", category: "Shaper"},
+        {id: 25, name:"Octa Shaper", category: "Shaper"},
+        {id: 26, name:"Soft Shaper", category: "Shaper"},
+        {id: 27, name:"Hard Shaper", category: "Shaper"},
+        {id: 28, name:"Wave Shaper", category: "Shaper"},
+        {id: 29, name:"Graphic Equalizer", category: "Equalizer"},
     ]
 } );
 
