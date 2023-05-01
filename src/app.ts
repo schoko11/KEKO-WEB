@@ -32,7 +32,13 @@ const modalNameMapping = require('../src/modalNameMapping');
 
 //unfortuntly necessary at the moment, reason not known set in offcanvas.scss
 myOffcanvas?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
-myOffcanvas?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
+myOffcanvas?.addEventListener('hide.bs.offcanvas', function (e) { 
+    this.style.visibility = "hidden";
+    let fxIdLetter: string = "";
+    //console.log("close offcanvas#" +  e.target!.getAttribute("id") + "#" + document.getElementById("offCanvasBottomLabel")?.textContent);
+    fxIdLetter = document.getElementById("offCanvasBottomLabel")!.textContent!.split(":")[0]; //get A,B,C... 
+    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,getAdrPageFromFxId("lpFx" + fxIdLetter), 0]);  //request the corresponding stomp for update of parameters
+});
 
 kekoSettings?.addEventListener('show.bs.offcanvas', function () { this.style.visibility = "visible"; });
 kekoSettings?.addEventListener('hide.bs.offcanvas', function () { this.style.visibility = "hidden"; });
@@ -336,6 +342,7 @@ function prepareFxControls(id: string, index: number){
 }
 
 async function requestRigDetails() {
+    console.log("requestRigDetails");
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,4, 0]); //req rig section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
@@ -517,7 +524,7 @@ function onEnabled() {
     midiInput.addListener("sysex", e => {
         let fxId: string = "";
 
-        //console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
+        console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
         if (e.message.data[6] === 2 && e.message.data[8] === 4) {  //is answer to multirequest rig
             startTimeFxInputs[0] = Date.now();
             //console.log(" multi input " + e.message.data[26] + "#"+ e.message.data[27] );
@@ -591,6 +598,7 @@ function onEnabled() {
                     break;
                 }
                 if (wholeRig[fxId]["textRepl"][i].length > 1) {
+                    console.log("###textrepl " + e.message.data[122] + "Ö"  + e.message.data[123] + "Ö" + e.message.data[124] + "Ö" + e.message.data[125] + "Ö"  );
                     let val = Math.floor( (e.message.data[wholeRig[fxId]["multiReqPos"][i]] * 127) + e.message.data[wholeRig[fxId]["multiReqPos"][i] + 1])
                     let posMsb = wholeRig[fxId]["multiReqPos"][i];
                     let posLsb = posMsb + 1;
@@ -627,7 +635,7 @@ function onEnabled() {
             }
 
 
-            console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
+            //console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 51) {  //is answer to multirequest stomp B
             startTimeFxInputs[6] = Date.now();
@@ -668,8 +676,8 @@ function onEnabled() {
         else if (e.message.data[6] === 1 && e.message.data[8] === 10 ) {  //single request Amplifier 
             
             for (let i = 0; i < arrayOfFxObj[2]["singleReqPos"].length; i++) {
-                console.log("amplifier sysex single in" + arrayOfFxObj[2]["adressPage"][i] + "####" + e.message.data[8]);
-                console.log("amplifier sysex single in 2 " + arrayOfFxObj[2]["singleReqPos"][i]+ "####" +e.message.data[9]);
+                //console.log("amplifier sysex single in" + arrayOfFxObj[2]["adressPage"][i] + "####" + e.message.data[8]);
+                //console.log("amplifier sysex single in 2 " + arrayOfFxObj[2]["singleReqPos"][i]+ "####" +e.message.data[9]);
                 if ((arrayOfFxObj[2]["singleReqPos"][i] === e.message.data[9]) && (arrayOfFxObj[2]["adressPage"][i] === e.message.data[8]) )  {
           //          console.log("amplifier sysex single in" + mainFrontKnobs.singleReqId[i] + "####" + i);
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[2],i).toString();
@@ -682,7 +690,7 @@ function onEnabled() {
         else if (e.message.data[6] === 1 && e.message.data[8] === 11 ) {  //single request Equalizer settings in
             for (let i = 0; i < arrayOfFxObj[3]["singleReqPos"].length; i++) {
                 if ( (arrayOfFxObj[3]["singleReqPos"][i] === e.message.data[9]) && (arrayOfFxObj[3]["adressPage"][i] === e.message.data[8]) ) {
-                    console.log("equalizer sysex single in " + arrayOfFxObj[3]["singleReqPos"][i] + "#" + i);
+                    //console.log("equalizer sysex single in " + arrayOfFxObj[3]["singleReqPos"][i] + "#" + i);
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[3],i).toString();
                     document.getElementById(arrayOfFxObj[3]["label"][i])!.innerHTML = temp + arrayOfFxObj[3]["addValue"][i];
                     (<HTMLInputElement>document.getElementById(arrayOfFxObj[3]["label"][i]))!.setValue(temp,false);
@@ -740,14 +748,14 @@ function onEnabled() {
               
                 //perfRigsTable.setData( )
                 //perfRigsTable.addData([{ id:1, name: String.fromCharCode(...temp), author: "authorx1"}]); //add new perf or rig to table
-                console.log("string in " + String.fromCharCode(...temp) );
+                //console.log("string in " + String.fromCharCode(...temp) );
             }
                         //console.log(String.fromCharCode(...temp));
             if (e.message.data[8] === 0 && e.message.data[9] === 2 && !perfMode) {
                 startTimeFxInputs[15] = Date.now();
                 let temp = e.message.data.slice(10, e.message.data.length - 2);
                 perfRigsTable.setData([{ id:1, name: perfRigsTable.getData()[0].name,  author: String.fromCharCode(...temp)}]);
-                console.log("string in " + String.fromCharCode(...temp) );
+                //console.log("string in " + String.fromCharCode(...temp) );
             }
 
         }
@@ -838,14 +846,14 @@ for(let i = 0; i < longClickElements.length; i++) {    //add longpress event lis
 perfRigsTable.on("rowTapHold", function(e,row)  {
     //let temp = row.getCells();
     //console.log("##" + row.getCells()[0].getValue()); //get name of perf or rig
-    console.log("lonpgpress rig or row" + e + "#"  + "#" + "#" + row.getCells() + "#" + row.getData());
+    //console.log("lonpgpress rig or row" + e + "#"  + "#" + "#" + row.getCells() + "#" + row.getData());
 });
 
 
 //show Slots for performance via remove class and read performance table when toggle "BROWSER/PEFORM"
 myCollapse?.addEventListener('show.bs.collapse', function () {
     //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
-    console.log('show.bs.collapse perfrigstable' + "#" + Object.keys(this));
+    //console.log('show.bs.collapse perfrigstable' + "#" + Object.keys(this));
 
     perfRigsTable.setColumns( [{title:"Name", field:"name", headerHozAlign:"center" }, {title:"Author", field:"author", headerHozAlign:"center", maxWidth: 220, width: 140, minWidth: 80}]);
     perfRigsTable.clearData();
@@ -857,7 +865,7 @@ myCollapse?.addEventListener('show.bs.collapse', function () {
 //hide slot section for rig mode and read rig table
 myCollapse?.addEventListener('hide.bs.collapse', function() {    
     //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  }
-    console.log('hide.bs.collapse perfrigstable' + "#" + Object.keys(this) + "##" + this.classList);
+    //console.log('hide.bs.collapse perfrigstable' + "#" + Object.keys(this) + "##" + this.classList);
     requestRigDetails();
 
     //perfRigsTable.clearData();
@@ -956,16 +964,28 @@ function getAdrPageFromFxId(fxId: string): number  {
 }
 
 function handleKnobFixElements(event) {
-
-    //console.log("trigger val1:" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length + "#" + this.value);
-    //console.log("trigger val2:" + this.parentElement.id.substring(0,5) + "#" + this.value + "###" + this.parentElement.id  + "##" +  this.parentElement.id.substring(5,));
     //when touching knobs of fx, print text instead value if defined in the fx obj
-    if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
-        this.innerText =  wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
+    //console.log("!!!! " + this.id + "#" + this.parentElement.id + "###");
+    
+    if (this.parentElement.id !== "") {
+        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
+            this.innerText =  wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
+        }
+        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
+            this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
+        }
     }
-    if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
-        this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
-    }
+
+    //if (this.parentElement.id === "") {
+    //    console.log()
+    //    if (wholeRig[this.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
+    //        this.innerText =  wholeRig[this.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
+    //    }
+    //    if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
+    //        this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
+    //    }
+    //}
+
 
     
     let maxFxObjToScan: number = 4; //visible objects have a name starting with "knob" 
@@ -982,6 +1002,16 @@ function handleKnobFixElements(event) {
             index = getIndexOfFx(arrayOfFxObj[j],this.id);
             if (index >= 0) { break;}  //we keep j as index to set obj correctly even if the are in another obj, equalizer / Amplifier / Rig
         }
+
+        //console.log(arrayOfFxObj[index]["textRepl"][0] + " " + index + " " + this.id + " " + this.value);
+        //update text on touch device
+        if (arrayOfFxObj[index]["textRepl"][j].length > 1) {
+            this.innerText =  arrayOfFxObj[index]["textRepl"][j][this.value];
+        }
+        if (arrayOfFxObj[index]["textRepl"][j].length <= 1) {
+            this.innerText =  (this.value).toFixed(2) + arrayOfFxObj[index]["addValue"][j];
+        }
+
 
         let modifier: number = 1625.6;
         //if it there is a negative value and symmetric
@@ -1013,9 +1043,9 @@ function handleKnobFixElements(event) {
 
         let modifier: number = 1625.6;
         //console.log("knob1: " + parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index] + "#" + 
-            Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) + "#" + 
-            Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index]))) + "#" + 
-            wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length )
+        //    Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) + "#" + 
+        //    Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index]))) + "#" + 
+        //    wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length )
         //if it there is a negative value and symmetric
         if (parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index]) < 0  && (Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][index])) ===  
                 Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])))  ) {
@@ -1042,6 +1072,7 @@ function handleKnobFixElements(event) {
             temp3 = currVal;
         }
 
+        //console.log("lpfx send " + wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index] + "#" + temp1 + "#" + temp3);
         midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,adrPage, wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index],temp1,temp3]);
         return;
     }
@@ -1080,4 +1111,4 @@ for(let i = 0; i < inputKnobFixElements.length; i++) {
 
 
 
-export { bsOffCanvas, myOffcanvas}
+export { bsOffCanvas, myOffcanvas, midiOutput, wholeRig, getAdrPageFromFxId}
