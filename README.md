@@ -1,7 +1,7 @@
 # KEKO-WEB
 Control the Kemper from Web
 
-This is a design draft! Any real functionality is not implemented yet. The midi Connection should be done with bluetooth(i use a cme widi pro), so this should be useable with android!
+This is a design draft!  The midi Connection should be done with bluetooth(i use a cme widi pro), so this should be useable with android!
 
 On Startup there is a Dialog requesting Midi in and Out connection.
 The information is stored in the browser via localstorage (midi in: KEKO_MIDI_IN, midi out: KEKO_MIDI_OUT).
@@ -16,6 +16,9 @@ Short press brings up the parameter of the fx
 As of now (04.02.2023) i will switch to a rather conventional midi cable to do the development.
 Could use linux to code, which is way more convenient than with an offline WIN 10 (doing bluetooth later on).
 
+### For now only some fx are finished (see longpress FX Stomp), FX are recognized only on stomp A (until all fx are finished, then
+### it will be wrapped up in some functions).
+### Perform Mode is not implemented yet, press browse/perform to switch to browse mode, and the gui is filled with values
 
 You have to use Chrome (testing on linux mint).
 Try it here: https://schoko11.github.io/KEKO-WEB/
@@ -23,6 +26,7 @@ Try it here: https://schoko11.github.io/KEKO-WEB/
 
 ### Supported Features:
 ```
+01.05.2023: Added fxs, finished typos 
 16.04.2023: Fix Wah Wah Fx (both way communication and reflection)
             Added "Wah Low Pass" , "Wah High Pass", "Wah Vowel Filter", "Wah Phaser", "Wah Flanger"
             Only recognized on Stomp A for now
