@@ -82,7 +82,7 @@ arrayOfFxObj.push({
     }
 );
 
-//amplifier adr. page 0x0A
+//obj for the allways visible gain, except on smalles screens, handling of dom selection is different
 arrayOfFxObj.push({
     [fxKeyNames[0]]: ["0.1"],    //step
     [fxKeyNames[1]]: ["0"],     //min
@@ -98,7 +98,7 @@ arrayOfFxObj.push({
     }
 );
 
-//Equalizer adr. page 0x0B
+//obj for the allways visible gain, except on smalles screens, handling of dom selection is different
 arrayOfFxObj.push({
     [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1"],    //step
     [fxKeyNames[1]]: ["-5","-5","-5","-5"],     //min
@@ -192,6 +192,22 @@ arrayOfFxObj.push({
 
 //off fx
 arrayOfFxObj.push(  defFxObj );
+
+//amplifier section controls
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1"],    //step
+    [fxKeyNames[1]]: ["-12","0","0","0","0","-5","0","0","0","0"],     //min
+    [fxKeyNames[2]]: ["12","10","10","10","10","5","10","10","10","10"],    //max 
+    [fxKeyNames[3]]: ["Volume","Gain","Definition","Clarity","Power Sagging","Pick","Compressor","Tube Shape","Tube Bias","Direct Mix"],    //label
+    [fxKeyNames[4]]: [[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],    //textRepl  
+    [fxKeyNames[5]]: "Amplifier",    //nameOfFx
+    [fxKeyNames[6]]: [10,1],       //fake it to 10,1,to avoid collision with 0,1
+    [fxKeyNames[7]]: [16,18,22,24,26,28,30,32,34,40],       //multiReqPos
+    [fxKeyNames[8]]: [3,4,6,7,8,9,10,11,12,15],       //singleReqPos 
+    [fxKeyNames[9]]: [10],        //adressPage
+    [fxKeyNames[10]]: ["","","","","","","","","",""]         //addValue
+    }
+);
 
 
 //off fx dummy
