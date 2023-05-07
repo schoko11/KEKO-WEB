@@ -26,6 +26,8 @@ Try it here: https://schoko11.github.io/KEKO-WEB/
 
 ### Supported Features:
 ```
+07.05.2023: Added Amplifier section, some Fx for stomp A to D are now possible,
+            fixed problems with multiple fx on different stomps 
 01.05.2023: Added fxs, finished typos, fixed gain to presence main controls 
 16.04.2023: Fix Wah Wah Fx (both way communication and reflection)
             Added "Wah Low Pass" , "Wah High Pass", "Wah Vowel Filter", "Wah Phaser", "Wah Flanger"
