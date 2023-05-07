@@ -193,6 +193,24 @@ arrayOfFxObj.push({
 //off fx
 arrayOfFxObj.push(  defFxObj );
 
+
+//off fx dummy
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: [""],
+    [fxKeyNames[1]]: [""],
+    [fxKeyNames[2]]: [""],
+    [fxKeyNames[3]]: [""],
+    [fxKeyNames[4]]: [[""]],
+    [fxKeyNames[5]]: "",
+    [fxKeyNames[6]]: [0,0],
+    [fxKeyNames[7]]: [16],
+    [fxKeyNames[8]]: [3],
+    [fxKeyNames[9]]: [0],
+    [fxKeyNames[10]]: [""]         //addValue
+    }
+);
+
+
 //wah, wah
 arrayOfFxObj.push({
     [fxKeyNames[0]]: ["0.1","0.1","1","1","1","1","0.1","0.1"],

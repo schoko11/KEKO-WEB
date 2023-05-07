@@ -5,6 +5,22 @@ import { triggerLongPress } from "../src/triggerLongPress";
 import { getAdrPageFromFxId, midiOutput, wholeRig } from "./app";
 import { arrayOfFxObj } from "./FxObj";
 
+//midi controller documentation side 9
+function getCCOfStomp(stompId: string,withTail: boolean): number {
+    if (stompId === "A") { return 17; }
+    if (stompId === "B") { return 18; }
+    if (stompId === "C") { return 19; }
+    if (stompId === "D") { return 20; }
+    if (stompId === "X") { return 22; }
+    if (stompId === "M") { return 24; }
+    if (stompId === "Y" && !withTail) { return 26; }
+    if (stompId === "Y" && withTail) { return 27; }
+    if (stompId === "R" && !withTail) { return 28; }
+    if (stompId === "R" && withTail) { return 29; }
+    return 0;
+}
+
+
 let fxTable = new TabulatorFull('#fxTable', {       
     //autoColumns:true,
     layout: "fitColumns", //alternative: fitData
@@ -13,24 +29,37 @@ let fxTable = new TabulatorFull('#fxTable', {
         {title:"Name", field:"name", headerFilter:"input",
             cellClick:function(e, cell) {
                 let fxLabel = document.getElementById("offCanvasBottomLabel")?.textContent?.split(":");
-                console.log("cell 1 "  + getAdrPageFromFxId("lpFx" + fxLabel![0]) + "#" + arrayOfFxObj[11]["nameOfFxId"] + "#" + fxLabel![0] + "#");
+                console.log("cell 1 "  + getAdrPageFromFxId("lpFx" + fxLabel![0]) + "#" + arrayOfFxObj[11]["nameOfFxId"] + "#" + fxLabel![0] + "#" + cell.getValue() );
                 let value = cell.getValue();
                 cell.getElement().style.color = "#3FB449";
+                if (value === "off") {
+                    console.log("off" + getCCOfStomp(fxLabel![0],false));
+                    document.getElementById("offCanvasBottomLabel")!.textContent = fxLabel![0]+ ": "; 
+                    midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),0);
+                    midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //off
+
+                    //return;
+                } else {
                 //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,50,0, 0,1]); //WAH WAH stomp a 
-                for(let i = 0; i < arrayOfFxObj.length; i++) {
-                    if (arrayOfFxObj[i]["nameOfFx"] === value) {
-                        //console.log( "celllll" + arrayOfFxObj[i]["nameOfFxId"] + " " + getAdrPageFromFxId("lpFx" + fxLabel![0]));
-                        midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, arrayOfFxObj[i]["nameOfFxId"][0],arrayOfFxObj[i]["nameOfFxId"][1]  ]); //WAH WAH stomp a 
-                        document.getElementById("offCanvasBottomLabel")!.textContent = fxLabel![0]+ ": " + value;  //set right fx label
-                        console.log("cell3 " + document.getElementById("lpFxA"));
-                        //document.getElementById("lpFxA")![0].innerHTML = "yooo";
-                        break;
+                    for(let i = 0; i < arrayOfFxObj.length; i++) {
+                        if (arrayOfFxObj[i]["nameOfFx"] === value) {
+                            //console.log( "celllll" + arrayOfFxObj[i]["nameOfFxId"] + " " + getAdrPageFromFxId("lpFx" + fxLabel![0]));
+                            midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, arrayOfFxObj[i]["nameOfFxId"][0],arrayOfFxObj[i]["nameOfFxId"][1]  ]); //WAH WAH stomp a 
+                            midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),1);
+                            document.getElementById("offCanvasBottomLabel")!.textContent = fxLabel![0]+ ": " + value;  //set right fx label
+                            console.log("cell3 " + document.getElementById("lpFxA"));
+                            //document.getElementById("lpFxA")![0].innerHTML = "yooo";
+                            break;
+                        }
                     }
                 }
                 for (let i = 0; i < document.getElementsByClassName("longPress").length; i++) {
+                    console.log("all longpresses" + document.getElementsByClassName("longPress")[i].id);
                     if (document.getElementsByClassName("longPress")[i].id === "lpFx" + fxLabel![0]) {
-                        console.log("yoooooooooofds ");
-                        document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = value; //set the name of the stomp button
+                        console.log("yoooooooooofds " + value + "#");
+                        if (value === "off") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = ""; }
+                        if (value !== "off") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = value;  } //set stomp button name
+                        
 
                     }
                 }
@@ -47,6 +76,7 @@ let fxTable = new TabulatorFull('#fxTable', {
     minHeight: "20%",
     //maxHeight: "40%",
     data: [
+        {id: 0, name:"off", category: "" }, 
         {id: 1, name:"Wah Wah", category: "Wah" },
         {id: 2, name:"Wah Low Pass", category: "Wah"},
         {id: 3, name:"Wah High Pass", category: "Wah"},

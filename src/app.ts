@@ -185,9 +185,9 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
     "lpFxY": defFxObj, 
     "lpFxR": defFxObj,
    // "lpFxG": defFxObj //Rig settings
-   // "lpFxP": fx1, //amp 
-   // "lpFxE": fx1, //eq
-   // "lpFxS": fx1, //cab aka speaker   
+    "lpFxP": defFxObj, //amp 
+    "lpFxE": defFxObj, //eq
+    "lpFxS": defFxObj //cab aka speaker   
    // "lpFxI": fx1, //input
    // "lpFxO": fx1  //output
  }
@@ -585,10 +585,6 @@ function onEnabled() {
    //     console.log("trigger val:" + wholeRig[this.id]["textRepl"][i].length  + "##" + i);
    //     if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
    
-
-    //        document.getElementById(this.id)!.children[1].innerHTML = wholeRig[this.id]["nameOfFx"];
-           // wholeRig[this.id]["nameOfFx"][(<HTMLInputElement>document.getElementById(this.id)!.children[1]).value];
-    //    }
         
    //}
                 //console.log("temp " + temp);
@@ -699,12 +695,13 @@ function onEnabled() {
         }
         else if (e.message.data[6] === 1 && e.message.data[8] === 50 ) {  //single request FXa  in
             fxId = "lpFxA";
-            //let temp = "";
+            //avoid single req errors when there is no fx loaded
+            if (wholeRig[fxId]["nameOfFxId"][0] === 0 && wholeRig[fxId]["nameOfFxId"][1] === 0) { return; }
             for (let i = 0; i < wholeRig[fxId]["singleReqPos"].length; i++) { 
                 console.log("single req lpfxa in " + wholeRig[fxId]["singleReqPos"][i] + "#" + wholeRig[fxId]["textRepl"][i].length);
                 console.log("single req lpfxa in 2 " + i + "#" +  wholeRig[fxId]["singleReqPos"] + "#" +  wholeRig[fxId]["nameOfFx"] + "#" + fxId);
                 if ( wholeRig[fxId]["singleReqPos"][i] === e.message.data[9] && wholeRig[fxId]["textRepl"][i].length <= 1 ) {
-                   
+                    console.log("singlre req lpfxa in 3 " )
                     
                     let temp = calcMsbLsb(e.message.data[10],e.message.data[11],wholeRig[fxId],i).toString();
                     document.getElementById(wholeRig[fxId]["label"][i])!.innerHTML = temp + wholeRig[fxId]["addValue"][i];
@@ -817,7 +814,6 @@ console.log("localstorage item text" + text);
 
 //read obj
 //let newObj = JSON.parse(text?);
-//console.log("newobj" + newObj.fxA.name);
 
 
 function paramLookup(cell) {
@@ -888,11 +884,11 @@ function triggerShortPress() {
   // document.getElementById("lpFxA0")!.children[1].innerHTML = "fds";
    //document.getElementById("lpFxA1")!.children[1].setValue(3,true);
    //document.getElementById(wholeRig[this.id]["label"][0])!.setValue(3,true);
+   console.log("start triggershortpress " + this.id);
    if (wholeRig[this.id].nameOfFx === '') { modalParamsHeader!.innerHTML = "Off"; }
    if (wholeRig[this.id].nameOfFx !== '') { modalParamsHeader!.innerHTML = wholeRig[this.id].nameOfFx; }
 
    //replace value of knob, incase its not a "simple" value on open the fx
-   //console.log(wholeRig[this.id])
    //for(let i = 0; i < wholeRig[this.id]["textRepl"].length; i++) {
    //     console.log("trigger val:" + wholeRig[this.id]["textRepl"][i].length  + "##" + i);
    //     if (wholeRig[this.id]["textRepl"][i].length > 1) { //two elements minimum
@@ -920,10 +916,7 @@ function triggerShortPress() {
             document.getElementById(this.id + i)?.children[1].addEventListener("touchend", handleKnobFixElements, true );
             //document.getElementById(this.id + i)!.children[1]!.setValue(5,false)
             //document.getElementById(this.id + i)!.children[1]!.innerHTML = "5";
-            //console.log("ffff "  );
-
         }
-        //console.log("xxx" + wholeRig[this.id]["label"].length)
 
         //console.log("fffff" +  document.getElementById("lpFxA0")?.children[1].innerHTML);
         //objtest1?.setAttribute("value","test");
