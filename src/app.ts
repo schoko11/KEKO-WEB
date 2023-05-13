@@ -336,8 +336,7 @@ function prepareFxControls(fxId: string, messageData) {
             messageData[wholeRig[fxId]["multiReqPos"][i] + 1],wholeRig[fxId],i).toString();
         //console.log("preparefxcontrols temp " + temp + " " + fxId + " " + wholeRig[fxId]["label"][i] + wholeRig[fxId]["label"][i].length );
         if (document.getElementById(fxId + i + "fXC") === null) { 
-            modalParamsHeader!.innerHTML = "";
-            modalParamsHeader!.innerHTML = "off";
+            modalParamsHeader!.innerHTML = "empty";
             break;
         }
         //console.log("preparefxcontrols temp " + temp + " " + fxId + " " + wholeRig[fxId]["label"][i] + wholeRig[fxId]["label"][i].length );
@@ -543,6 +542,18 @@ function sysexIn() {
     //console.log("sysexin " + Object.keys(this.eventMap.sysex) + "#" + this.message.data);
 }
 
+function labelAndLightKnob (fxId,activationNumber) {
+    for(let i = 0;i < longClickElements.length; i++) {
+        //caution there are two longpress element per FX, one is only shown on small screens, the other on bigger screens
+        if (longClickElements![i].id === fxId) { 
+            longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString(); 
+            if (activationNumber === 0)  { longClickElements[i]!.classList.remove('active'); }  //remove highlight
+            if (activationNumber === 1)  { longClickElements[i]!.classList.add('active'); }     //highlight switch
+         }
+    }
+}
+
+
 function onEnabled() {
     let fxIndexStart: number = 7;
 
@@ -630,11 +641,11 @@ function onEnabled() {
 
 
             //label the stomp button
-            for(let i = 0;i < longClickElements.length; i++) {
-                if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
-            }
+            //for(let i = 0;i < longClickElements.length; i++) {
+            //    if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
+            //}
 
-        
+            labelAndLightKnob(fxId,e.message.data[17]);
 
             //console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
         }
@@ -652,10 +663,17 @@ function onEnabled() {
             buildFxControls(fxId,1);
             prepareFxControls(fxId, e.message.data);
 
+            labelAndLightKnob(fxId,e.message.data[17]);
+
             //label the stomp knob
-            for(let i = 0;i < longClickElements.length; i++) {
-                if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
-            }
+            //for(let i = 0;i < longClickElements.length; i++) {
+                //caution there are two longpress element per FX, one is only shown on small screens, the other on bigger screens
+            //    if (longClickElements![i].id === fxId) { 
+            //        longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString(); 
+            //        if (e.message.data[17] === 0)  { longClickElements[i]!.classList.remove('active'); }  //remove highlight
+            //        if (e.message.data[17] === 1)  { longClickElements[i]!.classList.add('active'); }     //highlight switch
+            //     }
+            //}
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 52) {  //is answer to multirequest stomp C
             fxId = "lpFxC";
@@ -670,11 +688,12 @@ function onEnabled() {
             buildFxControls(fxId,2);
             prepareFxControls(fxId, e.message.data);
 
+            labelAndLightKnob(fxId,e.message.data[17]);
 
             //label the stomp knob
-            for(let i = 0;i < longClickElements.length; i++) {
-                if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
-            }
+            //for(let i = 0;i < longClickElements.length; i++) {
+            //    if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
+            //}
 
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 53) {  //is answer to multirequest stomp D
@@ -690,10 +709,12 @@ function onEnabled() {
             buildFxControls(fxId,3);
             prepareFxControls(fxId, e.message.data);
 
+            labelAndLightKnob(fxId,e.message.data[17]);
+
             //label the stomp knob
-            for(let i = 0;i < longClickElements.length; i++) {
-                if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
-            }
+            //for(let i = 0;i < longClickElements.length; i++) {
+            //    if (longClickElements![i].id === fxId) { longClickElements[i]!.firstChild!.nodeValue = wholeRig[longClickElements![i].id]["nameOfFx"].toString();  }
+            //}
 
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 56) {  //is answer to multirequest stomp X
@@ -863,7 +884,7 @@ function paramLookup(cell) {
 
 //for (rigModeMeter of rigModeMeters) { rigModeMeter.style.visibility = 'hidden';  } //hide rig gain on startup because we start in perf mode
 
-let longClickElements = document.getElementsByClassName('longPress');
+export let longClickElements = document.getElementsByClassName('longPress');
 for(let i = 0; i < longClickElements.length; i++) {    //add longpress event listeners to fx, amplifier equalizer and cabinet
     //console.log("" + longClickElements[i].id.substring(0,1) );
     //only buttons with id starting with "lp"
@@ -919,7 +940,7 @@ function triggerShortPress() {
    //document.getElementById(this.id + "0")!.children[0].innerHTML = "joo";
 
    //console.log("start triggershortpress " + this.id );
-   if (wholeRig[this.id].nameOfFx === '') { modalParamsHeader!.innerHTML = "Off"; }
+   if (wholeRig[this.id].nameOfFx === '') { modalParamsHeader!.innerHTML = "empty"; }
    if (wholeRig[this.id].nameOfFx !== '') { modalParamsHeader!.innerHTML = wholeRig[this.id].nameOfFx; }
 
    //replace value of knob, incase its not a "simple" value on open the fx
@@ -1135,4 +1156,4 @@ for(let i = 0; i < inputKnobFixElements.length; i++) {
 
 
 
-export { bsOffCanvas, myOffcanvas, midiOutput, wholeRig, getAdrPageFromFxId}
+export { bsOffCanvas, myOffcanvas, midiOutput, wholeRig, getAdrPageFromFxId }

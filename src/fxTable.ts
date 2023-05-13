@@ -2,7 +2,7 @@
 import { arrayBuffer } from "node:stream/consumers";
 import {TabulatorFull} from "tabulator-tables";
 import { triggerLongPress } from "../src/triggerLongPress";
-import { getAdrPageFromFxId, midiOutput, wholeRig } from "./app";
+import { getAdrPageFromFxId, longClickElements, midiOutput, wholeRig } from "./app";
 import { arrayOfFxObj } from "./FxObj";
 
 //midi controller documentation side 9
@@ -36,10 +36,26 @@ let fxTable = new TabulatorFull('#fxTable', {
                     console.log("off" + getCCOfStomp(fxLabel![0],false));
                     document.getElementById("offCanvasBottomLabel")!.textContent = fxLabel![0]+ ": "; 
                     midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),0);
-                    midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //off
-
+                    //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //empt                                     } 
+                    for(let i = 0;i < longClickElements.length; i++) {
+                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {  longClickElements[i]!.classList.remove('active');  }              
+                    }
                     //return;
-                } else {
+                } else if (value === "on"){
+                    for(let i = 0;i < longClickElements.length; i++) {
+                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {
+                            midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),1);
+                            longClickElements[i]!.classList.add('active');
+                        }              
+                    }
+                    //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,1  ]); //on
+                    
+                } else if (value === "empty")  {
+                    for(let i = 0;i < longClickElements.length; i++) {
+                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {  longClickElements[i]!.classList.remove('active');  }
+                    }    
+                    midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //empty
+                }  else {
                 //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,50,0, 0,1]); //WAH WAH stomp a 
                     for(let i = 0; i < arrayOfFxObj.length; i++) {
                         if (arrayOfFxObj[i]["nameOfFx"] === value) {
@@ -76,36 +92,38 @@ let fxTable = new TabulatorFull('#fxTable', {
     minHeight: "20%",
     //maxHeight: "40%",
     data: [
-        {id: 0, name:"off", category: "" }, 
-        {id: 1, name:"Wah Wah", category: "Wah" },
-        {id: 2, name:"Wah Low Pass", category: "Wah"},
-        {id: 3, name:"Wah High Pass", category: "Wah"},
-        {id: 4, name:"Wah Vowel Filter", category: "Wah"},
-        {id: 5, name:"Wah Phaser", category: "Wah"},
-        {id: 6, name:"Wah Flanger", category: "Wah"},
-        {id: 7, name:"Wah Rate Reducer", category: "Wah"},
-        {id: 8, name:"Wah Ring Modulator", category: "Wah"},
-        {id: 9, name:"Wah Freq Shifter", category: "Wah"},
-        {id: 10, name:"Wah Formant Shift", category: "Wah"},
-        {id: 11, name:"Kemper Drive", category: "Distortion"},
-        {id: 12, name:"Green Scream", category: "Distortion"},
-        {id: 13, name:"Plus DS", category: "Distortion"},
-        {id: 14, name:"One DS", category: "Distortion"},
-        {id: 15, name:"Muffin", category: "Distortion"},
-        {id: 16, name:"Mouse", category: "Distortion"},
-        {id: 17, name:"Full OC", category: "Distortion"},
-        {id: 18, name:"Kemper Fuzz", category: "Distortion"},
-        {id: 19, name:"Metal DS", category: "Distortion"},
-        {id: 20, name:"Treble Booster", category: "Booster"},
-        {id: 21, name:"Lead Booster", category: "Booster"},
-        {id: 22, name:"Pure Booster", category: "Booster"},
-        {id: 23, name:"Wah Pedal Booster", category: "Booster"},
-        {id: 24, name:"Bit Shaper", category: "Shaper"},
-        {id: 25, name:"Octa Shaper", category: "Shaper"},
-        {id: 26, name:"Soft Shaper", category: "Shaper"},
-        {id: 27, name:"Hard Shaper", category: "Shaper"},
-        {id: 28, name:"Wave Shaper", category: "Shaper"},
-        {id: 29, name:"Graphic Equalizer", category: "Equalizer"},
+        {id: 0, name:"empty", category: "" }, 
+        {id: 1, name:"on", category: "" }, 
+        {id: 2, name:"off", category: "" }, 
+        {id: 3, name:"Wah Wah", category: "Wah" },
+        {id: 4, name:"Wah Low Pass", category: "Wah"},
+        {id: 5, name:"Wah High Pass", category: "Wah"},
+        {id: 6, name:"Wah Vowel Filter", category: "Wah"},
+        {id: 7, name:"Wah Phaser", category: "Wah"},
+        {id: 8, name:"Wah Flanger", category: "Wah"},
+        {id: 9, name:"Wah Rate Reducer", category: "Wah"},
+        {id: 10, name:"Wah Ring Modulator", category: "Wah"},
+        {id: 11, name:"Wah Freq Shifter", category: "Wah"},
+        {id: 12, name:"Wah Formant Shift", category: "Wah"},
+        {id: 13, name:"Kemper Drive", category: "Distortion"},
+        {id: 14, name:"Green Scream", category: "Distortion"},
+        {id: 15, name:"Plus DS", category: "Distortion"},
+        {id: 16, name:"One DS", category: "Distortion"},
+        {id: 17, name:"Muffin", category: "Distortion"},
+        {id: 18, name:"Mouse", category: "Distortion"},
+        {id: 19, name:"Full OC", category: "Distortion"},
+        {id: 20, name:"Kemper Fuzz", category: "Distortion"},
+        {id: 21, name:"Metal DS", category: "Distortion"},
+        {id: 22, name:"Treble Booster", category: "Booster"},
+        {id: 23, name:"Lead Booster", category: "Booster"},
+        {id: 24, name:"Pure Booster", category: "Booster"},
+        {id: 25, name:"Wah Pedal Booster", category: "Booster"},
+        {id: 26, name:"Bit Shaper", category: "Shaper"},
+        {id: 27, name:"Octa Shaper", category: "Shaper"},
+        {id: 28, name:"Soft Shaper", category: "Shaper"},
+        {id: 29, name:"Hard Shaper", category: "Shaper"},
+        {id: 30, name:"Wave Shaper", category: "Shaper"},
+        {id: 31, name:"Graphic Equalizer", category: "Equalizer"},
     ]
 } );
 
