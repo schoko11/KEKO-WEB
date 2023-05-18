@@ -35,8 +35,11 @@ myOffcanvas?.addEventListener('show.bs.offcanvas', function () { this.style.visi
 myOffcanvas?.addEventListener('hide.bs.offcanvas', function (e) { 
     this.style.visibility = "hidden";
     let fxIdLetter: string = "";
-    //console.log("close offcanvas#" +  e.target!.getAttribute("id") + "#" + document.getElementById("offCanvasBottomLabel")?.textContent);
+    console.log("close offcanvas#" +  e.target!.getAttribute("id") + "#" + document.getElementById("offCanvasBottomLabel")?.textContent );
+    console.log("close offcanvas 2 " + longClickElements[1]?.classList + " " + longClickElements[1].id );
     fxIdLetter = document.getElementById("offCanvasBottomLabel")!.textContent!.split(":")[0]; //get A,B,C... 
+
+
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,getAdrPageFromFxId("lpFx" + fxIdLetter), 0]);  //request the corresponding stomp for update of parameters
 });
 
@@ -308,7 +311,7 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
 function buildFxControls(id: string, index: number){
     //for (let i = 0; i < divFxContainers.length; i++) {
         divFxContainers[index].innerHTML = '';
-        console.log("buildfxcontrols " + id + " " +  wholeRig[id]!.label.length);
+        console.log("buildfxcontrols " + id + " " +  wholeRig[id]!.label.length + " " + wholeRig[id]!.label[0] );
         for (let j = 0; j <  wholeRig[id]!.label.length ; j++) {
             //the 8 fx slots have 5 chars, the others are fixed
             //if (divFxContainers[i].id.length <= 5 ) { 
@@ -553,6 +556,12 @@ function labelAndLightKnob (fxId,activationNumber) {
     }
 }
 
+function removeLightOfLongPressKnob (fxId) {
+    for(let i = 0;i < longClickElements.length; i++) {
+        //caution there are two longpress element per FX, one is only shown on small screens, the other on bigger screens
+        if (longClickElements![i].id === fxId) { longClickElements[i]!.classList.remove('active');   }
+    }
+}
 
 function onEnabled() {
     let fxIndexStart: number = 7;
@@ -634,7 +643,7 @@ function onEnabled() {
                 }
             }
 
-
+            //console.log("lpfxa multi in " + e.message.data[17])
             
             buildFxControls(fxId,0);
             prepareFxControls(fxId, e.message.data);
@@ -647,7 +656,6 @@ function onEnabled() {
 
             labelAndLightKnob(fxId,e.message.data[17]);
 
-            //console.log(" xxxx " + e.message.data[46] + "#"+ e.message.data[47] );
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 51) {  //is answer to multirequest stomp B
             fxId = "lpFxB"
@@ -660,6 +668,8 @@ function onEnabled() {
                 }
             }
             
+            //removeLightOfLongPressKnob(fxId); 
+
             buildFxControls(fxId,1);
             prepareFxControls(fxId, e.message.data);
 

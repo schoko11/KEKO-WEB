@@ -688,6 +688,53 @@ arrayOfFxObj.push({
 );
 
 
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1","0.1","0.1","0.05","0.1","0.1","0.05","0.1","0.1","0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["-18","20.6","-18","20.6","-18","20.6","0.1","-18","20.6","0.1","0","830.6","-5","0","-5"],
+    [fxKeyNames[2]]: ["18","33480.1","18","33480.1","18","33480.1","5","18","33480.1","5","830.6","33480.1","5","100","5"],
+    [fxKeyNames[3]]: ["Low Gain","Low Freq","High Gain","High Freq","Mid1 Gain","Mid1 Freq","Mid1 Q-Fact","Mid2 Gain","Mid2 Freq","Mid2 Q-Fact","Low Cut","High Cut","Volume","Mix","Ducking"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Studio Equalizer",
+    [fxKeyNames[6]]: [0,98],
+    [fxKeyNames[7]]: [94,96,98,100,102,104,106,108,110,112,144,146,22,114,112],
+    [fxKeyNames[8]]: [42,43,44,45,46,47,48,49,50,51,67,68,6,4,53],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: [" dB"," Hz"," dB"," Hz"," dB"," Hz",""," dB"," Hz", "","","","","",""]   
+    }
+);
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["-18","-18","20.6","-18","0","830.6","-5","0","-5"],
+    [fxKeyNames[2]]: ["18","18","33480.1","18","830.6","33480.1","5","100","5"],
+    [fxKeyNames[3]]: ["Low","Middle","Mid Frequency","High","Low Cut","High Cut","Volume","Mix","Ducking"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Metal Equalizer",
+    [fxKeyNames[6]]: [0,99],
+    [fxKeyNames[7]]: [94,102,104,98,144,146,22,114,112],
+    [fxKeyNames[8]]: [42,46,47,44,67,68,6,4,53],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: [" dB"," db"," Hz", " dB","","",""," %",""]   
+    }
+);
+
+
+arrayOfFxObj.push({
+    [fxKeyNames[0]]: ["0.1","0.1","0.1","0.1","0.1","0.1"],
+    [fxKeyNames[1]]: ["0" ,"-5","-5","-5",  "0","-5"],
+    [fxKeyNames[2]]: ["10","5","5","5", "100","5"],
+    [fxKeyNames[3]]: ["Pickup","Body","Bronze","Sparkle","Mix","Volume"],
+    [fxKeyNames[4]]: [[""],[""],[""],[""],[""],[""]],
+    [fxKeyNames[5]]: "Acoustic Simulator",
+    [fxKeyNames[6]]: [0,100],
+    [fxKeyNames[7]]: [108,94,102,98,114,22],
+    [fxKeyNames[8]]: [49,42,46,44,4,6],
+    [fxKeyNames[9]]: [1],
+    [fxKeyNames[10]]: ["","","",""," %",""]   
+    }
+);
+
+
 export {arrayOfFxObj};
 
 //arrayOfFxMaps.push("fes",temp);

@@ -26,6 +26,7 @@ Try it here: https://schoko11.github.io/KEKO-WEB/
 
 ### Supported Features:
 ```
+18.05.2023: Override bootstrap button colors, added fx, a lot of nonlinear fx still not working
 13.05.2023: Added Basic highlight support if and Fx is On, also add On and empty
 07.05.2023: Added Amplifier section, some Fx for stomp A to D are now possible,
             fixed problems with multiple fx on different stomps 

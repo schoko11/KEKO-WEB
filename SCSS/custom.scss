@@ -1,0 +1,23 @@
+// Override default variables before the import
+// you can open the bootstrap.scss module and check any available
+
+$success: rgb(20, 92, 32);
+
+.btn-success {
+//    --bs-btn-border-color: black;
+    border-color: black;
+}
+
+body {
+    background-color: lightslategray;
+}
+
+//.btn-success {
+
+//    color:black;
+//    outline: black;
+//    border-radius:0.3rem solid black;
+    
+//}
+
+@import '../node_modules/bootstrap/scss/bootstrap'

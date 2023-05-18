@@ -33,28 +33,40 @@ let fxTable = new TabulatorFull('#fxTable', {
                 let value = cell.getValue();
                 cell.getElement().style.color = "#3FB449";
                 if (value === "off") {
-                    console.log("off" + getCCOfStomp(fxLabel![0],false));
+                   
                     document.getElementById("offCanvasBottomLabel")!.textContent = fxLabel![0]+ ": "; 
                     midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),0);
                     //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //empt                                     } 
                     for(let i = 0;i < longClickElements.length; i++) {
-                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {  longClickElements[i]!.classList.remove('active');  }              
+                        //if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {  longClickElements[i]!.classList.remove('active');  }              
+                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) { 
+                            //console.log("off " +  fxLabel![0]);
+                            longClickElements[i]!.classList.remove('active');  
+                            
+                            }              
                     }
                     //return;
                 } else if (value === "on"){
                     for(let i = 0;i < longClickElements.length; i++) {
                         if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {
                             midiOutput.sendControlChange(getCCOfStomp(fxLabel![0],false),1);
+                            //longClickElements[i]!.classList.add('active');
                             longClickElements[i]!.classList.add('active');
                         }              
                     }
                     //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,1  ]); //on
                     
                 } else if (value === "empty")  {
-                    for(let i = 0;i < longClickElements.length; i++) {
-                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) {  longClickElements[i]!.classList.remove('active');  }
-                    }    
                     midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,getAdrPageFromFxId("lpFx" + fxLabel![0]),0, 0,0  ]); //empty
+                    for(let i = 0;i < longClickElements.length; i++) {
+                        if (longClickElements![i].id === "lpFx" +  fxLabel![0]) { 
+                            //console.log("emptyyyyyyyy " + i + " " + longClickElements[i].id)
+                             //longClickElements[i]!.classList.remove('active');
+                             longClickElements[i]!.classList.remove('active'); 
+
+                        }
+                    }    
+                    
                 }  else {
                 //midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,50,0, 0,1]); //WAH WAH stomp a 
                     for(let i = 0; i < arrayOfFxObj.length; i++) {
@@ -70,11 +82,11 @@ let fxTable = new TabulatorFull('#fxTable', {
                     }
                 }
                 for (let i = 0; i < document.getElementsByClassName("longPress").length; i++) {
-                    console.log("all longpresses" + document.getElementsByClassName("longPress")[i].id);
+                    //console.log("all longpresses" + document.getElementsByClassName("longPress")[i].id);
                     if (document.getElementsByClassName("longPress")[i].id === "lpFx" + fxLabel![0]) {
-                        console.log("yoooooooooofds " + value + "#");
-                        if (value === "off") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = ""; }
-                        if (value !== "off") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = value;  } //set stomp button name
+                        //console.log("yoooooooooofds " + value + "#");
+                        if (value === "off" || value === "empty") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = ""; }
+                        if (value !== "off" && value !== "empty") { document.getElementsByClassName("longPress")[i].firstChild!.nodeValue = value;  } //set stomp button name
                         
 
                     }
