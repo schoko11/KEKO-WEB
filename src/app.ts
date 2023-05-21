@@ -311,7 +311,7 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
 function buildFxControls(id: string, index: number){
     //for (let i = 0; i < divFxContainers.length; i++) {
         divFxContainers[index].innerHTML = '';
-        console.log("buildfxcontrols " + id + " " +  wholeRig[id]!.label.length + " " + wholeRig[id]!.label[0] );
+        //console.log("buildfxcontrols " + id + " " +  wholeRig[id]!.label.length + " " + wholeRig[id]!.label[0] );
         for (let j = 0; j <  wholeRig[id]!.label.length ; j++) {
             //the 8 fx slots have 5 chars, the others are fixed
             //if (divFxContainers[i].id.length <= 5 ) { 
@@ -323,7 +323,7 @@ function buildFxControls(id: string, index: number){
             'step=' + wholeRig[id].step[j] + ' min=' + wholeRig[id].min[j] + ' max=' + wholeRig[id].max[j] +
              ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" value="" >' +
             ' </webaudio-knob>  </div>';
-            console.log("prepare html for fx" + wholeRig[id]?.label[0] + "#" + id);
+            //console.log("prepare html for fx" + wholeRig[id]?.label[0] + "#" + id);
             //console.log("xxfdfdx" + divFxContainers[0].children[0].innerHTML);
             //console.log(divFxContainers[i].children[0].children[0].children[1]);
             //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
@@ -345,13 +345,21 @@ function prepareFxControls(fxId: string, messageData) {
         //console.log("preparefxcontrols temp " + temp + " " + fxId + " " + wholeRig[fxId]["label"][i] + wholeRig[fxId]["label"][i].length );
         if (wholeRig[fxId]["textRepl"][i].length > 1) {
             //console.log("###textrepl " + messageData[122] + "Ö"  + messageData[123] + "Ö" + messageData[124] + "Ö" + messageData[125] + "Ö"  );
-            let val = Math.floor( (messageData[wholeRig[fxId]["multiReqPos"][i]] * 127) + messageData[wholeRig[fxId]["multiReqPos"][i] + 1])
+            let val = 0;
+            //if there are nonlinear scanned values
+            if (wholeRig[fxId]["textRepl"][i].length > 127) {   
+                val = Math.floor( ( (messageData[wholeRig[fxId]["multiReqPos"][i]] * 127) + messageData[wholeRig[fxId]["multiReqPos"][i] + 1] )  / 64)
+            } else {
+                val = Math.floor( (messageData[wholeRig[fxId]["multiReqPos"][i]] * 127) + messageData[wholeRig[fxId]["multiReqPos"][i] + 1])
+            }
+            //val = Math.floor( (messageData[wholeRig[fxId]["multiReqPos"][i]] * 127) + messageData[wholeRig[fxId]["multiReqPos"][i] + 1])
             let posMsb = wholeRig[fxId]["multiReqPos"][i];
             let posLsb = posMsb + 1;
             let valMsb = messageData[posMsb];
             let valLsb = messageData[posLsb];
+            
             //console.log(" textrepl " + i + " " + temp + "###"  + valMsb + "#" + valLsb + "###" + posMsb + "#" + posLsb)
-            //console.log("math "+ Math.floor( ((e.message.data[34] *127) + e.message.data[35])) + " val " + val );
+            //console.log("textrepl  val " + val );
             document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][val] + wholeRig[fxId]["addValue"][i] ;    
             (<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(val,false);
         } else {
@@ -378,19 +386,71 @@ function prepareSingleSysexIns(fxId: string, messageData) {
             (<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(temp,false);
 
         }
-        if ( wholeRig[fxId]["singleReqPos"][i] === messageData[9] && wholeRig[fxId]["textRepl"][i].length > 1 ) { 
-            let temp  = Math.floor( (messageData[10] * 127) + messageData[11]);
+        if ( wholeRig[fxId]["singleReqPos"][i] === messageData[9] && wholeRig[fxId]["textRepl"][i].length > 1 &&
+            wholeRig[fxId]["textRepl"][i].length <= 127) { 
+            //let temp  = Math.floor(  ( ( (messageData[10] * 128) + messageData[11]) / 64) ) ;
+            let temp  = Math.floor( ( (messageData[10] * 127) + messageData[11]) );
+            //if (temp > 250) { temp--;}
             //console.log(" single req lpfxa  " + temp);
             document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
             (<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(temp,false);
-        }               
+        } 
+
+        //special treatment of nonlinear scanned values
+        if ( wholeRig[fxId]["singleReqPos"][i] === messageData[9] && wholeRig[fxId]["textRepl"][i].length > 127 ) { 
+            let temp  = Math.floor(  ( ( (messageData[10] * 128) + messageData[11]) / 64) ) ;
+            //let temp  = Math.floor( ( (messageData[10] * 127) + messageData[11]) );
+            if (temp > 250) { temp--;}  //ugly fix for rounding errors TODO remove somewho
+            //console.log(" single req lpfxa  " + temp);
+            //document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
+            (<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(temp,false);
+        } 
+
+
     }
 }
 
 async function requestRigDetails() {
     console.log("requestRigDetails");
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,4, 0]); //req rig section
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
+  
+  
+    //temporary scanner for nonlinear fx values
+    let k = 0;
+    let l = 0;
+    for (let i = 0; i <= 127; i++) {
+        //setTimeout(function timer1() {
+            //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,i,k]);
+        for(let j = 0; j < 2;j++ ) {
+            k++;
+            //setTimeout(function timer2() {
+                let temp = (j*64) + l;
+                if (temp === 128) {
+                    i++;
+                    temp = 1;
+                    l = 0;
+                } else {
+                   // midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 50,i,temp]);
+                    //console.log("senddddd " + i + "#"+ temp);
+                }
+                //if (j < 2) { }
+                if (i === 0 && temp === 64) { l++ }
+                if (j === 1 && i > 0) { l++ }
+            //}, k * 15);
+
+        }
+    }
+
+
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,127,127]);
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,127,127]);
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,127,127]); //req  stomp studio eq
+
+  
+  
+  
+  
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,4, 0]); //req rig section
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,12, 0]); //Cabinet
@@ -398,12 +458,12 @@ async function requestRigDetails() {
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
     midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,125, 0]); //req multi looper
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,127, 0]); //req multi system
+    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,127, 0]); //req multi system
     
     midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,64]);  //request single stomp section
     midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,65]);  //request single stack section
@@ -585,7 +645,17 @@ function onEnabled() {
     midiInput.addListener("sysex", e => {
         let fxId: string = "";
 
-        //console.log("sysexin " + e.message.data + "##" + e.message.data[6] + " " + e.message.data[8]);
+        //console.log("sysexin " + e.message.data + "##" + String.fromCharCode(Number(e.message.data[13])) + "##" + 
+        //    e.message.data[94] + " " + e.message.data[95] + " " + e.message.data[96] ); 
+        //console.log('"' + String.fromCharCode(Number(e.message.data[13])) + 
+        //String.fromCharCode(Number(e.message.data[14])) + 
+        //String.fromCharCode(Number(e.message.data[15])) + 
+        //String.fromCharCode(Number(e.message.data[16])) +
+        //String.fromCharCode(Number(e.message.data[17])) +
+        //String.fromCharCode(Number(e.message.data[18])) +
+        //String.fromCharCode(Number(e.message.data[19])) + 
+        //String.fromCharCode(Number(e.message.data[20])) + 
+        //String.fromCharCode(Number(e.message.data[21])) + '"');
         if (e.message.data[6] === 2 && e.message.data[8] === 4) {  //is answer to multirequest rig
             startTimeFxInputs[0] = Date.now();
             //console.log(" multi input " + e.message.data[26] + "#"+ e.message.data[27] );
@@ -1023,6 +1093,7 @@ function handleKnobFixElements(event) {
         //console.log("handleknobfixelements " + this.parentElement.id.substring(5,) + "#" );
         if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
             this.innerText =  wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
+            console.log("lfllflfl " + this.innerText + " ##" + this.value + "##" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length)
         }
         if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
             this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
@@ -1124,11 +1195,24 @@ function handleKnobFixElements(event) {
             temp1 = 0;
             temp3 = currVal;
         }
+        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length > 1 && wholeRig[this.parentElement.id.substring(0,5)]["max"][index] > 127) {
+            temp1 = 0;
+            temp3 = currVal;
+        }
         //correct the global control "knobGain" which is visible all the time especially when controlling the gain in the Amplifier stack
         if (this.parentElement.id === "lpFxP1") {
             document.getElementById(arrayOfFxObj[2]["label"][0])!.innerHTML =  currVal;
             (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][0]))!.setValue(currVal,false);
         }
+        
+
+        temp1 = Math.floor((currVal * 64) >> 7);
+        temp2 = temp1 * 127;
+        if ( Math.floor((Math.abs(currVal) * 64) - temp2) > 127) { temp1++; }
+        temp3 = Math.floor(Math.abs(currVal) * 64) - (temp1 * 127);
+
+        console.log("sendsinglreqpos" + temp1 + " " + temp3 + "#"+ index + "###" + (currVal* 64));
+        
 
         midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,adrPage, wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index],temp1,temp3]);
         return;
