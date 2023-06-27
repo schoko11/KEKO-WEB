@@ -26,7 +26,7 @@ Try it here: https://schoko11.github.io/KEKO-WEB/
 
 ### Supported Features:
 ```
-27.06.2023: Added further fx, change serialisation on rig change
+27.06.2023: Added further fx,  change serialisation on rig change
 21.05.2023: Added basic support for nonlinear fx, especial equalizer
 18.05.2023: Override bootstrap button colors, added fx, a lot of nonlinear fx still not working
 13.05.2023: Added Basic highlight support if and Fx is On, also add On and empty
