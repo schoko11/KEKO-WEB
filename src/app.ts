@@ -16,6 +16,8 @@ import { rejects } from "assert";
 
 console.log("start" + arrayOfFxObj[1]["nameOfFx"]);
 
+let startTime: number = Date.now();
+
 let myOffcanvas = document.getElementById("offCanvasBottom");
 let bsOffCanvas = new Offcanvas(myOffcanvas!);
 let kekoSettings = document.getElementById("kekoSettings");
@@ -133,7 +135,7 @@ let divFxContainers = document.getElementsByClassName('divFxContainers');
 
 let currentRigname: string = "";
 
-let startTime: number;
+
 let endTime: number;
 
 function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
@@ -164,7 +166,6 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
 }
 
 
- 
 
  let wholeRig: Object = {
     "lpFxA": defFxObj,
@@ -175,7 +176,8 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
     "lpFxM": defFxObj, 
     "lpFxY": defFxObj, 
     "lpFxR": defFxObj,
-   // "lpFxG": defFxObj //Rig settings
+    "lpFxG": defFxObj, //Rig settings
+    //"lpFxG": arrayOfFxObj[0], //Rig settings
     "lpFxP": arrayOfFxObj[9], //amp, be carefull about position 
     "lpFxE": defFxObj, //eq
     "lpFxS": defFxObj //cab aka speaker   
@@ -186,12 +188,6 @@ function calcMsbLsb(msb: number, lsb: number, obj: any, index: number): number {
 
  //document.getElementById(wholeRig[this.id]["label"][0])!.setValue(3,true); //setvalue of knobs
  //document.getElementById(wholeRig["lpFxA"]["label"][0])!.setValue(3,true); //first 
-
-
-//document.getElementById("fxContainer" + "0")!.innerHTML = 
-//'<label class="fw-bold fs-6 font-monospace p-1 d-flex justify-content-center">' + "labelll" + '</label>' +   
-//'<webaudio-knob class="fw-bold fs-6 font-monospace d-flex justify-content-center inputKnobFix" id="fxConatainerx1" diameter=75 ' +
-//'step=' + "5" + ' min=' + "0" + ' max=' + "30" + ' src="ASSETS/pots/kjLEDknob_1447_64x64_64.png" ></webaudio-knob>';
 
 
 //prepare html for fx
@@ -284,10 +280,10 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
         //wait until everyting is here
         const timeout2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         (async () => {
-            for(let i = 0; i <= 20; i++) {
+            for(let i = 0; i <= startTimeFxInputs.length; i++) {
                 //if (perfRigsTable.getData()[0].name  === currentRigname) {
                     let j = 0;
-                    for (j = 0; j < 15; j++) {
+                    for (j = 0; j < 16; j++) {
                         if (startTimeFxInputs[j] > startTime) {
                             startTimeFxInputs[j] = startTime;
                         } else {
@@ -295,7 +291,7 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
                             break;
                         } 
                     }
-                    if (j >= 14) {
+                    if (j >= 15) {
                         endTime = Date.now(); 
                         return;
                     }
@@ -310,8 +306,9 @@ async function changeAndWaitForDetails(CCNumber: number, perfMode: boolean, star
 
 function buildFxControls(id: string, index: number){
     //for (let i = 0; i < divFxContainers.length; i++) {
-        divFxContainers[index].innerHTML = '';
-        //console.log("buildfxcontrols " + id + " " +  wholeRig[id]!.label.length + " " + wholeRig[id]!.label[0] );
+    //console.log("buildfxcontrols " + id + " " + index + " " + divFxContainers[index].innerHTML );   
+    divFxContainers[index].innerHTML = '';
+        //console.log("buildfxcontrols " +  wholeRig[id] );
         for (let j = 0; j <  wholeRig[id]!.label.length ; j++) {
             //the 8 fx slots have 5 chars, the others are fixed
             //if (divFxContainers[i].id.length <= 5 ) { 
@@ -329,7 +326,6 @@ function buildFxControls(id: string, index: number){
             //divFxContainers[i].children[j].children[1].innerHTML = i.toString() + j.toString(); //set value when toogle fx
     
         }    
-        //console.log("fds" + fxContainers[i].children[1].getAttribute("max") + fxContainers[i].id  )
     //}
 }
 
@@ -398,11 +394,13 @@ function prepareSingleSysexIns(fxId: string, messageData) {
 
         //special treatment of nonlinear scanned values
         if ( wholeRig[fxId]["singleReqPos"][i] === messageData[9] && wholeRig[fxId]["textRepl"][i].length > 127 ) { 
+            //64 for 254
+            //32 for 508
             let temp  = Math.floor(  ( ( (messageData[10] * 128) + messageData[11]) / 64) ) ;
             //let temp  = Math.floor( ( (messageData[10] * 127) + messageData[11]) );
             if (temp > 250) { temp--;}  //ugly fix for rounding errors TODO remove somewho
             //console.log(" single req lpfxa  " + temp);
-            //document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
+            document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
             (<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(temp,false);
         } 
 
@@ -420,22 +418,27 @@ async function requestRigDetails() {
     for (let i = 0; i <= 127; i++) {
         //setTimeout(function timer1() {
             //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,i,k]);
-        for(let j = 0; j < 2;j++ ) {
+        for(let j = 0; j < 4;j++ ) {
+            //for(let j = 0; j < 2;j++ ) {
             k++;
             //setTimeout(function timer2() {
-                let temp = (j*64) + l;
+                let temp = (j*32) + l;
+                //let temp = (j*64) + l;
                 if (temp === 128) {
                     i++;
                     temp = 1;
                     l = 0;
                 } else {
-                   // midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 50,i,temp]);
                     //console.log("senddddd " + i + "#"+ temp);
+                    //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,4, 1,i,temp]);
+                    
                 }
                 //if (j < 2) { }
-                if (i === 0 && temp === 64) { l++ }
-                if (j === 1 && i > 0) { l++ }
-            //}, k * 15);
+                if (i === 0 && temp === 96) { l++ }
+                //if (i === 0 && temp === 64) { l++ }
+                if (j === 3 && i > 0) { l++ }
+                //if (j === 1 && i > 0) { l++ }
+            //}, k * 200);
 
         }
     }
@@ -445,32 +448,42 @@ async function requestRigDetails() {
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,127,127]);
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,124,0,50, 67,127,127]); //req  stomp studio eq
 
+   
+   let buttons = document.getElementsByTagName("button");
+   for(let i = 0;i < buttons.length; i++) {
+      //console.log("requestrigdetails1 " +  buttons + buttons[i].id + " " + buttons[i].innerText);
+      //console.log("requestrigdetails2 " + buttons[i].innerHTML + " " +  " " + buttons[i].outerText);
+      //console.log("requestrigdetails3 "  + buttons[i].firstChild?.nodeValue);
+      //console.log("requestrigdetails4 "  + buttons[i].childElementCount + " " + buttons[i].firstElementChild);
+      if (buttons[i].id.includes("lpFx")) { 
+        //buttons[i].innerHTML = '';
+        //buttons[i].innerHTML = ' <span class="badge bg-secondary">C</span>';
+     }
+   }
+
   
-  
-  
-  
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,4, 0]); //req rig section
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4, 1]); //req Rig Volume
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,9, 0]); //req input section
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,12, 0]); //Cabinet
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,50, 0]); //req multi A
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,10, 0]); //Amplifier
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,11, 0]); //EQ
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,12, 0]); //Cabinet
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,50, 0]); //req multi A
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,51, 0]); //req multi B
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,52, 0]); //req multi C
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,53, 0]); //req multi D
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,56, 0]); //req multi X
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,58, 0]); //req multi mod
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,60, 0]); //req multi dly
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,61, 0]); //req multi rev
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,125, 0]); //req multi looper
     //midiOutput.sendSysex([0,32,51,0 ],[ 127,66,0,127, 0]); //req multi system
     
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,64]);  //request single stomp section
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,65]);  //request single stack section
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,66]);  //request single effects section
-    //midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4, 1]); //RigVolume
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 1]); //request rig name as ascii
-    midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 2]); //request author as ascii
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,64]);  //request single stomp section
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,65]);  //request single stack section
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,65,0,4,66]);  //request single effects section
+  
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 1]); //request rig name as ascii
+    await midiOutput.sendSysex([0,32,51,0 ],[ 127,67,0,0, 2]); //request author as ascii
 }
 
 async function midiSet() {
@@ -528,16 +541,13 @@ function setMidi() {
         midiOutput = WebMidi.getOutputByName(midiOutName!);
         //WebMidi.getInputByName(midiOutName!)?.channels[1].sendControlChange(48,0)
 
-
+       
         rigsOrPerfRight.addEventListener('click', async () => {
-            //if (await changeAndWaitForDetails(48,perfMode,startTime)) {
-
-            //}
-
-           
+            let tempTime = Date.now();
+            for (let i = 0; i < startTimeFxInputs.length; i++) { startTimeFxInputs[i] = tempTime;  }
             //console.log("right right pressed");
             if (midiOutput.state === 'connected' && !perfMode)  {
-                const startTime: number = Date.now();
+                startTime = Date.now();
                 //startTime = 9999999999999;        //1680014238181 set time to max
                 //await midiOutput.channels[1].sendControlChange(48,0);
                 //const timeout0 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -585,7 +595,9 @@ function setMidi() {
         });
     
         rigsOrPerfLeft.addEventListener('click', async () => {
-            const startTime: number = Date.now();
+            let tempTime = Date.now();
+            for (let i = 0; i < startTimeFxInputs.length; i++) { startTimeFxInputs[i] = tempTime;  }
+            startTime = Date.now();
             if (midiOutput.state === 'connected' && !perfMode)  { await changeAndWaitForDetails(49,perfMode,startTime); }
             //    midiOutput.channels[1].sendControlChange(49,0); //rig left
             //requestRigDetails();
@@ -635,30 +647,40 @@ function onEnabled() {
     midiOutput = WebMidi.getOutputByName(midiOutName!);
 
    
-
-    //midiInput.addListener("sysex", sysexIn(this));
-
-    //midiOutput.addListener("sysex", e => {
-    //    console.log("sysexout " + e.message.data);
-    //})
-
     midiInput.addListener("sysex", e => {
         let fxId: string = "";
 
-        //console.log("sysexin " + e.message.data + "##" + String.fromCharCode(Number(e.message.data[13])) + "##" + 
+        //console.log("sysexin " + e.message.data + "##" + String.fromCharCode(Number(e.message.data[13])) + "##"); 
         //    e.message.data[94] + " " + e.message.data[95] + " " + e.message.data[96] ); 
-        //console.log('"' + String.fromCharCode(Number(e.message.data[13])) + 
+        //console.log('"' + String.fromCharCode(Number(e.message.data[12])) + 
+        //String.fromCharCode(Number(e.message.data[13])) + 
         //String.fromCharCode(Number(e.message.data[14])) + 
-        //String.fromCharCode(Number(e.message.data[15])) + 
+        //String.fromCharCode(Number(e.message.data[15])) +
         //String.fromCharCode(Number(e.message.data[16])) +
         //String.fromCharCode(Number(e.message.data[17])) +
-        //String.fromCharCode(Number(e.message.data[18])) +
+        //String.fromCharCode(Number(e.message.data[18])) + 
         //String.fromCharCode(Number(e.message.data[19])) + 
-        //String.fromCharCode(Number(e.message.data[20])) + 
-        //String.fromCharCode(Number(e.message.data[21])) + '"');
+        //String.fromCharCode(Number(e.message.data[20])) + '"');
         if (e.message.data[6] === 2 && e.message.data[8] === 4) {  //is answer to multirequest rig
-            startTimeFxInputs[0] = Date.now();
-            //console.log(" multi input " + e.message.data[26] + "#"+ e.message.data[27] );
+            //startTimeFxInputs[0] = Date.now();
+            //console.log(" multi input " + e.message.data + "#" + e.message.data[arrayOfFxObj[0]["multiReqPos"][0]] );
+            //console.log(" multi input " + arrayOfFxObj[0]["label"]![0] );
+            //let arrayOfValues: string[] = [];
+            
+            //set different always seen main controls, other dom treatment
+            //for(let i = 0;i < 1; i++) {
+            //    arrayOfValues.push(calcMsbLsb(e.message.data[arrayOfFxObj[0]["multiReqPos"]![i]],
+            //                    e.message.data[arrayOfFxObj[0]["multiReqPos"][i] + 1],arrayOfFxObj[0],i).toString());
+                                //console.log("multireq sysexin amp 2 " + i  + "#" +  arrayOfValues[i] + "##" + mainFrontKnobs.label[i]);
+            //                document.getElementById(arrayOfFxObj[0]["label"]![i])!.innerHTML = arrayOfValues[i] + arrayOfFxObj[0]["addValue"][i];
+            //                (<HTMLInputElement>document.getElementById(arrayOfFxObj[0]["label"][i]))!.setValue(arrayOfValues[i],false);
+                                //(<HTMLInputElement>document.getElementById(mainFrontKnobs.label[i]))!.value = arrayOfValues[i];
+            //}
+            
+            //fxId = "lpFxG";
+            
+            //buildFxControls(fxId,8);  //meaning the 9-th div element, fxa is 0 fxb 1 and so on
+            //prepareFxControls(fxId,e.message.data);
         }
         else if (e.message.data[6] === 2 && e.message.data[8] === 9) {  //is answer to multirequest Input
             startTimeFxInputs[1] = Date.now();
@@ -802,24 +824,66 @@ function onEnabled() {
             //console.log(" Stomp E " + e.message.data[26] + "#"+ e.message.data[27] );
         }
 
-        else if (e.message.data[6] === 2 && e.message.data[8] === 58) {  //is answer to multirequest stomp X
+        else if (e.message.data[6] === 2 && e.message.data[8] === 58) {  //is answer to multirequest stomp mod
             startTimeFxInputs[10] = Date.now();
             //console.log(" stomp x " + e.message.data[26] + "#"+ e.message.data[27] );
         }
-        else if (e.message.data[6] === 2 && e.message.data[8] === 60) {  //is answer to multirequest stomp X
+        else if (e.message.data[6] === 2 && e.message.data[8] === 60) {  //is answer to multirequest stomp dly
             startTimeFxInputs[11] = Date.now();
             //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
-        else if (e.message.data[6] === 2 && e.message.data[8] === 61) {  //is answer to multirequest stomp X
+        else if (e.message.data[6] === 2 && e.message.data[8] === 61) {  //is answer to multirequest stomp rev
             startTimeFxInputs[12] = Date.now();
             //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
-        else if (e.message.data[6] === 2 && e.message.data[8] === 127) {  //is answer to multirequest stomp X
+        else if (e.message.data[6] === 2 && e.message.data[8] === 127) {  //is answer to multirequest system
             startTimeFxInputs[13] = Date.now();
             //console.log(" xxxx " + e.message.data[26] + "#"+ e.message.data[27] );
         }
 
        
+        else if (e.message.data[6] === 1 && e.message.data[8] === 4 ) {  //single request Rig 
+            startTimeFxInputs[0] = Date.now();
+            fxId = "lpFxG";
+            prepareSingleSysexIns(fxId,e.message.data);
+
+            //console.log("single req in Rig " + e.message.data + "##" + arrayOfFxObj[0]["singleReqPos"][0] + " " + arrayOfFxObj[0]["adressPage"][0] +
+            //    "#" +  e.message.data[8] + " " + e.message.data[9] + " " +e.message.data[10])
+            //special handling for always visible controls here rigvol
+            for (let i = 0; i < arrayOfFxObj[0]["singleReqPos"].length; i++) {
+                if ((arrayOfFxObj[0]["singleReqPos"][i] === e.message.data[9]) && 
+                    (arrayOfFxObj[0]["adressPage"][i] === e.message.data[8])   )  {
+                   
+                    let temp = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[0],i).toString();
+                    let temp2 = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[0],i).toString();
+                    //console.log("rig sysex single in " + temp + "####" + arrayOfFxObj[0]["step"][i] + "#" + arrayOfFxObj[0]["min"][i] +  "#" + typeof arrayOfFxObj[0]["max"][i]);
+                    if (parseInt(arrayOfFxObj[0]["step"][i]) === 1 && parseInt(arrayOfFxObj[0]["min"][i]) === 0 && parseInt(arrayOfFxObj[0]["max"][i]) > 127) {
+                        temp2 = calcMsbLsb(e.message.data[10],e.message.data[11],arrayOfFxObj[0],i).toString();
+                        temp = arrayOfFxObj[0]["textRepl"][i][Math.abs(parseInt(temp2))].toString() ;
+                        //console.log("rig sysex single in 1" + temp + "####" + temp2 + " # " + Math.abs(parseInt(temp2)));
+                    }
+
+                        document.getElementById(arrayOfFxObj[0]["label"][i])!.innerHTML = temp + arrayOfFxObj[0]["addValue"][i];
+                        (<HTMLInputElement>document.getElementById(arrayOfFxObj[0]["label"][i]))!.setValue(temp2,false);
+                
+                    
+                }
+            }
+
+            if (e.message.data[9] === 64) {
+                stompsSwitch[0]!.setValue(e.message.data[11],false);
+                stompsSwitch[1]!.setValue(e.message.data[11],false);
+            }    
+            if (e.message.data[9] === 65) {
+                stackSwitch[0]!.setValue(e.message.data[11],false);
+                stackSwitch[1]!.setValue(e.message.data[11],false);
+            }  
+            if (e.message.data[9] === 66) {
+                effectsSwitch[0]!.setValue(e.message.data[11],false);
+                effectsSwitch[1]!.setValue(e.message.data[11],false);
+            }    
+        
+        }
       
         else if (e.message.data[6] === 1 && e.message.data[8] === 10 ) {  //single request Amplifier 
             fxId = "lpFxP";
@@ -854,22 +918,6 @@ function onEnabled() {
 
             prepareSingleSysexIns(fxId,e.message.data);
 
-        }
-        else if (e.message.data[6] === 1 && e.message.data[8] === 4 ) {  //single request stomps. stack fx on and off
-            //console.log("single in " + e.message.data[9]);
-            if (e.message.data[9] === 64) {
-                stompsSwitch[0]!.setValue(e.message.data[11],false);
-                stompsSwitch[1]!.setValue(e.message.data[11],false);
-            }    
-            if (e.message.data[9] === 65) {
-                stackSwitch[0]!.setValue(e.message.data[11],false);
-                stackSwitch[1]!.setValue(e.message.data[11],false);
-            }  
-            if (e.message.data[9] === 66) {
-                effectsSwitch[0]!.setValue(e.message.data[11],false);
-                effectsSwitch[1]!.setValue(e.message.data[11],false);
-            }    
-        
         }
         else if (e.message.data[6] === 3 ) {  //string req
             
@@ -923,7 +971,7 @@ function onEnabled() {
     //midiOutput.sendSysex([0,32,51,0 ],[127, 66, 0, 127, 0] ); //req fx system global
 
 
-    console.log("midiinname " + midiInName + "#" + midiOutput.state);
+    //console.log("midiinname " + midiInName + "#" + midiOutput.state);
     //if (midiInName === null) {
         //alert("no midi in found");
     //    console.log("no midi in found");
@@ -951,12 +999,6 @@ console.log("localstorage item text" + text);
 //read obj
 //let newObj = JSON.parse(text?);
 
-
-function paramLookup(cell) {
-    //console.log(cell);
-    //return {tickElement: "<i class='fa fa-check'> </i>"};
-    //return {param1:"green"}
-}
 
 
 // document.getElementById("fxContainer1").children[0].innerHTML = 'yyy'; //set fx name 
@@ -1078,7 +1120,6 @@ function getAdrPageFromFxId(fxId: string): number  {
     if (fxId.includes("lpFxM")) { return 58; }
     if (fxId.includes("lpFxD")) { return 60; }
     if (fxId.includes("lpFxR")) { return 61; }
-    if (fxId.includes("lpFxR")) { return 61; }
     if (fxId.includes("lpFxU")) { return 118; }
     if (fxId.includes("lpFxL")) { return 125; }
     if (fxId.includes("lpFxY")) { return 127; }     
@@ -1093,7 +1134,7 @@ function handleKnobFixElements(event) {
         //console.log("handleknobfixelements " + this.parentElement.id.substring(5,) + "#" );
         if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length > 1) {
             this.innerText =  wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)][this.value];
-            console.log("lfllflfl " + this.innerText + " ##" + this.value + "##" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length)
+            //console.log("lfllflfl " + this.innerText + " ##" + this.value + "##" + wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length)
         }
         if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][this.parentElement.id.substring(5,)].length <= 1) {
             this.innerText =  (this.value).toFixed(2) + wholeRig[this.parentElement.id.substring(0,5)]["addValue"][this.parentElement.id.substring(5,)];
@@ -1120,6 +1161,7 @@ function handleKnobFixElements(event) {
     let j: number = 0;
 
     if (this.id.includes("knob")) {
+        //console.log("handleknobfixelements knob : " + this.id);
         //6215: 48, 119     //x30 = 48     //x47      //5190: 40, 110       //9910: 78, 4
         for (j = 0; j < maxFxObjToScan;j++ ) {
             index = getIndexOfFx(arrayOfFxObj[j],this.id.trim());
@@ -1128,9 +1170,11 @@ function handleKnobFixElements(event) {
 
         //update text on touch device
         if (arrayOfFxObj[j]["textRepl"][index].length > 1) {
+            //console.log("handleknobfixelements textrepl > 1 " + this.value + " " + index + "#" + j + " " + index);
             this.innerText =  arrayOfFxObj[j]["textRepl"][index][this.value];
         }
         if (arrayOfFxObj[j]["textRepl"][index].length <= 1) {
+            //console.log("handleknobfixelements textrepl < 1 " + this.value + " " + index + "#" + j + " " + index);
             this.innerText =  (this.value).toFixed(2) + arrayOfFxObj[j]["addValue"][index];
         }
 
@@ -1141,14 +1185,19 @@ function handleKnobFixElements(event) {
             currVal = currVal  + Math.abs(parseInt(arrayOfFxObj[j]["max"][index])); //add e.g. 5 to the current value if the max range is -5 to 5, correspond to 0 - max (16256)
             modifier = 8128 / Math.abs(parseInt(arrayOfFxObj[j]["max"][index])); //if the value changes e.g. 0 - 1, the absulute value increases by 1625,6 (ten value steps)
             //modifier = 3251.2;
+            //console.log("handleknobfixelements x: " + modifier + " " + j + "#" + currVal);
         }
+
+        //scanned values in array, modifier is set to 32 if max is 508 or 64 for 254 -> see values in textrepl FxObj.ts
+        if (parseInt(arrayOfFxObj[j]["min"][index]) === 0 && parseInt(arrayOfFxObj[j]["max"][index]) > 127 && 
+            parseInt(arrayOfFxObj[j]["step"][index]) === 1)  { modifier = 16256 / arrayOfFxObj[j]["max"][index]; }
         let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
         let temp2 = temp1* 127;
         if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
         let temp3 = Math.floor(Math.abs(currVal) * modifier) - (temp1 * 127);
   
         //console.log("knob: " + this.id + "#" + this.value + "#" + (this.value & 0x7f).toString(16).padStart(2,'0') + "###" + ((this.value >> 127) & 0x7f).toString(16).padStart(2,'0') );
-        //console.log("knob1: " + temp1 + "#" + temp3 + "#" +  "##" + index + "##" + arrayOfFxObj[j]["adressPage"][index] + " + " + j);
+        //console.log("handleknobfixelements 2: " + temp1 + "#" + temp3 + "#" + temp2 + " " + modifier + "#" + currVal);
         //console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + 
         //    "###" + ((6215 >> 127) & 127).toString(10) + "##" + arrayOfFxObj[j]["adressPage"][index] + "#" + j);
 
@@ -1183,11 +1232,29 @@ function handleKnobFixElements(event) {
             //currVal = currVal  + Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index]));
             modifier = 16256 / Math.abs(parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][index])); 
         } 
+
+         //scanned values in array, modifier is set to 32 if max is 508 or 64 for 254 -> see values in textrepl FxObj.ts
+          if (parseInt(wholeRig[this.parentElement.id.substring(0,5)]["min"][this.parentElement.id.substring(5,)]) === 0 &&
+              parseInt(wholeRig[this.parentElement.id.substring(0,5)]["max"][this.parentElement.id.substring(5,)]) > 127 &&
+              parseInt(wholeRig[this.parentElement.id.substring(0,5)]["step"][this.parentElement.id.substring(5,)]) === 1
+            //parseInt(arrayOfFxObj[j]["min"][index]) === 0 && parseInt(arrayOfFxObj[j]["max"][index]) > 127 && 
+            // parseInt(arrayOfFxObj[j]["step"][index]) === 1
+             ) // { modifier = 16256 / arrayOfFxObj[j]["max"][index]; }
+             { modifier = 16256 / wholeRig[this.parentElement.id.substring(0,5)]["max"][this.parentElement.id.substring(5,)]; }
+
         let temp1 = Math.floor((Math.abs(currVal) * modifier) >> 7);
         let temp2 = temp1* 127;
         if ( Math.floor((Math.abs(currVal) * modifier) - temp2) > 127) { temp1++; }
         let temp3 = Math.floor(Math.abs(currVal) * modifier) - (temp1 * 127);
 
+
+        //let temp  = Math.floor(  ( ( (messageData[10] * 128) + messageData[11]) / 64) ) ;
+        //let temp  = Math.floor( ( (messageData[10] * 127) + messageData[11]) );
+        //if (temp > 250) { temp--;}  //ugly fix for rounding errors TODO remove somewho
+        //console.log("handleknobfixelements  " + wholeRig[this.parentElement.id.substring(0,5)]["max"][this.parentElement.id.substring(5,)]);
+        //document.getElementById(fxId + i + "fXC")!.innerHTML = wholeRig[fxId]["textRepl"][i][temp] + wholeRig[fxId]["addValue"][i] ;
+        //(<HTMLInputElement>document.getElementById(fxId + i + "fXC"))!.setValue(temp,false);
+        
         //console.log("knob2: " + ((9910 >> 7) & 0x7f) + "#" +  index    + "###" + (5190 & 0x7f).toString(16).padStart(2,'0') + "#" + ((5190 >>  7) & 0x7f).toString(16).padStart(2,'0') + 
         //    "###" + ((6215 >> 127) & 127).toString(10) + "##" + adrPage );
         //correct textrepl value sent out...
@@ -1195,23 +1262,19 @@ function handleKnobFixElements(event) {
             temp1 = 0;
             temp3 = currVal;
         }
-        if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length > 1 && wholeRig[this.parentElement.id.substring(0,5)]["max"][index] > 127) {
-            temp1 = 0;
-            temp3 = currVal;
-        }
+        //if (wholeRig[this.parentElement.id.substring(0,5)]["textRepl"][index].length > 1 && wholeRig[this.parentElement.id.substring(0,5)]["max"][index] > 127) {
+        //    temp1 = 0;
+        //    temp3 = currVal;
+        //}
+
+        //console.log("handleknbofixelements " + temp1 + " " + temp3 + " " + modifier + " " + currVal + " " + typeof wholeRig[this.parentElement.id.substring(0,5)]["max"][this.parentElement.id.substring(5,)]);
         //correct the global control "knobGain" which is visible all the time especially when controlling the gain in the Amplifier stack
         if (this.parentElement.id === "lpFxP1") {
             document.getElementById(arrayOfFxObj[2]["label"][0])!.innerHTML =  currVal;
             (<HTMLInputElement>document.getElementById(arrayOfFxObj[2]["label"][0]))!.setValue(currVal,false);
         }
-        
 
-        temp1 = Math.floor((currVal * 64) >> 7);
-        temp2 = temp1 * 127;
-        if ( Math.floor((Math.abs(currVal) * 64) - temp2) > 127) { temp1++; }
-        temp3 = Math.floor(Math.abs(currVal) * 64) - (temp1 * 127);
-
-        console.log("sendsinglreqpos" + temp1 + " " + temp3 + "#"+ index + "###" + (currVal* 64));
+        //console.log("sendsinglreqpos" + temp1 + " " + temp3 + "#"+ index + "###" + (currVal* 64));
         
 
         midiOutput.sendSysex([0,32,51,0 ],[ 127,1,0,adrPage, wholeRig[this.parentElement.id.substring(0,5)]["singleReqPos"][index],temp1,temp3]);
